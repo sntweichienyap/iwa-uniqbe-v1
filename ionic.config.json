@@ -1,5 +1,7 @@
 {
   "name": "iwa-uniqbe-v1",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
