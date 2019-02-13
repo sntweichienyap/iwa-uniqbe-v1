@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: "app-login",
@@ -12,12 +13,14 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private alertBox: Alert,
-    private loaderBox: Loader
-  ) {}
+    private loaderBox: Loader,
+    private menu: MenuController
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { 
+    this.menu.enable(false);
+  }
 
-  ionViewDidLoad() {}
   loginUser() {
     let isLoginSuccess = true;
 
@@ -31,6 +34,8 @@ export class LoginPage implements OnInit {
       //   this.loaderBox.dismiss();
       // }, 5000);
     } else {
+      this.menu.enable(true);
+
       this.authService.login();
     }
   }
