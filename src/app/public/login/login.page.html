@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input required type="email"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input required type="password"></ion-input>
+  </ion-item>
+
+  <br/><br/>
+
+  <ion-button type="submit" (click)="loginUser()" expand="block">Login</ion-button>
+</ion-content>
