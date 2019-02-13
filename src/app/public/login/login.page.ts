@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { AuthenticationService } from "./../../services/authentication.service";
-// import { Alert } from "./../../shared/alert";
-// import { Loader } from "./../../shared/loader";
+import { Alert } from "./../../utils/alert";
+import { Loader } from "./../../utils/loader";
 
 @Component({
   selector: "app-login",
@@ -10,10 +10,10 @@ import { AuthenticationService } from "./../../services/authentication.service";
 })
 export class LoginPage implements OnInit {
   constructor(
-    private authService: AuthenticationService
-  ) // private alertBox: Alert,
-  // private loaderBox: Loader
-  {}
+    private authService: AuthenticationService,
+    private alertBox: Alert,
+    private loaderBox: Loader
+  ) {}
 
   ngOnInit() {}
 
@@ -23,13 +23,10 @@ export class LoginPage implements OnInit {
 
     // Call authentication web service here
 
-    if (!isLoginSuccess) {      
-      // this.alertBox.show("Failed", "Test", ["OK"]);
+    if (!isLoginSuccess) {
+      this.alertBox.show("Failed", "Test", ["OK"]);
 
-
-      
       // this.loaderBox.present();
-
       // setTimeout(() => {
       //   this.loaderBox.dismiss();
       // }, 5000);
