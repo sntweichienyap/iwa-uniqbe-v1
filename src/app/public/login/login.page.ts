@@ -1,8 +1,10 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { MenuController } from "@ionic/angular";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
-import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: "app-login",
@@ -10,14 +12,22 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ["./login.page.scss"]
 })
 export class LoginPage implements OnInit {
+  loginForm: FormGroup;
+
   constructor(
     private authService: AuthenticationService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private menu: MenuController
-  ) { }
+    private menu: MenuController,
+    private formBuilder: FormBuilder
+  ) {
+    this.loginForm = formBuilder.group({
+      email: [""],
+      password: [""]
+    });
+  }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.menu.enable(false);
   }
 
@@ -27,8 +37,10 @@ export class LoginPage implements OnInit {
     // Call authentication web service here
 
     if (!isLoginSuccess) {
+      // Alert box
       this.alertBox.show("Failed", "Test", ["OK"]);
 
+      // Loading box
       // this.loaderBox.present();
       // setTimeout(() => {
       //   this.loaderBox.dismiss();
@@ -36,6 +48,8 @@ export class LoginPage implements OnInit {
     } else {
       this.menu.enable(true);
 
+      this.loginForm.reset();
+      
       this.authService.login();
     }
   }
