@@ -4,38 +4,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="loginForm">  
-    <!--(ngSubmit)="onSubmit()"-->
+<ion-content padding="true">
+  <form [formGroup]="loginForm">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
-      <ion-input formControlName="email" type="text"></ion-input>
+      <ion-input
+        formControlName="email"
+        type="text"
+        [class.invalid]="
+          !loginForm.controls.email.valid &&
+          (loginForm.controls.email.dirty || submitAttempt)
+        "
+      >
+      </ion-input>
     </ion-item>
+    <ion-item
+      lines="none"
+      *ngIf="
+        !loginForm.controls.email.valid &&
+        (loginForm.controls.email.dirty || submitAttempt)
+      "
+    >
+      <p class="errorMessage">Please enter a valid email.</p>
+    </ion-item>
+
+    <br />
+
     <ion-item>
       <ion-label position="floating">Password</ion-label>
-      <ion-input formControlName="password" type="password"></ion-input>
+      <ion-input
+        formControlName="password"
+        type="password"
+        [class.invalid]="
+          !loginForm.controls.password.valid &&
+          (loginForm.controls.password.dirty || submitAttempt)
+        "
+      >
+      </ion-input>
     </ion-item>
-    <!-- <ion-button block color="primary" type="submit" [disabled]="loginForm.invalid">
-      Login
-    </ion-button> -->
+    <ion-item
+      lines="none"
+      *ngIf="
+        !loginForm.controls.password.valid &&
+        (loginForm.controls.password.dirty || submitAttempt)
+      "
+    >
+      <p class="errorMessage">Please enter a valid password.</p>
+    </ion-item>
+
+    <br />
+
     <ion-button (click)="loginUser()" expand="block">
       Login
     </ion-button>
   </form>
 </ion-content>
-
-<!-- <ion-content padding>
-  <ion-item>
-      <ion-label>Email</ion-label>
-      <ion-input required type="email"></ion-input>
-  </ion-item>
-  
-  <ion-item>
-      <ion-label>Password</ion-label>
-      <ion-input required type="password"></ion-input>
-  </ion-item>
-
-  <br/><br/>
-
-  <ion-button type="submit" (click)="loginUser()" expand="block">Login</ion-button>
-</ion-content> -->

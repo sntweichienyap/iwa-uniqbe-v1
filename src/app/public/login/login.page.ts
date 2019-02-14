@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
+import { EmailValidator } from "./../../validators/emailValidator";
 
 @Component({
   selector: "app-login",
@@ -13,6 +14,7 @@ import { Loader } from "./../../utils/loader";
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  submitAttempt: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -22,23 +24,38 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.loginForm = formBuilder.group({
-      email: [""],
-      password: [""]
+      email: [
+        "ywc92@hotmail.com",
+        Validators.compose([Validators.required, EmailValidator.isValid])
+      ],
+      password: [
+        "abc123",
+        Validators.compose([Validators.required, Validators.minLength(6)])
+      ]
     });
   }
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.menu.enable(false);
   }
 
-  loginUser() {
-    let isLoginSuccess = true;
+  ngOnInit() {
+    this.loginForm.reset();
+  }
 
+  loginUser() {
+    this.submitAttempt = true;
+
+    if (!this.loginForm.valid) {
+      return;
+    }
+
+    let isLoginSuccess = true;
     // Call authentication web service here
 
     if (!isLoginSuccess) {
       // Alert box
-      this.alertBox.show("Failed", "Test", ["OK"]);
+      this.alertBox.show("Failed", "Invalid authentication", ["OK"]);
 
       // Loading box
       // this.loaderBox.present();
@@ -46,11 +63,9 @@ export class LoginPage implements OnInit {
       //   this.loaderBox.dismiss();
       // }, 5000);
     } else {
-      this.menu.enable(true);
-
-      this.loginForm.reset();
-      
       this.authService.login();
+
+      this.menu.enable(true);
     }
   }
 }
