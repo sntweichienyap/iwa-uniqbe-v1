@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewChecked } from "@angular/core";
-import { MenuController } from "@ionic/angular";
+import { Component, OnInit } from "@angular/core";
+import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 import { DatabaseService } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
     private alertBox: Alert,
     private loaderBox: Loader,
     private menu: MenuController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
   ) {
 
     this.loginForm = formBuilder.group({
@@ -42,7 +44,7 @@ export class LoginPage implements OnInit {
     this.menu.enable(false);
   }
 
-  loginUser() {
+  loginUser(fab: IonFab) {
     this.submitAttempt = true;
 
     if (!this.loginForm.valid) {
@@ -62,7 +64,7 @@ export class LoginPage implements OnInit {
       //   this.loaderBox.dismiss();
       // }, 5000);
     } else {
-      //this.loginForm.reset();
+      fab.close();
 
       this.databaseService.saveUserDetails(this.loginForm.controls.email.value);
 
@@ -70,5 +72,9 @@ export class LoginPage implements OnInit {
 
       this.menu.enable(true);
     }
+  }
+
+  forgotPassword() {
+    this.router.navigate(['/forgot-password']);
   }
 }

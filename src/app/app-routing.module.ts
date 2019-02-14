@@ -18,7 +18,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: "./list/list.module#ListPageModule"
   },
-  { path: "login", loadChildren: "./public/login/login.module#LoginPageModule" }
+  { path: "login", loadChildren: "./public/login/login.module#LoginPageModule" },
+  { path: 'forgot-password', loadChildren: './public/forgot-password/forgot-password.module#ForgotPasswordPageModule' }
 ];
 
 @NgModule({

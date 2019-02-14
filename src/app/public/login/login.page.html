@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>IWA Uniqbe</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,23 +8,16 @@
   <form [formGroup]="loginForm">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
-      <ion-input
-        formControlName="email"
-        type="text"
-        [class.invalid]="
+      <ion-input formControlName="email" type="text" [class.invalid]="
           !loginForm.controls.email.valid &&
           (loginForm.controls.email.dirty || submitAttempt)
-        "
-      >
+        ">
       </ion-input>
     </ion-item>
-    <ion-item
-      lines="none"
-      *ngIf="
+    <ion-item lines="none" *ngIf="
         !loginForm.controls.email.valid &&
         (loginForm.controls.email.dirty || submitAttempt)
-      "
-    >
+      ">
       <p class="errorMessage">Please enter a valid email.</p>
     </ion-item>
 
@@ -32,30 +25,37 @@
 
     <ion-item>
       <ion-label position="floating">Password</ion-label>
-      <ion-input
-        formControlName="password"
-        type="password"
-        [class.invalid]="
+      <ion-input formControlName="password" type="password" [class.invalid]="
           !loginForm.controls.password.valid &&
           (loginForm.controls.password.dirty || submitAttempt)
-        "
-      >
+        ">
       </ion-input>
     </ion-item>
-    <ion-item
-      lines="none"
-      *ngIf="
+    <ion-item lines="none" *ngIf="
         !loginForm.controls.password.valid &&
         (loginForm.controls.password.dirty || submitAttempt)
-      "
-    >
+      ">
       <p class="errorMessage">Please enter a valid password.</p>
     </ion-item>
 
     <br />
 
-    <ion-button (click)="loginUser()" expand="block">
+    <ion-button (click)="loginUser(fab)" expand="block">
       Login
     </ion-button>
   </form>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" #fab>
+    <ion-fab-button>
+      <ion-icon name="arrow-dropup"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button>
+        <ion-icon name="person" (click)="forgotPassword()"></ion-icon>
+      </ion-fab-button>
+      <!-- <ion-fab-button>
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-fab-button> -->
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
