@@ -1,34 +1,36 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from './services/authentication.service';
-import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { Platform, MenuController } from "@ionic/angular";
+
+import { AuthenticationService } from "./services/authentication.service";
+import { SplashScreen } from "@ionic-native/splash-screen/ngx";
+import { StatusBar } from "@ionic-native/status-bar/ngx";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html'
+  selector: "app-root",
+  templateUrl: "app.component.html"
 })
 export class AppComponent {
   public appPages = [
     {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
+      title: "Home",
+      url: "/home",
+      icon: "home"
     },
     {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
+      title: "List",
+      url: "/list",
+      icon: "list"
     }
   ];
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar, 
+    private statusBar: StatusBar,
     private router: Router,
     private authService: AuthenticationService,
+    private menu: MenuController
   ) {
     this.initializeApp();
   }
@@ -40,15 +42,16 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['home']);
+          this.router.navigate(["home"]);
         } else {
-          this.router.navigate(['login']);
+          this.router.navigate(["login"]);
         }
       });
     });
   }
 
   logoutUser() {
+    this.menu.enable(false);
     this.authService.logout();
   }
 }

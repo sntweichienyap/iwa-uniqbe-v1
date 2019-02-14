@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewChecked } from "@angular/core";
 import { MenuController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { DatabaseService } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
@@ -18,29 +19,27 @@ export class LoginPage implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
+    private databaseService: DatabaseService,
     private alertBox: Alert,
     private loaderBox: Loader,
     private menu: MenuController,
     private formBuilder: FormBuilder
   ) {
+
     this.loginForm = formBuilder.group({
       email: [
-        "ywc92@hotmail.com",
+        "",
         Validators.compose([Validators.required, EmailValidator.isValid])
       ],
       password: [
-        "abc123",
+        "",
         Validators.compose([Validators.required, Validators.minLength(6)])
       ]
     });
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.menu.enable(false);
-  }
-
-  ngOnInit() {
-    this.loginForm.reset();
   }
 
   loginUser() {
@@ -63,6 +62,8 @@ export class LoginPage implements OnInit {
       //   this.loaderBox.dismiss();
       // }, 5000);
     } else {
+      //this.loginForm.reset();
+
       this.authService.login();
 
       this.menu.enable(true);
