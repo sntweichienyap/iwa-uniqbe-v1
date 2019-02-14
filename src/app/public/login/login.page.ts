@@ -64,6 +64,8 @@ export class LoginPage implements OnInit {
     } else {
       //this.loginForm.reset();
 
+      this.databaseService.saveUserDetails(this.loginForm.controls.email.value);
+
       this.authService.login();
 
       this.menu.enable(true);

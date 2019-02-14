@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 
-const TOKEN_KEY = 'auth-token';
+const EMAIL = 'email';
+const PASSWORD = "password";
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,16 @@ export class DatabaseService {
    
   }
 
-  saveUserDetails(){
-
+  async saveUserDetails(email: string){
+    return this.storage.set(EMAIL, email).then(() => {
+      
+    });
   }
 
-  getUserDetails(){
-      
+  getUserDetails(): string{
+    // this.storage.get(EMAIL).then(res => {
+    //   return 
+    // })
+    return "success";
   }
 }
