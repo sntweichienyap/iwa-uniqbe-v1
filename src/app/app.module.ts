@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { Alert } from "./utils/alert";
 import { Loader } from "./utils/loader";
+import { Util } from "./utils/util";
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
     SplashScreen,
     Alert,
     Loader,
+    Util,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

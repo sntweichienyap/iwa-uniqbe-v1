@@ -7,6 +7,7 @@ import { DatabaseService } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
+import { Util } from "./../../utils/util";
 import { EmailValidator } from "./../../validators/emailValidator";
 
 @Component({
@@ -23,11 +24,11 @@ export class LoginPage implements OnInit {
     private databaseService: DatabaseService,
     private alertBox: Alert,
     private loaderBox: Loader,
+    private util: Util,
     private menu: MenuController,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private router: Router
   ) {
-
     this.loginForm = formBuilder.group({
       email: [
         "",
@@ -75,6 +76,8 @@ export class LoginPage implements OnInit {
   }
 
   forgotPassword() {
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(["/forgot-password"]).then(res => {
+      this.util.resetForm(this.loginForm);
+    });
   }
 }
