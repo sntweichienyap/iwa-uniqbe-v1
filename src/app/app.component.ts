@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterEvent } from "@angular/router";
 import { Platform, MenuController } from "@ionic/angular";
 
 import { AuthenticationService } from "./services/authentication.service";
@@ -24,6 +24,8 @@ export class AppComponent {
     }
   ];
 
+  selectedPath = "";
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -47,6 +49,14 @@ export class AppComponent {
           this.router.navigate(["login"]);
         }
       });
+
+      this.router.events.subscribe((event: RouterEvent) => {
+        this.selectedPath = event.url;
+
+        if(event.url === '/home'){
+          this.menu.enable(true);
+        }
+       });
     });
   }
 

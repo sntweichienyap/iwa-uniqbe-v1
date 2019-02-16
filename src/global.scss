@@ -18,3 +18,7 @@
     font-size: 0.8em;
     color: red;
 }
+
+.menu-active-item{
+    border-left: 8px solid var(--ion-color-primary);
+}

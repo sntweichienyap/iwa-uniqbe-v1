@@ -3,9 +3,7 @@ import { FormGroup, AbstractControl } from "@angular/forms";
 
 @Injectable()
 export class Util {
-  loader: any;
-
-  constructor() //public loadingCtrl: LoadingController
+  constructor()
   {}
 
   async resetForm(formGroup: FormGroup) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+
 import { DatabaseService } from "./../services/database.service";
 
 @Component({
@@ -7,10 +8,15 @@ import { DatabaseService } from "./../services/database.service";
   styleUrls: ["home.page.scss"]
 })
 export class HomePage implements OnInit {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+  ) { 
+  }
+
   ngOnInit(): void {
     alert(this.databaseService.getUserDetails());
   }
-
-  
 }
+
+
+
