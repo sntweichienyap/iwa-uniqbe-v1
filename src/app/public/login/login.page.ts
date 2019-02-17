@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MenuController, IonFab } from "@ionic/angular";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { DatabaseService } from "./../../services/database.service";
@@ -42,22 +42,18 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.menu.enable(false);
+    this.util.hideMenu(this.menu);
   }
 
   loginUser(fab: IonFab) {
     this.submitAttempt = true;
-
-    if (!this.loginForm.valid) {
-      return;
-    }
-
-    let isLoginSuccess = true;
+    let isLoginSuccess = false;
+    
     // Call authentication web service here
 
     if (!isLoginSuccess) {
       // Alert box
-      this.alertBox.show("Failed", "Invalid authentication", ["OK"]);
+      this.alertBox.customShow("Failed", "Invalid authentication", ["OK"]);
 
       // Loading box
       // this.loaderBox.present();
@@ -71,7 +67,7 @@ export class LoginPage implements OnInit {
 
       this.authService.login();
 
-      this.menu.enable(true);
+      this.util.showMenu(this.menu);
     }
   }
 

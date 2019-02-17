@@ -34,10 +34,6 @@ export class ForgotPasswordPage implements OnInit {
     this.submitAttempt = true;
     this.isForgotPasswordSuccess = false;
 
-    if (!this.forgotPasswordForm.valid) {
-      return;
-    }
-
     // Call authentication web service here
 
     if (!this.isForgotPasswordSuccess) {

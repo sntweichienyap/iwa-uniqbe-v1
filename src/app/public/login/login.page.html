@@ -40,7 +40,7 @@
 
     <br />
 
-    <ion-button (click)="loginUser(fab)" expand="block">
+    <ion-button [disabled]="!loginForm.valid" (click)="loginUser(fab)" expand="block">
       Login
     </ion-button>
   </form>

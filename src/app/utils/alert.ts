@@ -8,19 +8,10 @@ export class Alert {
     public alertCtrl: AlertController
   ) {}
 
-  async show(title: string, subTitle: string, buttons: Array<string>){
-    let alert = await this.alertCtrl.create({        
-      header: title,
-      subHeader: subTitle,
-      buttons: buttons
-    });
-    await alert.present();
-  }
-
   async apiSuccessShow(){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_SUCCESS,
-      subHeader: Environment.API_MESSAGE_SUCCESS,
+      message: Environment.API_MESSAGE_SUCCESS,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
@@ -29,7 +20,7 @@ export class Alert {
   async apiFailShow(){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_FAIL,
-      subHeader: Environment.API_MESSAGE_FAIL,
+      message: Environment.API_MESSAGE_FAIL,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
@@ -38,7 +29,7 @@ export class Alert {
   async successShow(){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_SUCCESS,
-      subHeader: Environment.ALERT_MESSAGE_SUCCESS,
+      message: Environment.ALERT_MESSAGE_SUCCESS,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
@@ -47,8 +38,17 @@ export class Alert {
   async failShow(){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_FAIL,
-      subHeader: Environment.API_MESSAGE_FAIL,
+      message: Environment.API_MESSAGE_FAIL,
       buttons: Environment.ALERT_BUTTON_OK
+    });
+    await alert.present();
+  }
+
+  async customShow(title: string, message: string, buttons: Array<string>){
+    let alert = await this.alertCtrl.create({        
+      header: title,
+      message: message,
+      buttons: buttons
     });
     await alert.present();
   }
