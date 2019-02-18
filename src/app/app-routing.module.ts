@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: "",
     redirectTo: "login",
-    pathMatch: "full",    
+    pathMatch: "full",
   },
   {
     path: "home",
@@ -18,12 +18,32 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: "./list/list.module#ListPageModule"
   },
+  {
+    path: 'inventory',
+    canActivate: [AuthGuard],
+    loadChildren: './inventory/inventory.module#InventoryPageModule'
+  },
+  {
+    path: 'distribution',
+    canActivate: [AuthGuard],
+    loadChildren: './distribution/distribution.module#DistributionPageModule'
+  },
+  {
+    path: 'stock-upload-create', 
+    canActivate: [AuthGuard],
+    loadChildren: './stock-upload/stock-upload-create/stock-upload-create.module#StockUploadCreatePageModule'
+  },
+  {
+    path: 'stock-upload-listing', 
+    canActivate: [AuthGuard],
+    loadChildren: './stock-upload/stock-upload-listing/stock-upload-listing.module#StockUploadListingPageModule'
+  },
   { path: "login", loadChildren: "./public/login/login.module#LoginPageModule" },
-  { path: 'forgot-password', loadChildren: './public/forgot-password/forgot-password.module#ForgotPasswordPageModule' }
+  { path: 'forgot-password', loadChildren: './public/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
