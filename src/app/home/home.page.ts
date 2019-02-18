@@ -14,7 +14,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    alert(this.databaseService.getUserDetails());
+    //alert(this.databaseService.getUserDetails());
   }
 }
 

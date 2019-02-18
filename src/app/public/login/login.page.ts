@@ -3,7 +3,7 @@ import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { DatabaseService } from "./../../services/database.service";
+import { DatabaseService, UserDetails } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
@@ -42,13 +42,18 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit(): void {
+    let savedUserDetails = this.databaseService.getUserDetails();
+
+    console.log(savedUserDetails);
+    //this.loginForm.controls.email= savedUserDetails.email;
     this.util.hideMenu(this.menu);
   }
 
   loginUser(fab: IonFab) {
     this.submitAttempt = true;
-    let isLoginSuccess = false;
-    
+    let isLoginSuccess = true;
+    let userDetails: UserDetails = { email: "", password: "" };
+
     // Call authentication web service here
 
     if (!isLoginSuccess) {
@@ -63,7 +68,13 @@ export class LoginPage implements OnInit {
     } else {
       fab.close();
 
-      this.databaseService.saveUserDetails(this.loginForm.controls.email.value);
+      // let savedUserDetails = this.databaseService.getUserDetails();
+      // console.log(savedUserDetails);
+
+      userDetails.email = this.loginForm.controls.email.value;
+      userDetails.password = this.loginForm.controls.password.value;
+
+      this.databaseService.saveUserDetails(userDetails);
 
       this.authService.login();
 
@@ -72,6 +83,9 @@ export class LoginPage implements OnInit {
   }
 
   forgotPassword() {
+    let savedUserDetails = this.databaseService.getUserDetails();
+    console.log(savedUserDetails);
+
     this.router.navigate(["/forgot-password"]).then(res => {
       this.util.resetForm(this.loginForm);
     });
