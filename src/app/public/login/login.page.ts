@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MenuController, IonFab } from "@ionic/angular";
-import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router, Event, NavigationEnd } from "@angular/router";
 
 import { DatabaseService, UserDetails } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
@@ -17,7 +17,7 @@ import { EmailValidator } from "./../../validators/emailValidator";
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
-  submitAttempt: boolean = false;
+  private userDetails: UserDetails = { email: "", password: "" };
 
   constructor(
     private authService: AuthenticationService,
@@ -39,18 +39,33 @@ export class LoginPage implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(6)])
       ]
     });
+
+    this.getUserDetails();
   }
 
-  ngOnInit(): void {
-    let savedUserDetails = this.databaseService.getUserDetails();
-
-    console.log(savedUserDetails);
-    //this.loginForm.controls.email= savedUserDetails.email;
+  ngOnInit() {
     this.util.hideMenu(this.menu);
+
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        if (this.router.url === "/login") {
+          this.getUserDetails();
+        }
+      }
+    });
+  }
+
+  getUserDetails() {
+    console.log("called to storage");
+    this.databaseService.getUserDetails().then((data) => {
+      if (data) {
+        this.userDetails = data;
+        this.loginForm.patchValue({ email: this.userDetails.email, password: this.userDetails.password });
+      }
+    });
   }
 
   loginUser(fab: IonFab) {
-    this.submitAttempt = true;
     let isLoginSuccess = true;
     let userDetails: UserDetails = { email: "", password: "" };
 
@@ -66,26 +81,18 @@ export class LoginPage implements OnInit {
       //   this.loaderBox.dismiss();
       // }, 5000);
     } else {
-      fab.close();
-
-      // let savedUserDetails = this.databaseService.getUserDetails();
-      // console.log(savedUserDetails);
-
       userDetails.email = this.loginForm.controls.email.value;
       userDetails.password = this.loginForm.controls.password.value;
-
       this.databaseService.saveUserDetails(userDetails);
 
+      fab.close();
+      this.util.resetForm(this.loginForm);
       this.authService.login();
-
       this.util.showMenu(this.menu);
     }
   }
 
   forgotPassword() {
-    let savedUserDetails = this.databaseService.getUserDetails();
-    console.log(savedUserDetails);
-
     this.router.navigate(["/forgot-password"]).then(res => {
       this.util.resetForm(this.loginForm);
     });

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { EmailValidator } from "./../../validators/emailValidator";
+import { Util } from "src/app/utils/util";
 
 @Component({
   selector: "app-forgot-password",
@@ -18,7 +19,8 @@ export class ForgotPasswordPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertBox: Alert,
-    private loaderBox: Loader
+    private loaderBox: Loader,
+    private util: Util
   ) {
     this.forgotPasswordForm = formBuilder.group({
       email: [
@@ -28,7 +30,8 @@ export class ForgotPasswordPage implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+  }
 
   forgotPassword() {
     this.submitAttempt = true;

@@ -10,13 +10,13 @@
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName="email" type="text" [class.invalid]="
           !loginForm.controls.email.valid &&
-          (loginForm.controls.email.dirty || submitAttempt)
+          loginForm.controls.email.dirty
         ">
       </ion-input>
     </ion-item>
     <ion-item lines="none" *ngIf="
         !loginForm.controls.email.valid &&
-        (loginForm.controls.email.dirty || submitAttempt)
+        loginForm.controls.email.dirty
       ">
       <p class="errorMessage">Please enter a valid email.</p>
     </ion-item>
@@ -27,13 +27,13 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input formControlName="password" type="password" [class.invalid]="
           !loginForm.controls.password.valid &&
-          (loginForm.controls.password.dirty || submitAttempt)
+          loginForm.controls.password.dirty
         ">
       </ion-input>
     </ion-item>
     <ion-item lines="none" *ngIf="
         !loginForm.controls.password.valid &&
-        (loginForm.controls.password.dirty || submitAttempt)
+        loginForm.controls.password.dirty
       ">
       <p class="errorMessage">Please enter a valid password.</p>
     </ion-item>

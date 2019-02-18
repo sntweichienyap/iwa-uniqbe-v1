@@ -8,9 +8,6 @@ export class Util {
 
   async resetForm(formGroup: FormGroup) {
     formGroup.reset();
-    formGroup.markAsUntouched();
-    formGroup.clearValidators();
-    formGroup.markAsPristine();
   }
 
   async showMenu(menu: MenuController) {
