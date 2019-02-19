@@ -12,7 +12,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Alert } from "./utils/alert";
 import { Loader } from "./utils/loader";
 import { Util } from "./utils/util";
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [
     StatusBar,
@@ -35,4 +37,4 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

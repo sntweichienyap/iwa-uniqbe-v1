@@ -5,20 +5,23 @@ import { LoadingController } from "@ionic/angular";
 export class Loader {
 
   loader: any;
+  isLoading = false;
 
   constructor(
     public loadingCtrl: LoadingController
-  ) {}
+  ) { }
 
   async present(msg = `Please wait...`) {
+    this.isLoading = true;
     this.loader = await this.loadingCtrl.create({
         message: msg,
         spinner: 'crescent',
     });
-    this.loader.present();
+    return await this.loader.present();
   }
 
-  dismiss() {
-    this.loader.dismiss();
+  async dismiss() {
+    this.isLoading = false;
+    return await this.loader.dismiss();
   }
 }

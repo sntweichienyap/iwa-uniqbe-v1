@@ -16,13 +16,7 @@ export class AppComponent {
       title: "Home",
       url: "/home",
       icon: "home"
-    },
-    // {
-    //   title: "List",
-    //   url: "/list",
-    //   icon: "list"
-    // }
-  ];
+    },];
 
   selectedPath = "";
 
@@ -53,10 +47,10 @@ export class AppComponent {
       this.router.events.subscribe((event: RouterEvent) => {
         this.selectedPath = event.url;
 
-        if(event.url === '/home'){
+        if (event.url === '/home') {
           this.menu.enable(true);
         }
-       });
+      });
     });
   }
 

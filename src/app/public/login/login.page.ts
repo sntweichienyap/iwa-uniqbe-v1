@@ -9,6 +9,7 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
 import { EmailValidator } from "./../../validators/emailValidator";
+import { ApiService } from "src/app/services/api.service";
 
 @Component({
   selector: "app-login",
@@ -22,6 +23,7 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private databaseService: DatabaseService,
+    private apiService: ApiService,
     private alertBox: Alert,
     private loaderBox: Loader,
     private util: Util,
@@ -56,7 +58,6 @@ export class LoginPage implements OnInit {
   }
 
   getUserDetails() {
-    console.log("called to storage");
     this.databaseService.getUserDetails().then((data) => {
       if (data) {
         this.userDetails = data;
@@ -68,28 +69,32 @@ export class LoginPage implements OnInit {
   loginUser(fab: IonFab) {
     let isLoginSuccess = true;
     let userDetails: UserDetails = { email: "", password: "" };
+    let email = this.loginForm.controls.email.value;
+    let password = this.loginForm.controls.password.value;
 
-    // Call authentication web service here
+    console.log("start");
+    this.loaderBox.present();
 
-    if (!isLoginSuccess) {
-      // Alert box
-      this.alertBox.customShow("Failed", "Invalid authentication", ["OK"]);
+    this.apiService.login(email, password).subscribe(
+      (data) => {
+        console.log("end");
+        this.loaderBox.dismiss();
 
-      // Loading box
-      // this.loaderBox.present();
-      // setTimeout(() => {
-      //   this.loaderBox.dismiss();
-      // }, 5000);
-    } else {
-      userDetails.email = this.loginForm.controls.email.value;
-      userDetails.password = this.loginForm.controls.password.value;
-      this.databaseService.saveUserDetails(userDetails);
+        if (!isLoginSuccess) {
+          this.alertBox.customShow("Failed", "Invalid authentication", ["OK"]);
+        } else {
+          userDetails.email = email;
+          userDetails.password = password;
+          this.databaseService.saveUserDetails(userDetails);
 
-      fab.close();
-      this.util.resetForm(this.loginForm);
-      this.authService.login();
-      this.util.showMenu(this.menu);
-    }
+          fab.close();
+          this.util.resetForm(this.loginForm);
+          this.authService.login();
+          this.util.showMenu(this.menu);
+        }
+      },
+      (error) => { },
+      () => { });
   }
 
   forgotPassword() {
