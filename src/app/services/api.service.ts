@@ -13,11 +13,7 @@ const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
 const httpOptions = {
   headers: new HttpHeaders({
-    Accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST",
-    "Access-Control-Allow-Headers": "X-Requested-With"
   })
 };
 
@@ -25,7 +21,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   //#region Private Function
 
@@ -53,28 +49,19 @@ export class ApiService {
 
   //#region "Authentication"
 
-  // login(email: string, password: string): Observable<any> {
-  //   const url = `${authUrl}/login`;
-  //   let data = { email: email, password: password };
+  login(email: string, password: string): Observable<any> {
+    const url = `${authUrl}/login`;
+    let data = { Username: email, Password: password };
 
-  //   return this.http
-  //     .post(url, JSON.stringify(data), httpOptions)
-  //     .pipe(catchError(this.handleError));
-  // }
-
-  login(email: string, password: string) {
-    console.log(email);
-    console.log(password);
-    return this.http.get("https://jsonplaceholder.typicode.com/posts/1").pipe(
-      map(results => {
-        console.log(results);
-      })
-    );
+    console.log(url);
+    return this.http
+      .post(url, data, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
-  logout() {}
+  logout() { }
 
-  forgotPassword(email: string) {}
+  forgotPassword(email: string) { }
 
   //#endregion "Authentication"
 

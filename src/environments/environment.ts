@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  authUrl: "https://iwauniqbedev.azurewebsites.net/api/user",
+  authUrl: "http://localhost:1337/iwauniqbedev.azurewebsites.net/api/user",
 
   apiUrl: "http://iwastagingservice.azurewebsites.net/mobileservice.svc",
 };

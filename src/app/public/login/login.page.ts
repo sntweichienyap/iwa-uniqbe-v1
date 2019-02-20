@@ -19,7 +19,6 @@ import { ApiService } from "src/app/services/api.service";
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
-  loginResponse: any = {};
 
   constructor(
     private authService: AuthenticationService,
@@ -60,6 +59,7 @@ export class LoginPage implements OnInit {
 
   private getUserDetails() {
     this.databaseService.getUserDetails().then(data => {
+      console.log(JSON.stringify(data));
       if (data) {
         this.loginForm.patchValue({
           email: data.email,
@@ -72,18 +72,27 @@ export class LoginPage implements OnInit {
   loginUser(fab: IonFab) {
     let email = this.loginForm.controls.email.value;
     let password = this.loginForm.controls.password.value;
-    let userDetails = { email: "", password: "", accessID: 0 };
+    let userDetails = {
+      email: "",
+      password: "",
+      name: "",
+      centerID: 0,
+      centerName: "",
+      accessID: 0
+    };
 
     this.loaderBox.present().then(() => {
       this.apiService.login(email, password).subscribe(
         data => {
           this.loaderBox.dismiss();
 
-          //if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
-          if (true) {
+          if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
             userDetails.email = email;
             userDetails.password = password;
-            //userDetails.accessID = data.AccessID;
+            userDetails.name = data.Name;
+            userDetails.centerID = data.CenterID;
+            userDetails.centerName = data.CenterName;
+            userDetails.accessID = data.AccessID;
 
             this.databaseService.saveUserDetails(userDetails);
 
