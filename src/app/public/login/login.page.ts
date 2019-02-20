@@ -3,7 +3,10 @@ import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, Event, NavigationEnd } from "@angular/router";
 
-import { DatabaseService, UserDetails } from "./../../services/database.service";
+import {
+  DatabaseService,
+  UserDetails
+} from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
@@ -58,10 +61,13 @@ export class LoginPage implements OnInit {
   }
 
   getUserDetails() {
-    this.databaseService.getUserDetails().then((data) => {
+    this.databaseService.getUserDetails().then(data => {
       if (data) {
         this.userDetails = data;
-        this.loginForm.patchValue({ email: this.userDetails.email, password: this.userDetails.password });
+        this.loginForm.patchValue({
+          email: this.userDetails.email,
+          password: this.userDetails.password
+        });
       }
     });
   }
@@ -72,29 +78,31 @@ export class LoginPage implements OnInit {
     let email = this.loginForm.controls.email.value;
     let password = this.loginForm.controls.password.value;
 
-    console.log("start");
-    this.loaderBox.present();
+    this.loaderBox.present().then(() => {
+      this.apiService.login(email, password).subscribe(
+        data => {
+          this.loaderBox.dismiss();
 
-    this.apiService.login(email, password).subscribe(
-      (data) => {
-        console.log("end");
-        this.loaderBox.dismiss();
+          if (!isLoginSuccess) {
+            this.alertBox.customShow("Failed", "Invalid authentication", [
+              "OK"
+            ]);
+          } else {
+            userDetails.email = email;
+            userDetails.password = password;
+            this.databaseService.saveUserDetails(userDetails);
 
-        if (!isLoginSuccess) {
-          this.alertBox.customShow("Failed", "Invalid authentication", ["OK"]);
-        } else {
-          userDetails.email = email;
-          userDetails.password = password;
-          this.databaseService.saveUserDetails(userDetails);
-
-          fab.close();
-          this.util.resetForm(this.loginForm);
-          this.authService.login();
-          this.util.showMenu(this.menu);
+            fab.close();
+            this.util.resetForm(this.loginForm);
+            this.authService.login();
+            this.util.showMenu(this.menu);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
         }
-      },
-      (error) => { },
-      () => { });
+      );
+    });
   }
 
   forgotPassword() {
