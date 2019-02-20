@@ -18,7 +18,7 @@ export class DatabaseService {
   constructor(private storage: Storage) {
   }
 
-  async saveUserDetails(userDetails: UserDetails) {
+  async saveUserDetails(userDetails: any) {
     var jsonUserDetails = JSON.stringify(userDetails);
     this.storage.set(USER_DETAILS, jsonUserDetails);
   }
