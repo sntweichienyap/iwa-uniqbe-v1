@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
 
-  authUrl: "http://seednet.seedmobile.com/IWALiteService/MobileService.svc",
+  authUrl: "http://seednet.seedmobile.com/IWALiteWeb/Api/User",
 
-  serviceUrl: "http://seednet.seedmobile.com/IWALiteWeb/Api/User",
+  apiUrl: "http://seednet.seedmobile.com/IWALiteService/MobileService.svc",
 };
 
 /*
