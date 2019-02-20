@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stock-upload-listing',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockUploadListingPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  go() {
+    this.router.navigateByUrl('/stock-upload-details');
+  }
 
   ngOnInit() {
   }

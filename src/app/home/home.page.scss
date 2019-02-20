@@ -1,4 +1,39 @@
-.welcome-card ion-img {
-  max-height: 35vh;
-  overflow: hidden;
+$theme-color:#6c5ce7;
+
+ion-header{
+  background: $theme-color;
+
+  h2,p{
+      color: white;
+     
+  }
+  .home-title{
+      padding-left: 3em;
+      padding-right: 3em;
+  }
+  height: 12em;
+}
+
+ion-toolbar {
+  --background: $theme-color;
+  
+
+  ion-buttons{
+      color: white;
+  }
+}
+
+.home-icon{
+  border:1px solid #f1f2f6;
+  border-radius: 25px;
+  padding:7px;
+}
+
+.icon-container{
+  text-align: center;
+
+  p{
+      margin-top:0;
+      font-size: small;
+  }
 }

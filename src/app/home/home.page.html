@@ -3,13 +3,34 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
-  </ion-toolbar>
+    </ion-toolbar>
+    <div class="home-title">
+      <h2>
+      IWA-Home
+    </h2>
+    <p>Welcome Admin of U Mobile Berjaya Time Square</p>
+    </div>
 </ion-header>
 
 <ion-content padding>
+    <ion-row class="icon-container">
+        <ion-col [routerLink]="['/stock-upload-listing']">
+          <img src="assets/images/goodsReceive.png" height="40" width="auto" class="home-icon">
+          <p>GR</p>
+        </ion-col>
+        <ion-col>
+          <img src="assets/images/Return.png" height="40" width="auto" class="home-icon">
+          <p>Return</p>
+        </ion-col>
+        <ion-col>
+          <img src="assets/images/Delivery.png" height="40" width="auto" class="home-icon">
+          <p>Delivery</p>
+        </ion-col>
+        <ion-col>
+          <img src="assets/images/SalesOrder2.png" height="40" width="auto" class="home-icon">
+          <p>SO</p>
+        </ion-col>
+      </ion-row>
   <ion-list lines="none">
     <ion-list-header>
       <ion-label>Modules</ion-label>

@@ -13,6 +13,8 @@
 //----------------------------------------------------------------
 // User defined CSS below
 //----------------------------------------------------------------
+$theme-color:#6c5ce7;
+
 
 .errorMessage{
     font-size: 0.8em;
@@ -22,3 +24,32 @@
 .menu-active-item{
     border-left: 8px solid var(--ion-color-primary);
 }
+
+@font-face {
+    font-family: 'Noto Sans KR', sans-serif;
+    src: url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');//path to your font file
+  }
+  
+  * {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
+  ion-toolbar {
+      --background: $theme-color;
+      
+  
+      ion-buttons{
+          color: white;
+      }
+      ion-title{
+          color: white;
+      }
+  }
+  ion-header{
+      background: $theme-color;
+  }
+  
+  .header-right-btn{
+      margin-right: 0.5em;
+      font-size: small;
+  }
