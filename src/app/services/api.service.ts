@@ -13,7 +13,7 @@ const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
 const httpOptions = {
   headers: new HttpHeaders({
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   })
 };
 
@@ -21,7 +21,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   //#region Private Function
 
@@ -59,9 +59,23 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  logout() { }
+  logout(accessID: number): Observable<any> {
+    const url = `${authUrl}/logout`;
+    let data = { AccessID: accessID };
 
-  forgotPassword(email: string) { }
+    return this.http
+      .post(url, data, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  forgotPassword(email: string): Observable<any> {
+    const url = `${authUrl}/forgotPassword`;
+    let data = { Username: email };
+
+    return this.http
+      .post(url, data, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
 
   //#endregion "Authentication"
 

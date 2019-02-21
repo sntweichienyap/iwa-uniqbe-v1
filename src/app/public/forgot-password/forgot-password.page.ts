@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { EmailValidator } from "./../../validators/emailValidator";
-import { Util } from "src/app/utils/util";
+import { ApiService } from "./../../services/api.service";
+import { Util } from "./../../utils/util";
 
 @Component({
   selector: "app-forgot-password",
@@ -13,14 +14,13 @@ import { Util } from "src/app/utils/util";
 })
 export class ForgotPasswordPage implements OnInit {
   forgotPasswordForm: FormGroup;
-  submitAttempt: boolean = false;
-  isForgotPasswordSuccess = false;
 
   constructor(
     private formBuilder: FormBuilder,
+    private apiService: ApiService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private util: Util
+    private utils: Util
   ) {
     this.forgotPasswordForm = formBuilder.group({
       email: [
@@ -30,26 +30,30 @@ export class ForgotPasswordPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   forgotPassword() {
-    this.submitAttempt = true;
-    this.isForgotPasswordSuccess = false;
+    let email = this.forgotPasswordForm.controls.email.value;
 
-    // Call authentication web service here
+    this.loaderBox.present().then(() => {
+      this.apiService.forgotPassword(email).subscribe(
+        data => {
+          this.loaderBox.dismiss();
 
-    if (!this.isForgotPasswordSuccess) {
-      // Alert box
-      this.alertBox.apiFailShow();
+          if (this.utils.isApiSuccess(data.ResponseCode)) {
+            this.utils.resetForm(this.forgotPasswordForm);
 
-      // Loading box
-      // this.loaderBox.present();
-      // setTimeout(() => {
-      //   this.loaderBox.dismiss();
-      // }, 5000);
-    } else {
-      this.alertBox.apiSuccessShow();
-    }
+            this.alertBox.apiSuccessShow(
+              "Password reset success. Please check your email."
+            );
+          } else {
+            this.alertBox.apiFailShow(data.Response.Message);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
   }
 }

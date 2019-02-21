@@ -8,37 +8,37 @@ export class Alert {
     public alertCtrl: AlertController
   ) {}
 
-  async apiSuccessShow(){
+  async apiSuccessShow(message: string = Environment.API_FLAG_SUCCESS){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_SUCCESS,
-      message: Environment.API_MESSAGE_SUCCESS,
+      message: message,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
   }
 
-  async apiFailShow(){
+  async apiFailShow(message: string = Environment.API_MESSAGE_FAIL){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_FAIL,
-      message: Environment.API_MESSAGE_FAIL,
+      message: message,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
   }
 
-  async successShow(){
+  async successShow(message: string = Environment.ALERT_MESSAGE_SUCCESS){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_SUCCESS,
-      message: Environment.ALERT_MESSAGE_SUCCESS,
+      message: message,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();
   }
 
-  async failShow(){
+  async failShow(message: string = Environment.ALERT_MESSAGE_FAIL){
     let alert = await this.alertCtrl.create({        
       header: Environment.ALERT_HEADER_FAIL,
-      message: Environment.API_MESSAGE_FAIL,
+      message: message,
       buttons: Environment.ALERT_BUTTON_OK
     });
     await alert.present();

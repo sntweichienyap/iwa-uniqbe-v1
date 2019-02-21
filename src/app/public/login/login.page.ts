@@ -59,7 +59,6 @@ export class LoginPage implements OnInit {
 
   private getUserDetails() {
     this.databaseService.getUserDetails().then(data => {
-      console.log(JSON.stringify(data));
       if (data) {
         this.loginForm.patchValue({
           email: data.email,
