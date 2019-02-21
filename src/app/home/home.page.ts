@@ -8,21 +8,14 @@ import { DatabaseService } from "./../services/database.service";
   styleUrls: ["home.page.scss"]
 })
 export class HomePage implements OnInit {
-  name:string;
+  name: string;
   centerName: string;
-
-  constructor(
-    private databaseService: DatabaseService,
-  ) { 
-  }
+  constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
-    this.databaseService.getUserDetails().then(data =>{
+    this.databaseService.getUserDetails().then(data => {
       this.name = data.name;
       this.centerName = data.centerName;
     });
   }
 }
-
-
-

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { LoginPage } from './login.page';
+import { FormatDatetimePipe } from 'src/app/pipes/format-datetime.pipe';
 
 const routes: Routes = [
   {
@@ -18,7 +19,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [LoginPage]
 })
