@@ -40,7 +40,8 @@ const routes: Routes = [
   },
   { path: "login", loadChildren: "./public/login/login.module#LoginPageModule" },
   { path: 'forgot-password', loadChildren: './public/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
-  { path: 'stock-upload-details', loadChildren: './stock-upload/stock-upload-details/stock-upload-details.module#StockUploadDetailsPageModule' },
+  { path: 'stock-upload-details', loadChildren: './stock-upload/stock-upload-details/stock-upload-details.module#StockUploadDetailsPageModule' },  { path: 'stock-upload-edit-details', loadChildren: './stock-upload/stock-upload-edit-details/stock-upload-edit-details.module#StockUploadEditDetailsPageModule' },
+
 
   
 

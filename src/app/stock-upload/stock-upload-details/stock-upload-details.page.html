@@ -61,22 +61,49 @@
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-fab-button class="btn-position-right">
-        <ion-icon name="add"></ion-icon>
+      <ion-fab-button class="btn-edit" color="secondary" (click)="edit()">
+        <ion-icon name="create"></ion-icon>
       </ion-fab-button>
-      <span class="collapse"></span>
       <br />
       
+      <ion-fab-button class="btn-add" size="small">
+          <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
       <ion-list>
-        <ion-item-divider>
-          <ion-label>
-            Items (2)
-          </ion-label>
-        </ion-item-divider>
-        <ion-item>
-          <ion-label>
-             <p>iPhone 4 16GB</p>
-          </ion-label>
-        </ion-item>
+          <ion-list-header>
+              <ion-label>Items (2)</ion-label>
+          </ion-list-header>
+          <ion-item-sliding>
+              <ion-item>
+                <ion-label><span>Item A</span></ion-label>
+                <span slot="end"><input class="qty-input" />/10</span>
+              </ion-item>
+          </ion-item-sliding>
+          <ion-item-sliding>
+              <ion-item>
+                <ion-label>IPhone X</ion-label>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option (click)="unread(item)" color="danger">
+                    <ion-icon name="trash"></ion-icon>
+                </ion-item-option>
+                <ion-item-option (click)="unread(item)" color="secondary">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+          </ion-item-sliding>
+          <ion-item-sliding>
+              <ion-item>
+                <ion-label>IPhone XS</ion-label>
+              </ion-item>
+              <ion-item-options side="end">
+                  <ion-item-option (click)="unread(item)" color="danger">
+                      <ion-icon name="trash"></ion-icon>
+                  </ion-item-option>
+                <ion-item-option (click)="unread(item)" color="secondary">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+          </ion-item-sliding>
       </ion-list>
 </ion-content>

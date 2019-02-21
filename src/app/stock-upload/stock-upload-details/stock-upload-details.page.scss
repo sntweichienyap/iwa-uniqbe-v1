@@ -1,8 +1,33 @@
-.btn-position-right{
+.btn-edit{
     position: absolute;
     margin-top: -7em;
     left:80%;
 }
-.collapse{
-    border:1px solid black;
+.btn-add{
+    position: absolute;
+    left: 80%;
+    z-index: 3;
+    margin-top: 1em;
+}
+input{
+    width: 3em;
+    margin-right: 0.2em;
+    border-radius: 5px;
+    border: 1px solid #EEEEEE;
+}
+ion-list-header{
+    text-align: center;
+    color: black;
+    background: #f4f5f8;
+    margin: 0 10px 0 10px;
+    width: 95%;
+    height: 3.7em;
+}
+ion-item-sliding{
+    width: 95%;
+
+    ion-label{
+        padding: 0 10px 0 10px;
+        font-size: smaller;
+    }
 }
