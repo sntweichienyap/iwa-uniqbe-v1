@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  authUrl: "http://seednet.seedmobile.com/IWALiteWeb/Api/User",
+  authUrl: "https://iwauniqbedev.azurewebsites.net/api/user",
 
-  apiUrl: "http://seednet.seedmobile.com/IWALiteService/MobileService.svc",
+  apiUrl: "http://iwastagingservice.azurewebsites.net/mobileservice.svc"
 };

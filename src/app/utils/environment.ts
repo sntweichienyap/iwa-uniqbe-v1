@@ -12,8 +12,8 @@ export const Environment = {
   API_MESSAGE_FAIL: "Calling API failed",
 
   // Use for determine whether API call is success / fail from server
-  API_FLAG_SUCCESS: true,
-  API_FLAG_FAIL: false,
+  API_FLAG_SUCCESS: "SUCCESS",
+  API_FLAG_FAIL: "FAIL",
 
   // Use for display buttons in alert box
   ALERT_BUTTON_OK: ["OK"]

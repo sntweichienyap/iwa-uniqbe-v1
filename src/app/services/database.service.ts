@@ -4,11 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 
 const USER_DETAILS = "userDetails";
 
-export interface UserDetails {
-  email: string;
-  password: string;
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,17 +13,17 @@ export class DatabaseService {
   constructor(private storage: Storage) {
   }
 
-  async saveUserDetails(userDetails: UserDetails) {
+  async saveUserDetails(userDetails: any) {
     var jsonUserDetails = JSON.stringify(userDetails);
     this.storage.set(USER_DETAILS, jsonUserDetails);
   }
 
   getUserDetails() {
     return this.storage.get(USER_DETAILS).then(res => {
-      if(res){
-      return JSON.parse(res);
+      if (res) {
+        return JSON.parse(res);
       }
-      else{
+      else {
         return null;
       }
     });

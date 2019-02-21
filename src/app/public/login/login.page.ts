@@ -3,14 +3,12 @@ import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, Event, NavigationEnd } from "@angular/router";
 
-import {
-  DatabaseService,
-  UserDetails
-} from "./../../services/database.service";
+import { DatabaseService } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
+import { Environment } from "./../../utils/environment";
 import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "src/app/services/api.service";
 
@@ -21,7 +19,6 @@ import { ApiService } from "src/app/services/api.service";
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
-  private userDetails: UserDetails = { email: "", password: "" };
 
   constructor(
     private authService: AuthenticationService,
@@ -60,42 +57,53 @@ export class LoginPage implements OnInit {
     });
   }
 
-  getUserDetails() {
+  private getUserDetails() {
     this.databaseService.getUserDetails().then(data => {
+      console.log(JSON.stringify(data));
       if (data) {
-        this.userDetails = data;
         this.loginForm.patchValue({
-          email: this.userDetails.email,
-          password: this.userDetails.password
+          email: data.email,
+          password: data.password
         });
       }
     });
   }
 
   loginUser(fab: IonFab) {
-    let isLoginSuccess = true;
-    let userDetails: UserDetails = { email: "", password: "" };
     let email = this.loginForm.controls.email.value;
     let password = this.loginForm.controls.password.value;
+    let userDetails = {
+      email: "",
+      password: "",
+      name: "",
+      centerID: 0,
+      centerName: "",
+      accessID: 0
+    };
 
     this.loaderBox.present().then(() => {
       this.apiService.login(email, password).subscribe(
         data => {
           this.loaderBox.dismiss();
 
-          if (!isLoginSuccess) {
-            this.alertBox.customShow("Failed", "Invalid authentication", [
-              "OK"
-            ]);
-          } else {
+          if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
             userDetails.email = email;
             userDetails.password = password;
+            userDetails.name = data.Name;
+            userDetails.centerID = data.CenterID;
+            userDetails.centerName = data.CenterName;
+            userDetails.accessID = data.AccessID;
+
             this.databaseService.saveUserDetails(userDetails);
 
             fab.close();
             this.util.resetForm(this.loginForm);
             this.authService.login();
             this.util.showMenu(this.menu);
+          } else {
+            this.alertBox.customShow("Failed", "Invalid authentication", [
+              "OK"
+            ]);
           }
         },
         error => {
