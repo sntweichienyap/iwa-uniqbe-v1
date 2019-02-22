@@ -67,7 +67,7 @@ export class AppComponent {
 
   logoutUser() {
     this.databseService.getUserDetails().then(data => {
-      let accessID = data.accessID;
+      let accessID = data.AccessID;
 
       this.loaderBox.present().then(() => {
         this.apiService.logout(accessID).subscribe(

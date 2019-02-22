@@ -11,6 +11,7 @@ import { Util } from "./../../utils/util";
 import { Environment } from "./../../utils/environment";
 import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "src/app/services/api.service";
+import { IUserDetailsStorage } from "../../models/local-storage.model";
 
 @Component({
   selector: "app-login",
@@ -61,8 +62,8 @@ export class LoginPage implements OnInit {
     this.databaseService.getUserDetails().then(data => {
       if (data) {
         this.loginForm.patchValue({
-          email: data.email,
-          password: data.password
+          email: data.Email,
+          password: data.Password
         });
       }
     });
@@ -71,14 +72,7 @@ export class LoginPage implements OnInit {
   loginUser(fab: IonFab) {
     let email = this.loginForm.controls.email.value;
     let password = this.loginForm.controls.password.value;
-    let userDetails = {
-      email: "",
-      password: "",
-      name: "",
-      centerID: 0,
-      centerName: "",
-      accessID: 0
-    };
+    let userDetails = {} as IUserDetailsStorage;
 
     this.loaderBox.present().then(() => {
       this.apiService.login(email, password).subscribe(
@@ -86,12 +80,13 @@ export class LoginPage implements OnInit {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
-            userDetails.email = email;
-            userDetails.password = password;
-            userDetails.name = data.Name;
-            userDetails.centerID = data.CenterID;
-            userDetails.centerName = data.CenterName;
-            userDetails.accessID = data.AccessID;
+            userDetails.Email = data.Username;
+            userDetails.Password = password;
+            userDetails.Name = data.Name;
+            userDetails.CenterID = data.CenterID;
+            userDetails.CenterName = data.CenterName;
+            userDetails.CenterTypeCode = data.CenterTypeCode;
+            userDetails.AccessID = data.AccessID;
 
             this.databaseService.saveUserDetails(userDetails);
 

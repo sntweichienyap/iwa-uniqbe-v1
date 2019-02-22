@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
+import { IUserDetailsStorage } from '../models/local-storage.model';
 
 const USER_DETAILS = "userDetails";
 
@@ -13,18 +14,19 @@ export class DatabaseService {
   constructor(private storage: Storage) {
   }
 
-  async saveUserDetails(userDetails: any) {
+  async saveUserDetails(userDetails: IUserDetailsStorage) {
     var jsonUserDetails = JSON.stringify(userDetails);
     this.storage.set(USER_DETAILS, jsonUserDetails);
   }
 
-  getUserDetails() {
+  getUserDetails(): Promise<IUserDetailsStorage> {
     return this.storage.get(USER_DETAILS).then(res => {
-      if (res) {
-        return JSON.parse(res);
+      let result = {} as IUserDetailsStorage;
+      if (res) {        
+        return result = JSON.parse(res);
       }
       else {
-        return null;
+        return result;
       }
     });
   }

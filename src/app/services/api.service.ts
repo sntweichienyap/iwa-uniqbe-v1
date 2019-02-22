@@ -8,6 +8,7 @@ import { Observable, of, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 
 import { environment } from "./../../environments/environment";
+import { ILogin } from "../models/user.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -42,22 +43,37 @@ export class ApiService {
 
   private extractData(res: Response) {
     let body = res;
-    return body || {};
+    return body; //|| {};
   }
 
   //#endregion
 
   //#region "Authentication"
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<ILogin> {
     const url = `${authUrl}/login`;
     let data = { Username: email, Password: password };
 
     console.log(url);
-    return this.http
-      .post(url, data, httpOptions)
-      .pipe(catchError(this.handleError));
+    return (
+      this.http
+        .post<ILogin>(url, data, httpOptions)
+        // .map( response =>{
+        //   let res = response.json();
+        // });
+        .pipe(catchError(this.handleError))
+    );
   }
+
+  // login(email: string, password: string): Observable<any> {
+  //   const url = `${authUrl}/login`;
+  //   let data = { Username: email, Password: password };
+
+  //   console.log(url);
+  //   return this.http
+  //     .post(url, data, httpOptions)
+  //     .pipe(catchError(this.handleError));
+  // }
 
   logout(accessID: number): Observable<any> {
     const url = `${authUrl}/logout`;

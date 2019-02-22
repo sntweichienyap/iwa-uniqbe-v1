@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import { DatabaseService } from "./../services/database.service";
+import { IUserDetailsStorage } from "../models/local-storage.model";
 
 @Component({
   selector: "app-home",
@@ -14,8 +15,9 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.databaseService.getUserDetails().then(data => {
-      this.name = data.name;
-      this.centerName = data.centerName;
+      let result = data as IUserDetailsStorage;
+      this.name = result.Name;
+      this.centerName = result.CenterName;
     });
   }
 }
