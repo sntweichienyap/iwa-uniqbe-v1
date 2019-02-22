@@ -8,3 +8,9 @@ export interface ILogin extends Base {
   CenterTypeCode: string;
   AccessID: number;
 }
+
+export interface ILogout extends Base {
+}
+
+export interface IForgotPassword extends Base {
+}

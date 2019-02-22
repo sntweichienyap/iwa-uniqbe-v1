@@ -70,25 +70,27 @@ export class LoginPage implements OnInit {
   }
 
   loginUser(fab: IonFab) {
-    let email = this.loginForm.controls.email.value;
-    let password = this.loginForm.controls.password.value;
-    let userDetails = {} as IUserDetailsStorage;
+    let request = {
+      email: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value
+    };
+    let userDetailsStorage = {} as IUserDetailsStorage;
 
     this.loaderBox.present().then(() => {
-      this.apiService.login(email, password).subscribe(
+      this.apiService.login(request).subscribe(
         data => {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
-            userDetails.Email = data.Username;
-            userDetails.Password = password;
-            userDetails.Name = data.Name;
-            userDetails.CenterID = data.CenterID;
-            userDetails.CenterName = data.CenterName;
-            userDetails.CenterTypeCode = data.CenterTypeCode;
-            userDetails.AccessID = data.AccessID;
+            userDetailsStorage.Email = data.Username;
+            userDetailsStorage.Password = request.password;
+            userDetailsStorage.Name = data.Name;
+            userDetailsStorage.CenterID = data.CenterID;
+            userDetailsStorage.CenterName = data.CenterName;
+            userDetailsStorage.CenterTypeCode = data.CenterTypeCode;
+            userDetailsStorage.AccessID = data.AccessID;
 
-            this.databaseService.saveUserDetails(userDetails);
+            this.databaseService.saveUserDetails(userDetailsStorage);
 
             fab.close();
             this.util.resetForm(this.loginForm);

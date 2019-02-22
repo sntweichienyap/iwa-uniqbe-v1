@@ -50,46 +50,34 @@ export class ApiService {
 
   //#region "Authentication"
 
-  login(email: string, password: string): Observable<ILogin> {
+  login(request: { email: string; password: string }): Observable<ILogin> {
     const url = `${authUrl}/login`;
-    let data = { Username: email, Password: password };
-
     console.log(url);
-    return (
-      this.http
-        .post<ILogin>(url, data, httpOptions)
-        // .map( response =>{
-        //   let res = response.json();
-        // });
-        .pipe(catchError(this.handleError))
-    );
-  }
 
-  // login(email: string, password: string): Observable<any> {
-  //   const url = `${authUrl}/login`;
-  //   let data = { Username: email, Password: password };
-
-  //   console.log(url);
-  //   return this.http
-  //     .post(url, data, httpOptions)
-  //     .pipe(catchError(this.handleError));
-  // }
-
-  logout(accessID: number): Observable<any> {
-    const url = `${authUrl}/logout`;
-    let data = { AccessID: accessID };
+    let jsonBody = { Username: request.email, Password: request.password };
 
     return this.http
-      .post(url, data, httpOptions)
+      .post<ILogin>(url, jsonBody, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  forgotPassword(email: string): Observable<any> {
-    const url = `${authUrl}/forgotPassword`;
-    let data = { Username: email };
+  logout(request: { accessID: number }): Observable<any> {
+    const url = `${authUrl}/logout`;
+
+    let jsonBody = { AccessID: request.accessID };
 
     return this.http
-      .post(url, data, httpOptions)
+      .post(url, jsonBody, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  forgotPassword(request: { email: string }): Observable<any> {
+    const url = `${authUrl}/forgotPassword`;
+
+    let jsonBody = { Username: request.email };
+
+    return this.http
+      .post(url, jsonBody, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

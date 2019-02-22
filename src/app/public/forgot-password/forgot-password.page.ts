@@ -33,10 +33,9 @@ export class ForgotPasswordPage implements OnInit {
   ngOnInit() {}
 
   forgotPassword() {
-    let email = this.forgotPasswordForm.controls.email.value;
-
     this.loaderBox.present().then(() => {
-      this.apiService.forgotPassword(email).subscribe(
+      let request = { email: this.forgotPasswordForm.controls.email.value };
+      this.apiService.forgotPassword(request).subscribe(
         data => {
           this.loaderBox.dismiss();
 
