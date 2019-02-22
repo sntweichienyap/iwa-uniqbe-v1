@@ -13,7 +13,9 @@ export class StockUploadListingPage implements OnInit {
   go() {
     this.router.navigateByUrl('/stock-upload-details');
   }
-
+  create(){
+    this.router.navigateByUrl('/stock-upload-create');
+  }
   ngOnInit() {
   }
 

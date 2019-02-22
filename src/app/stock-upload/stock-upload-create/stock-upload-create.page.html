@@ -1,15 +1,71 @@
 <ion-header>
-    <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
-          <ion-back-button text="" icon="close"></ion-back-button>
-      </ion-buttons>
-  <ion-toolbar>
-    <ion-title>Stock Upload Create</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button ></ion-back-button>
+          </ion-buttons>
+          <ion-title>Create GR</ion-title>
+          <ion-buttons (click)="save()" slot="end" class="header-right-btn">
+              Save
+          </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list lines="full">
+      <ion-item>
+          <ion-label><span>Center</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select Center">
+                  <ion-select-option value="brown">U Mobile Warehouse A</ion-select-option>
+                  <ion-select-option value="blonde">U Mobile Warehouse B</ion-select-option>
+                  <ion-select-option value="black">U Mobile Warehouse C</ion-select-option>
+                  <ion-select-option value="red">U Mobile Warehouse D</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p><span>DO No</span></p>
+          <input/>
+        </ion-label>
+        <ion-icon slot="end" name="camera"></ion-icon>
+      </ion-item>
+      <ion-item>
+          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-label>Has PO</ion-label>
+          
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>PO No</span></p>
+            <input/>
+          </ion-label>
+          <ion-icon slot="end" name="camera"></ion-icon>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>AWB No</span></p>
+            <input/>
+          </ion-label>
+          <ion-icon slot="end" name="camera"></ion-icon>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>Subject</span></p>
+            <input/>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>Received Date</span></p>
+            <ion-datetime display-format="DD MMM YYYY"></ion-datetime>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>Remark</span></p>
+            <input/>
+          </ion-label>
+      </ion-item>
+  </ion-list>
+    
 </ion-content>

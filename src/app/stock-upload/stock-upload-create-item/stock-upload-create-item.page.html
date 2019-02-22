@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button ></ion-back-button>
+          </ion-buttons>
+          <ion-title>Add GR Item</ion-title>
+          <ion-buttons (click)="add()" slot="end" class="header-right-btn">
+              Add
+          </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+      <ion-item>
+          <ion-label><span>Category</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="--Please Select--">
+                  <ion-select-option value="brown">Category A</ion-select-option>
+                  <ion-select-option value="blonde">Category B</ion-select-option>
+                  <ion-select-option value="black">Category C</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label><span>Brand</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="--Please Select--">
+                  <ion-select-option value="brown">Brand A</ion-select-option>
+                  <ion-select-option value="blonde">Brand B</ion-select-option>
+                  <ion-select-option value="black">Brand C</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label><span>Modal</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="--Please Select--">
+                  <ion-select-option value="brown">Modal A</ion-select-option>
+                  <ion-select-option value="blonde">Modal B</ion-select-option>
+                  <ion-select-option value="black">Modal C</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label><span>Color</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="--Please Select--">
+                  <ion-select-option value="brown">Color A</ion-select-option>
+                  <ion-select-option value="blonde">Color B</ion-select-option>
+                  <ion-select-option value="black">Color C</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label><span>Type</span>
+              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="--Please Select--">
+                  <ion-select-option value="brown">Type A</ion-select-option>
+                  <ion-select-option value="blonde">Type B</ion-select-option>
+                  <ion-select-option value="black">Type C</ion-select-option>
+                </ion-select>
+          </ion-label>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <p><span>Quantity</span></p>
+            <input type="number"/>
+          </ion-label>
+      </ion-item>
+  </ion-list>
+    
+</ion-content>

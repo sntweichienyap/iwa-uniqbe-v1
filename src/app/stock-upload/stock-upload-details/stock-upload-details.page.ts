@@ -17,6 +17,12 @@ export class StockUploadDetailsPage implements OnInit {
   edit(){
     this.router.navigateByUrl('/stock-upload-edit-details');
   }
+  add(){
+    this.router.navigateByUrl('/stock-upload-create-item');
+  }
+  viewItem(){
+    this.router.navigateByUrl('/stock-upload-item-details');
+  }
   toggleInfoList(){
     this.isVisible = !this.isVisible;
   }
