@@ -3,21 +3,61 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    </ion-toolbar>
-    <div class="home-title">
-      <h2>
+  </ion-toolbar>
+  <div class="home-title">
+    <h2>
       IWA-Home
     </h2>
-    <p>Welcome {{name}} of {{centerName}}</p>
-    </div>
+    <p>Welcome {{ name }} of {{ centerName }}</p>
+  </div>
 </ion-header>
 
 <ion-content padding>
-    
-  <ion-list >
-    <ion-item [routerLink]="['/stock-upload-listing']">
-      <img slot="start" src="assets/images/goodsReceive.png" height="24" width="auto" >
-      <ion-label>Goods Receive</ion-label>
+  <ion-row class="icon-container">
+    <ion-col [routerLink]="['/stock-upload-listing']">
+      <img
+        src="assets/images/goodsReceive.png"
+        height="40"
+        width="auto"
+        class="home-icon"
+      />
+      <p>GR</p>
+    </ion-col>
+    <ion-col>
+      <img
+        src="assets/images/Return.png"
+        height="40"
+        width="auto"
+        class="home-icon"
+      />
+      <p>Return</p>
+    </ion-col>
+    <ion-col>
+      <img
+        src="assets/images/Delivery.png"
+        height="40"
+        width="auto"
+        class="home-icon"
+      />
+      <p>Delivery</p>
+    </ion-col>
+    <ion-col>
+      <img
+        src="assets/images/SalesOrder2.png"
+        height="40"
+        width="auto"
+        class="home-icon"
+      />
+      <p>SO</p>
+    </ion-col>
+  </ion-row>
+  <ion-list lines="none">
+    <ion-list-header>
+      <ion-label>Modules</ion-label>
+    </ion-list-header>
+    <ion-item [routerLink]="['/inventory']">
+      <ion-icon slot="start" color="medium" name="book"></ion-icon>
+      <ion-label>Inventory</ion-label>
     </ion-item>
     <ion-item [routerLink]="['/distribution']">
       <img slot="start" src="assets/images/Return.png" height="24" width="auto">
@@ -32,24 +72,4 @@
       <ion-label>Sales Order</ion-label>
     </ion-item>
   </ion-list>
-
-  <ion-row class="icon-container">
-      <ion-col [routerLink]="['/stock-upload-listing']">
-        <img src="assets/images/goodsReceive.png" height="40" width="auto" class="home-icon">
-        <p>GR</p>
-      </ion-col>
-      <ion-col>
-        <img src="assets/images/Return.png" height="40" width="auto" class="home-icon">
-        <p>Return</p>
-      </ion-col>
-      <ion-col>
-        <img src="assets/images/Delivery.png" height="40" width="auto" class="home-icon">
-        <p>Delivery</p>
-      </ion-col>
-      <ion-col>
-        <img src="assets/images/SalesOrder2.png" height="40" width="auto" class="home-icon">
-        <p>SO</p>
-      </ion-col>
-    </ion-row>
-    
 </ion-content>
