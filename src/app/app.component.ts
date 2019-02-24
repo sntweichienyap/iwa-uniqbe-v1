@@ -8,15 +8,14 @@ import { AuthenticationService } from "./services/authentication.service";
 import { ApiService } from "./services/api.service";
 import { DatabaseService } from "./services/database.service";
 import { Loader } from "./utils/loader";
-import { Environment } from "./utils/environment";
 import { Alert } from "./utils/alert";
+import "./utils/extension-method";
 
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html"
 })
 export class AppComponent {
-  accessID: number;
   public appPages = [
     {
       title: "Home",
@@ -37,7 +36,7 @@ export class AppComponent {
     private authService: AuthenticationService,
     private menu: MenuController,
     private loaderBox: Loader,
-    private alertBox: Alert
+    private alertBox: Alert,
   ) {
     this.initializeApp();
   }
@@ -68,19 +67,17 @@ export class AppComponent {
   logoutUser() {
     this.databseService.getUserDetails().then(data => {
       this.loaderBox.present().then(() => {
-        let request = { accessID: data.AccessID };
+        let request = { accessID: data.AccessID || 258 };
         this.apiService.logout(request).subscribe(
           data => {
             this.loaderBox.dismiss();
 
-            if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
+            if (data.ResponseCode.isApiSuccess()) {
               this.menu.enable(false);
               this.authService.logout();
             } else {
-              this.alertBox.customShow(
-                Environment.ALERT_HEADER_FAIL,
-                data.ResponseMessage,
-                Environment.ALERT_BUTTON_OK
+              this.alertBox.apiFailShow(
+                data.ResponseMessage
               );
             }
           },

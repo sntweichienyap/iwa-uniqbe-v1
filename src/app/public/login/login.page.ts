@@ -8,10 +8,10 @@ import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
-import { Environment } from "./../../utils/environment";
 import { EmailValidator } from "./../../validators/emailValidator";
-import { ApiService } from "src/app/services/api.service";
+import { ApiService } from "./../../services/api.service";
 import { IUserDetailsStorage } from "../../models/local-storage.model";
+import "./../../utils/extension-method";
 
 @Component({
   selector: "app-login",
@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
     private apiService: ApiService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private util: Util,
+    private utils: Util,
     private menu: MenuController,
     private formBuilder: FormBuilder,
     private router: Router
@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.util.hideMenu(this.menu);
+    this.utils.hideMenu(this.menu);
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
         data => {
           this.loaderBox.dismiss();
 
-          if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
+          if (data.ResponseCode.isApiSuccess()) {
             userDetailsStorage.Email = data.Username;
             userDetailsStorage.Password = request.password;
             userDetailsStorage.Name = data.Name;
@@ -93,13 +93,13 @@ export class LoginPage implements OnInit {
             this.databaseService.saveUserDetails(userDetailsStorage);
 
             fab.close();
-            this.util.resetForm(this.loginForm);
+            this.utils.resetForm(this.loginForm);
             this.authService.login();
-            this.util.showMenu(this.menu);
+            this.utils.showMenu(this.menu);
           } else {
-            this.alertBox.customShow("Failed", "Invalid authentication", [
-              "OK"
-            ]);
+            this.alertBox.apiFailShow(
+              data.ResponseMessage
+            );
           }
         },
         error => {
@@ -111,7 +111,7 @@ export class LoginPage implements OnInit {
 
   forgotPassword() {
     this.router.navigate(["/forgot-password"]).then(res => {
-      this.util.resetForm(this.loginForm);
+      this.utils.resetForm(this.loginForm);
     });
   }
 }

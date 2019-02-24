@@ -39,14 +39,14 @@ export class ForgotPasswordPage implements OnInit {
         data => {
           this.loaderBox.dismiss();
 
-          if (this.utils.isApiSuccess(data.ResponseCode)) {
+          if (data.ResponseCode.isApiSuccess()){
             this.utils.resetForm(this.forgotPasswordForm);
 
             this.alertBox.apiSuccessShow(
               "Password reset success. Please check your email."
             );
           } else {
-            this.alertBox.apiFailShow(data.Response.Message);
+            this.alertBox.apiFailShow(data.ResponseMessage);
           }
         },
         error => {
