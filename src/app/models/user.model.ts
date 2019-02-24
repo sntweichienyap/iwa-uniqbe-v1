@@ -1,6 +1,6 @@
-import { Base } from "./base.model";
+import { IBaseResponse } from "./base.model";
 
-export interface ILogin extends Base {
+export interface ILoginResponse extends IBaseResponse {
   Username: string;
   Name: string;
   CenterID: number;
@@ -9,8 +9,8 @@ export interface ILogin extends Base {
   AccessID: number;
 }
 
-export interface ILogout extends Base {
+export interface ILogoutResponse extends IBaseResponse {
 }
 
-export interface IForgotPassword extends Base {
+export interface IForgotPasswordResponse extends IBaseResponse {
 }

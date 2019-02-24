@@ -1,12 +1,12 @@
-import { Base } from "./base.model";
+import { IBaseResponse } from "./base.model";
 
-export interface StockUploadListing extends Base{
+export interface StockUploadListing extends IBaseResponse{
     ProductNumber: number;
     ProductName: string;
     ProductDescription: string;
 }
 
-export interface StockUploadCreate extends Base {
+export interface StockUploadCreate extends IBaseResponse {
     ProductNumber: number;
     ProductName: string;
     ProductDescription: string;

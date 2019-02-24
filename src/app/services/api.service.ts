@@ -8,7 +8,7 @@ import { Observable, of, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 
 import { environment } from "./../../environments/environment";
-import { ILogin, ILogout, IForgotPassword } from "../models/user.model";
+import { ILoginResponse, ILogoutResponse, IForgotPasswordResponse } from "../models/user.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -50,34 +50,34 @@ export class ApiService {
 
   //#region "Authentication"
 
-  login(request: { email: string; password: string }): Observable<ILogin> {
+  login(request: { email: string; password: string }): Observable<ILoginResponse> {
     const url = `${authUrl}/login`;
     console.log(url);
 
     let jsonBody = { Username: request.email, Password: request.password };
 
     return this.httpClient
-      .post<ILogin>(url, jsonBody, httpOptions)
+      .post<ILoginResponse>(url, jsonBody, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  logout(request: { accessID: number }): Observable<ILogout> {
+  logout(request: { accessID: number }): Observable<ILogoutResponse> {
     const url = `${authUrl}/logout`;
 
     let jsonBody = { AccessID: request.accessID };
 
     return this.httpClient
-      .post<ILogout>(url, jsonBody, httpOptions)
+      .post<ILogoutResponse>(url, jsonBody, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  forgotPassword(request: { email: string }): Observable<IForgotPassword> {
+  forgotPassword(request: { email: string }): Observable<IForgotPasswordResponse> {
     const url = `${authUrl}/forgotPassword`;
 
     let jsonBody = { Username: request.email };
 
     return this.httpClient
-      .post<IForgotPassword>(url, jsonBody, httpOptions)
+      .post<IForgotPasswordResponse>(url, jsonBody, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
