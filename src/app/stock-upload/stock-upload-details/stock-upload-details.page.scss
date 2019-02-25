@@ -5,12 +5,17 @@
 }
 .btn-add{
     position: absolute;
-    left: 86%;
+    left: 80%;
     z-index: 3;
     margin-top: 1.1em;
     font-size: larger;
     color: #3880ff;
     font-weight: bolder;
+    span{
+        font-size: small;
+        margin-top: 2px;
+        position: absolute;
+    }
 }
 input{
     width: 3em;

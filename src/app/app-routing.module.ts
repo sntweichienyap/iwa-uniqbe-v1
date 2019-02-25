@@ -29,6 +29,11 @@ const routes: Routes = [
   { path: 'stock-upload-edit-details', loadChildren: './stock-upload/stock-upload-edit-details/stock-upload-edit-details.module#StockUploadEditDetailsPageModule' },
   { path: 'stock-upload-create-item', loadChildren: './stock-upload/stock-upload-create-item/stock-upload-create-item.module#StockUploadCreateItemPageModule' },
   { path: 'stock-upload-item-details', loadChildren: './stock-upload/stock-upload-item-details/stock-upload-item-details.module#StockUploadItemDetailsPageModule' },
+  
+  { path: 'fulfillment-listing', 
+    canActivate: [AuthGuard],
+    loadChildren: './fulfillment/fulfillment-listing/fulfillment-listing.module#FulfillmentListingPageModule' 
+  },
 
 
   
