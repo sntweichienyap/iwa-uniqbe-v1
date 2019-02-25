@@ -8,7 +8,8 @@ import { Observable, of, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 
 import { environment } from "./../../environments/environment";
-import { ILogin } from "../models/user.model";
+import * as UserInterface from "../models/user.model";
+import * as StockUploadInterface from "../models/stock-upload.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -22,7 +23,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   //#region Private Function
 
@@ -50,40 +51,56 @@ export class ApiService {
 
   //#region "Authentication"
 
-  login(request: { email: string; password: string }): Observable<ILogin> {
+  login(
+    request: UserInterface.ILoginRequest
+  ): Observable<UserInterface.ILoginResponse> {
     const url = `${authUrl}/login`;
     console.log(url);
 
-    let jsonBody = { Username: request.email, Password: request.password };
-
-    return this.http
-      .post<ILogin>(url, jsonBody, httpOptions)
+    return this.httpClient
+      .post<UserInterface.ILoginResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  logout(request: { accessID: number }): Observable<any> {
+  logout(
+    request: UserInterface.ILogoutRequest
+  ): Observable<UserInterface.ILogoutResponse> {
     const url = `${authUrl}/logout`;
 
-    let jsonBody = { AccessID: request.accessID };
-
-    return this.http
-      .post(url, jsonBody, httpOptions)
+    return this.httpClient
+      .post<UserInterface.ILogoutResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  forgotPassword(request: { email: string }): Observable<any> {
+  forgotPassword(
+    request: UserInterface.IForgotPasswordRequest
+  ): Observable<UserInterface.IForgotPasswordResponse> {
     const url = `${authUrl}/forgotPassword`;
 
-    let jsonBody = { Username: request.email };
-
-    return this.http
-      .post(url, jsonBody, httpOptions)
+    return this.httpClient
+      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   //#endregion "Authentication"
 
   //#region "Stock Upload"
+
+  stockUploadIndex(
+    request: StockUploadInterface.IStockUploadCreateRequest
+  ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
+    const url = `${authUrl}/stockUploadIndex`;
+    console.log(url);
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadCreateResponse>(
+        url,
+        request,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion "Stock Upload"
 
   //#region "Order Fulfillment"

@@ -8,15 +8,15 @@ import { AuthenticationService } from "./services/authentication.service";
 import { ApiService } from "./services/api.service";
 import { DatabaseService } from "./services/database.service";
 import { Loader } from "./utils/loader";
-import { Environment } from "./utils/environment";
 import { Alert } from "./utils/alert";
+import "./utils/extension-method";
+import { ILogoutRequest } from "./models/user.model";
 
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html"
 })
 export class AppComponent {
-  accessID: number;
   public appPages = [
     {
       title: "Home",
@@ -28,7 +28,7 @@ export class AppComponent {
   selectedPath = "";
 
   constructor(
-    private databseService: DatabaseService,
+    private databaseService: DatabaseService,
     private apiService: ApiService,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -66,29 +66,26 @@ export class AppComponent {
   }
 
   logoutUser() {
-    this.databseService.getUserDetails().then(data => {
-      this.loaderBox.present().then(() => {
-        let request = { accessID: data.AccessID };
-        this.apiService.logout(request).subscribe(
-          data => {
-            this.loaderBox.dismiss();
+    this.loaderBox.present().then(() => {
+      let request: ILogoutRequest = {
+        AccessID: this.databaseService.getUserDetail().AccessID || 258
+      };
+      
+      this.apiService.logout(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
 
-            if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
-              this.menu.enable(false);
-              this.authService.logout();
-            } else {
-              this.alertBox.customShow(
-                Environment.ALERT_HEADER_FAIL,
-                data.ResponseMessage,
-                Environment.ALERT_BUTTON_OK
-              );
-            }
-          },
-          error => {
-            this.loaderBox.dismiss();
+          if (data.ResponseCode.isApiSuccess()) {
+            this.menu.enable(false);
+            this.authService.logout();
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
           }
-        );
-      });
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
     });
   }
 }

@@ -8,10 +8,11 @@ import { AuthenticationService } from "./../../services/authentication.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
-import { Environment } from "./../../utils/environment";
 import { EmailValidator } from "./../../validators/emailValidator";
-import { ApiService } from "src/app/services/api.service";
+import { ApiService } from "./../../services/api.service";
 import { IUserDetailsStorage } from "../../models/local-storage.model";
+import "./../../utils/extension-method";
+import { ILoginRequest } from "src/app/models/user.model";
 
 @Component({
   selector: "app-login",
@@ -27,7 +28,7 @@ export class LoginPage implements OnInit {
     private apiService: ApiService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private util: Util,
+    private utils: Util,
     private menu: MenuController,
     private formBuilder: FormBuilder,
     private router: Router
@@ -47,7 +48,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.util.hideMenu(this.menu);
+    this.utils.hideMenu(this.menu);
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
@@ -59,20 +60,17 @@ export class LoginPage implements OnInit {
   }
 
   private getUserDetails() {
-    this.databaseService.getUserDetails().then(data => {
-      if (data) {
-        this.loginForm.patchValue({
-          email: data.Email,
-          password: data.Password
-        });
-      }
+    this.loginForm.patchValue({
+      email: this.databaseService.getUserDetail().Email,
+      password: this.databaseService.getUserDetail().Password
     });
   }
 
   loginUser(fab: IonFab) {
-    let request = {
-      email: this.loginForm.controls.email.value,
-      password: this.loginForm.controls.password.value
+    let request: ILoginRequest = {
+      Username: this.loginForm.controls.email.value,
+      Password: this.loginForm.controls.password.value,
+      AccessID: this.databaseService.getUserDetail().AccessID
     };
     let userDetailsStorage = {} as IUserDetailsStorage;
 
@@ -81,25 +79,23 @@ export class LoginPage implements OnInit {
         data => {
           this.loaderBox.dismiss();
 
-          if (data.ResponseCode === Environment.API_FLAG_SUCCESS) {
+          if (data.ResponseCode.isApiSuccess()) {
             userDetailsStorage.Email = data.Username;
-            userDetailsStorage.Password = request.password;
+            userDetailsStorage.Password = request.Password;
             userDetailsStorage.Name = data.Name;
             userDetailsStorage.CenterID = data.CenterID;
             userDetailsStorage.CenterName = data.CenterName;
             userDetailsStorage.CenterTypeCode = data.CenterTypeCode;
             userDetailsStorage.AccessID = data.AccessID;
 
-            this.databaseService.saveUserDetails(userDetailsStorage);
+            this.databaseService.saveUserDetailsToStorage(userDetailsStorage);
 
             fab.close();
-            this.util.resetForm(this.loginForm);
+            this.utils.resetForm(this.loginForm);
             this.authService.login();
-            this.util.showMenu(this.menu);
+            this.utils.showMenu(this.menu);
           } else {
-            this.alertBox.customShow("Failed", "Invalid authentication", [
-              "OK"
-            ]);
+            this.alertBox.apiFailShow(data.ResponseMessage);
           }
         },
         error => {
@@ -111,7 +107,7 @@ export class LoginPage implements OnInit {
 
   forgotPassword() {
     this.router.navigate(["/forgot-password"]).then(res => {
-      this.util.resetForm(this.loginForm);
+      this.utils.resetForm(this.loginForm);
     });
   }
 }
