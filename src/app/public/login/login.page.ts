@@ -12,6 +12,7 @@ import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "./../../services/api.service";
 import { IUserDetailsStorage } from "../../models/local-storage.model";
 import "./../../utils/extension-method";
+import { ILoginRequest } from "src/app/models/user.model";
 
 @Component({
   selector: "app-login",
@@ -59,20 +60,17 @@ export class LoginPage implements OnInit {
   }
 
   private getUserDetails() {
-    this.databaseService.getUserDetails().then(data => {
-      if (data) {
-        this.loginForm.patchValue({
-          email: data.Email,
-          password: data.Password
-        });
-      }
+    this.loginForm.patchValue({
+      email: this.databaseService.getUserDetail().Email,
+      password: this.databaseService.getUserDetail().Password
     });
   }
 
   loginUser(fab: IonFab) {
-    let request = {
-      email: this.loginForm.controls.email.value,
-      password: this.loginForm.controls.password.value
+    let request: ILoginRequest = {
+      Username: this.loginForm.controls.email.value,
+      Password: this.loginForm.controls.password.value,
+      AccessID: this.databaseService.getUserDetail().AccessID
     };
     let userDetailsStorage = {} as IUserDetailsStorage;
 
@@ -83,23 +81,21 @@ export class LoginPage implements OnInit {
 
           if (data.ResponseCode.isApiSuccess()) {
             userDetailsStorage.Email = data.Username;
-            userDetailsStorage.Password = request.password;
+            userDetailsStorage.Password = request.Password;
             userDetailsStorage.Name = data.Name;
             userDetailsStorage.CenterID = data.CenterID;
             userDetailsStorage.CenterName = data.CenterName;
             userDetailsStorage.CenterTypeCode = data.CenterTypeCode;
             userDetailsStorage.AccessID = data.AccessID;
 
-            this.databaseService.saveUserDetails(userDetailsStorage);
+            this.databaseService.saveUserDetailsToStorage(userDetailsStorage);
 
             fab.close();
             this.utils.resetForm(this.loginForm);
             this.authService.login();
             this.utils.showMenu(this.menu);
           } else {
-            this.alertBox.apiFailShow(
-              data.ResponseMessage
-            );
+            this.alertBox.apiFailShow(data.ResponseMessage);
           }
         },
         error => {

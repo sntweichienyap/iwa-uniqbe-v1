@@ -8,7 +8,14 @@ import { Observable, of, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 
 import { environment } from "./../../environments/environment";
-import { ILoginResponse, ILogoutResponse, IForgotPasswordResponse } from "../models/user.model";
+import {
+  ILoginResponse,
+  ILogoutResponse,
+  IForgotPasswordRequest,
+  IForgotPasswordResponse,
+  ILoginRequest,
+  ILogoutRequest
+} from "../models/user.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -22,7 +29,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+  }
 
   //#region Private Function
 
@@ -50,40 +58,37 @@ export class ApiService {
 
   //#region "Authentication"
 
-  login(request: { email: string; password: string }): Observable<ILoginResponse> {
+  login(request: ILoginRequest): Observable<ILoginResponse> {
     const url = `${authUrl}/login`;
     console.log(url);
 
-    let jsonBody = { Username: request.email, Password: request.password };
-
     return this.httpClient
-      .post<ILoginResponse>(url, jsonBody, httpOptions)
+      .post<ILoginResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  logout(request: { accessID: number }): Observable<ILogoutResponse> {
+  logout(request: ILogoutRequest): Observable<ILogoutResponse> {
     const url = `${authUrl}/logout`;
 
-    let jsonBody = { AccessID: request.accessID };
-
     return this.httpClient
-      .post<ILogoutResponse>(url, jsonBody, httpOptions)
+      .post<ILogoutResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  forgotPassword(request: { email: string }): Observable<IForgotPasswordResponse> {
+  forgotPassword(
+    request: IForgotPasswordRequest
+  ): Observable<IForgotPasswordResponse> {
     const url = `${authUrl}/forgotPassword`;
 
-    let jsonBody = { Username: request.email };
-
     return this.httpClient
-      .post<IForgotPasswordResponse>(url, jsonBody, httpOptions)
+      .post<IForgotPasswordResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   //#endregion "Authentication"
 
   //#region "Stock Upload"
+
   //#endregion "Stock Upload"
 
   //#region "Order Fulfillment"

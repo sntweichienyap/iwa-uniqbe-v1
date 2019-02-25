@@ -14,10 +14,7 @@ export class HomePage implements OnInit {
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
-    this.databaseService.getUserDetails().then(data => {
-      let result = data as IUserDetailsStorage;
-      this.name = result.Name;
-      this.centerName = result.CenterName;
-    });
+    this.name = this.databaseService.getUserDetail().Name;
+    this.centerName = this.databaseService.getUserDetail().CenterName;
   }
 }

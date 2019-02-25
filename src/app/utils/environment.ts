@@ -16,5 +16,8 @@ export const Environment = {
   API_FLAG_FAIL: "FAIL",
 
   // Use for display buttons in alert box
-  ALERT_BUTTON_OK: ["OK"]
+  ALERT_BUTTON_OK: ["OK"],
+
+  // Use for determine status in system
+  STATUS_PENDING: "O"
 };

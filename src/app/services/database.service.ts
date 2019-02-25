@@ -10,24 +10,33 @@ const USER_DETAILS = "userDetails";
 })
 export class DatabaseService {
   authenticationState = new BehaviorSubject(false);
+  userDetails = {} as IUserDetailsStorage;
 
   constructor(private storage: Storage) {
   }
 
-  async saveUserDetails(userDetails: IUserDetailsStorage) {
+  async saveUserDetailsToStorage(userDetails: IUserDetailsStorage) {
     var jsonUserDetails = JSON.stringify(userDetails);
     this.storage.set(USER_DETAILS, jsonUserDetails);
+
+    this.getUserDetailsFromStorage();
   }
 
-  getUserDetails(): Promise<IUserDetailsStorage> {
-    return this.storage.get(USER_DETAILS).then(res => {
+  //: Promise<IUserDetailsStorage> {
+  private getUserDetailsFromStorage(){
+    this.storage.get(USER_DETAILS).then(res => {
       let result = {} as IUserDetailsStorage;
+
       if (res) {        
-        return result = JSON.parse(res);
+        this.userDetails = JSON.parse(res);
       }
       else {
-        return result;
+        this.userDetails = result;
       }
     });
+  }
+
+  getUserDetail(): IUserDetailsStorage{
+    return this.userDetails;
   }
 }
