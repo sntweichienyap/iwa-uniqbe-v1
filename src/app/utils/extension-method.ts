@@ -1,24 +1,36 @@
 import { Environment } from "./environment";
 
 declare global {
-  interface Number { }
+  interface Number {
+    isEmpty(): Boolean;
+  }
 
   interface String {
     isApiSuccess(): Boolean;
+    isEmpty(): Boolean;
   }
 
   interface Boolean {
     convertToStringFlag(): String;
   }
 
-  interface Array<T> { }
+  interface Array<T> {}
 }
 
-Boolean.prototype.convertToStringFlag = function (): String {
+Boolean.prototype.convertToStringFlag = function(): String {
   return this ? "Yes" : "No";
-}
+};
 
-String.prototype.isApiSuccess = function (): Boolean {
+String.prototype.isApiSuccess = function(): Boolean {
   return this === Environment.API_FLAG_SUCCESS;
-}
-export { };
+};
+
+String.prototype.isEmpty = function(): Boolean {
+  return this === "";
+};
+
+Number.prototype.isEmpty = function(): Boolean {
+  return 0 >= this;
+};
+
+export {};
