@@ -1,15 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
+import { MenuController } from "@ionic/angular";
+
 import { DatabaseService } from "./../../services/database.service";
 import {
   IStockUploadIndexRequest,
   IStockUploadIndexResponse
 } from "./../../models/stock-upload.model";
-import { ApiService } from "src/app/services/api.service";
-import { Loader } from "src/app/utils/loader";
-import "./../../utils/environment";
+import { ApiService } from "./../../services/api.service";
+import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
+import { Util } from "./../../utils/util";
 
 @Component({
   selector: "app-stock-upload-listing",
@@ -17,22 +19,27 @@ import { Alert } from "./../../utils/alert";
   styleUrls: ["./stock-upload-listing.page.scss"]
 })
 export class StockUploadListingPage implements OnInit {
-  stockUploadListing = {} as IStockUploadIndexResponse;
+  stockUploadIndexResponse = {} as IStockUploadIndexResponse;
+  filteredText = "";
 
   constructor(
     private router: Router,
     private databaseService: DatabaseService,
     private apiService: ApiService,
     private loaderBox: Loader,
-    private alertBox: Alert
+    private alertBox: Alert,
+    private utils: Util,
+    private menu: MenuController
   ) {}
 
   ngOnInit() {
     this.getStockUploadListing();
-
+    this.utils.hideMenu(this.menu);
+    
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         if (this.router.url === "/stock-upload-listing") {
+          console.log("route");
           this.getStockUploadListing();
         }
       }
@@ -45,13 +52,14 @@ export class StockUploadListingPage implements OnInit {
       AccessID: this.databaseService.getUserDetails().AccessID
     };
 
-    this.loaderBox.present().then(() => {    
+    this.loaderBox.present().then(() => {
       this.apiService.stockUploadIndex(request).subscribe(
         data => {
+          console.log("Hey ya");
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-            this.stockUploadListing = data;
+            this.stockUploadIndexResponse = data;
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }

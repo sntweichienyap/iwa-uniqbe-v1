@@ -90,7 +90,6 @@ export class ApiService {
     request: StockUploadInterface.IStockUploadIndexRequest
   ): Observable<StockUploadInterface.IStockUploadIndexResponse> {
     const url = `${apiUrl}/stockUploadIndex`;
-    console.log(url);
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadIndexResponse>(
