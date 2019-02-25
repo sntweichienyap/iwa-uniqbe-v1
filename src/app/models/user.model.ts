@@ -1,11 +1,11 @@
-import { IBaseResponse, IBaseRequest } from "./base.model";
+import * as BaseInterface from "./base.model";
 
-export interface ILoginRequest extends IBaseRequest{
+export interface ILoginRequest extends BaseInterface.IBaseRequest{
   Username: string;
   Password: string;
 }
 
-export interface ILoginResponse extends IBaseResponse {
+export interface ILoginResponse extends BaseInterface.IBaseResponse {
   Username: string;
   Name: string;
   CenterID: number;
@@ -14,16 +14,16 @@ export interface ILoginResponse extends IBaseResponse {
   AccessID: number;
 }
 
-export interface ILogoutRequest extends IBaseRequest {
+export interface ILogoutRequest extends BaseInterface.IBaseRequest {
   AccessID: number;
 }
 
-export interface ILogoutResponse extends IBaseResponse {
+export interface ILogoutResponse extends BaseInterface.IBaseResponse {
 }
 
-export interface IForgotPasswordRequest extends IBaseRequest {
+export interface IForgotPasswordRequest extends BaseInterface.IBaseRequest {
   Username: string;
 }
 
-export interface IForgotPasswordResponse extends IBaseResponse {
+export interface IForgotPasswordResponse extends BaseInterface.IBaseResponse {
 }

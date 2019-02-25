@@ -1,4 +1,4 @@
-export interface IBaseRequest{
+export interface IBaseRequest {
   AccessID: number;
 }
 
