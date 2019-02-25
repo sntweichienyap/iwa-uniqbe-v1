@@ -68,7 +68,7 @@ export class AppComponent {
   logoutUser() {
     this.loaderBox.present().then(() => {
       let request: ILogoutRequest = {
-        AccessID: this.databaseService.getUserDetail().AccessID || 258
+        AccessID: this.databaseService.getUserDetails().AccessID || 258
       };
       
       this.apiService.logout(request).subscribe(

@@ -87,13 +87,13 @@ export class ApiService {
   //#region "Stock Upload"
 
   stockUploadIndex(
-    request: StockUploadInterface.IStockUploadCreateRequest
-  ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
-    const url = `${authUrl}/stockUploadIndex`;
+    request: StockUploadInterface.IStockUploadIndexRequest
+  ): Observable<StockUploadInterface.IStockUploadIndexResponse> {
+    const url = `${apiUrl}/stockUploadIndex`;
     console.log(url);
 
     return this.httpClient
-      .post<StockUploadInterface.IStockUploadCreateResponse>(
+      .post<StockUploadInterface.IStockUploadIndexResponse>(
         url,
         request,
         httpOptions

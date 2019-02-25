@@ -7,7 +7,7 @@ export class Loader {
 
   constructor(public loadingCtrl: LoadingController) {}
 
-  async present(msg = `Please wait...`) {
+  async present(msg = ``) {
     this.loader = await this.loadingCtrl.create({
       message: msg,
       spinner: "crescent"

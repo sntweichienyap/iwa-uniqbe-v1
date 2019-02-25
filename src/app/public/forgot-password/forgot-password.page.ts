@@ -39,7 +39,7 @@ export class ForgotPasswordPage implements OnInit {
     this.loaderBox.present().then(() => {
       let request: IForgotPasswordRequest = {
         Username: this.forgotPasswordForm.controls.email.value,
-        AccessID: this.databaseService.getUserDetail().AccessID
+        AccessID: this.databaseService.getUserDetails().AccessID
       };
       this.apiService.forgotPassword(request).subscribe(
         data => {

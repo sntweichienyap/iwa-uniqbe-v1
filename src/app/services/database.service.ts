@@ -1,19 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
-import { BehaviorSubject } from 'rxjs';
-import { IUserDetailsStorage } from '../models/local-storage.model';
+import { Injectable } from "@angular/core";
+import { Storage } from "@ionic/storage";
+import { BehaviorSubject } from "rxjs";
+import { IUserDetailsStorage } from "../models/local-storage.model";
 
 const USER_DETAILS = "userDetails";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DatabaseService {
   authenticationState = new BehaviorSubject(false);
-  userDetails = {} as IUserDetailsStorage;
+  userDetails = {
+    Email: "weichienyap@seednet.com.my",
+    Password: "abc123",
+    Name: "Wei Chien",
+    CenterID: 44,
+    CenterName: "3PL Warehouse Store",
+    CenterTypeCode: "WH",
+    AccessID: 258
+  } as IUserDetailsStorage;
 
-  constructor(private storage: Storage) {
-  }
+  constructor(private storage: Storage) {}
 
   async saveUserDetailsToStorage(userDetails: IUserDetailsStorage) {
     var jsonUserDetails = JSON.stringify(userDetails);
@@ -22,21 +29,19 @@ export class DatabaseService {
     this.getUserDetailsFromStorage();
   }
 
-  //: Promise<IUserDetailsStorage> {
-  private getUserDetailsFromStorage(){
+  private getUserDetailsFromStorage() {
     this.storage.get(USER_DETAILS).then(res => {
       let result = {} as IUserDetailsStorage;
 
-      if (res) {        
+      if (res) {
         this.userDetails = JSON.parse(res);
-      }
-      else {
+      } else {
         this.userDetails = result;
       }
     });
   }
 
-  getUserDetail(): IUserDetailsStorage{
+  getUserDetails(): IUserDetailsStorage {
     return this.userDetails;
   }
 }

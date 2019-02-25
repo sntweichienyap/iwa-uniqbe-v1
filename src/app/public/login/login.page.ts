@@ -35,11 +35,11 @@ export class LoginPage implements OnInit {
   ) {
     this.loginForm = formBuilder.group({
       email: [
-        "",
+        "weichienyap@seednet.com.my",
         Validators.compose([Validators.required, EmailValidator.isValid])
       ],
       password: [
-        "",
+        "abc123",
         Validators.compose([Validators.required, Validators.minLength(6)])
       ]
     });
@@ -61,8 +61,8 @@ export class LoginPage implements OnInit {
 
   private getUserDetails() {
     this.loginForm.patchValue({
-      email: this.databaseService.getUserDetail().Email,
-      password: this.databaseService.getUserDetail().Password
+      email: this.databaseService.getUserDetails().Email,
+      password: this.databaseService.getUserDetails().Password
     });
   }
 
@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
     let request: ILoginRequest = {
       Username: this.loginForm.controls.email.value,
       Password: this.loginForm.controls.password.value,
-      AccessID: this.databaseService.getUserDetail().AccessID
+      AccessID: this.databaseService.getUserDetails().AccessID
     };
     let userDetailsStorage = {} as IUserDetailsStorage;
 

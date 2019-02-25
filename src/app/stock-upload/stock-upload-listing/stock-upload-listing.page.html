@@ -10,7 +10,7 @@
 
 <ion-content>
   <ion-list lines="full">
-    <ion-item (click)='go()'>
+    <ion-item (click)='go()' *ngFor="let item of stoc">
       <ion-label>
         <span>U Mobile Warehouse</span>
         <p>DO NO: P1001</p>
