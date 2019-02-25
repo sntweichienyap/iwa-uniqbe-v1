@@ -3,11 +3,10 @@ import { NgModule } from "@angular/core";
 
 import { FormatDatePipe } from "./format-date.pipe";
 import { FormatDatetimePipe } from "./format-datetime.pipe";
-import { FilterStringPipe } from "./filter-string.pipe";
 
 @NgModule({
-  declarations: [FormatDatePipe, FormatDatetimePipe, FilterStringPipe],
-  exports: [FormatDatePipe, FormatDatetimePipe, FilterStringPipe],
+  declarations: [FormatDatePipe, FormatDatetimePipe],
+  exports: [FormatDatePipe, FormatDatetimePipe],
   imports: [CommonModule]
 })
 export class PipeModule {}

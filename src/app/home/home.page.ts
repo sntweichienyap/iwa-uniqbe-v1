@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url === "/stock-upload-listing") {
+        if (this.router.url === "/home") {
           this.getUserDetails();
         }
       }

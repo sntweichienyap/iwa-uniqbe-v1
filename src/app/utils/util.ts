@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { MenuController} from "@ionic/angular";
+import { MenuController } from "@ionic/angular";
 
 @Injectable()
 export class Util {
@@ -16,5 +16,11 @@ export class Util {
 
   async hideMenu(menu: MenuController) {
     menu.enable(false);
+  }
+
+  filterItems(value: any, searchTerm: string, propName: string) {
+    return value.filter((item) => {
+      return item[propName].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
   }
 }
