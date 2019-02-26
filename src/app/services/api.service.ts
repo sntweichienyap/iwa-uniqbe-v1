@@ -100,6 +100,20 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  stockUploadCreate(
+    request: StockUploadInterface.IStockUploadCreateRequest
+  ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
+    const url = `${apiUrl}/stockUploadCreate`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadCreateResponse>(
+        url,
+        request,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion "Stock Upload"
 
   //#region "Order Fulfillment"

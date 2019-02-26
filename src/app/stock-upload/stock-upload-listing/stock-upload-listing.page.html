@@ -11,7 +11,7 @@
 <ion-content>
   <ion-list lines="full">
     <ion-item
-      (click)="go()"
+      (click)="go(item.StockUploadID)"
       *ngFor="let item of stockUploadIndexResponse.StockUploadIndexList"
     >
     <!-- | filterString:filteredText:DONo -->

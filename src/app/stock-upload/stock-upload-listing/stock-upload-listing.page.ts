@@ -24,7 +24,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   stockUploadIndexResponse = {} as IStockUploadIndexResponse;
   originalIndexList;
   searchTerm = "";
-  searchControl = new FormControl;
+  searchControl = new FormControl();
   navigationSubscription;
 
   constructor(
@@ -35,28 +35,38 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private utils: Util,
     private menu: MenuController,
-    private form: ReactiveFormsModule,
-  ) { }
+    private form: ReactiveFormsModule
+  ) {}
 
   ngOnInit() {
     this.getStockUploadListing();
     this.utils.hideMenu(this.menu);
 
-    this.navigationSubscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd && event.url == "/stock-upload-listing") {
-        this.getStockUploadListing();
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.url == "/stock-upload-listing"
+        ) {
+          this.getStockUploadListing();
+        }
       }
-    });
+    );
 
-    this.searchControl.valueChanges.pipe(debounceTime(100)).subscribe(search => {
-      this.setFilteredItem();
-    });
+    this.searchControl.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe(search => {
+        this.setFilteredItem();
+      });
   }
 
   setFilteredItem() {
     this.clearFilteredItem();
-
-    this.stockUploadIndexResponse.StockUploadIndexList = this.utils.filterItems(this.originalIndexList, this.searchTerm, "DONo");
+    this.stockUploadIndexResponse.StockUploadIndexList = this.utils.filterItems(
+      this.originalIndexList,
+      this.searchTerm,
+      "DONo"
+    );
   }
 
   clearFilteredItem() {
@@ -94,7 +104,8 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     }
   }
 
-  go() {
+  go(stockUploadID: Number) {
+    console.log(stockUploadID);
     this.router.navigateByUrl("/stock-upload-details");
   }
   create() {
