@@ -1,10 +1,12 @@
 export interface IUserDetailsStorage {
-    Email: string,
-    Password: string,
-    Name: string,
-    CenterID: number,
-    CenterName: string,
+    Email: string;
+    Password: string;
+    Name: string;
+    CenterID: number;
+    CenterName: string;
     CenterTypeCode: string;
-    AccessID: number,
+    TenantID: number;
+    Tenant: string;
+    AccessID: number;
   }
   

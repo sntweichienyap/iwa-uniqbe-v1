@@ -14,7 +14,7 @@ export interface IStockUploadIndexResponse extends BaseInterface.IBaseResponse {
 }
 
 export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
-  CenterID: Number;
+  CenterID: number;
   Subject: string;
   DONo: string;
   AWBNumber: string;

@@ -86,6 +86,8 @@ export class LoginPage implements OnInit {
             userDetailsStorage.CenterID = data.CenterID;
             userDetailsStorage.CenterName = data.CenterName;
             userDetailsStorage.CenterTypeCode = data.CenterTypeCode;
+            userDetailsStorage.TenantID = data.TenantID;
+            userDetailsStorage.Tenant = data.Tenant;
             userDetailsStorage.AccessID = data.AccessID;
 
             this.databaseService.saveUserDetailsToStorage(userDetailsStorage);

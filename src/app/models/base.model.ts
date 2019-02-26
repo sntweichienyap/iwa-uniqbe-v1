@@ -1,9 +1,9 @@
 export interface IBaseRequest {
-  AccessID: Number;
-  TenantID?: Number;
+  AccessID: number;
+  TenantID?: number;
 }
 
 export interface IBaseResponse {
-  ResponseCode: String;
-  ResponseMessage: String;
+  ResponseCode: string;
+  ResponseMessage: string;
 }
