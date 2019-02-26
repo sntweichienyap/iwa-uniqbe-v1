@@ -37,7 +37,6 @@ export class HomePage implements OnInit, OnDestroy {
   
   private getUserDetails() {
     let userDetails = this.databaseService.getUserDetails();
-    console.log(userDetails);
     this.name = userDetails.Name;
     this.centerName = userDetails.CenterName;
   }

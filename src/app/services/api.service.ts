@@ -24,7 +24,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   //#region Private Function
 
@@ -55,8 +55,7 @@ export class ApiService {
   centerIndex(
     request: CenterInterface.ICenterIndexRequest
   ): Observable<CenterInterface.ICenterIndexResponse> {
-    const url = `${authUrl}/login`;
-    console.log(url);
+    const url = `${apiUrl}/centerIndex`;
 
     return this.httpClient
       .post<CenterInterface.ICenterIndexResponse>(url, request, httpOptions)

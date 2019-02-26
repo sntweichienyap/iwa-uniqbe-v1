@@ -12,10 +12,10 @@ export class DdlService {
   constructor(
     private apiService: ApiService,
     private databaseService: DatabaseService
-  ) {}
+  ) { }
 
   getCenter_Wh() {
-    let ddlResult: IDdlResult;
+    let ddlResult: IDdlResult = { Result:[]};
     let request = {
       CenterTypeCodes: [Environment.CENTER_TYPE_WAREHOUSE],
       Active: true,
@@ -25,7 +25,12 @@ export class DdlService {
     this.apiService.centerIndex(request).subscribe(
       data => {
         if (data.ResponseCode.isApiSuccess()) {
-            //ddlResult.Result = data.CenterItemList;
+          data.CenterItemList.forEach(i => {
+            ddlResult.Result.push({
+              ID: i.ID,
+              Text: i.CenterName
+            });
+          });
         } else {
           console.log(data.ResponseMessage);
         }

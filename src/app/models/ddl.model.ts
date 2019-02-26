@@ -1,6 +1,6 @@
 export interface IDdlResult{
     Result:{
-        ID: string;
-        Text: number;        
+        ID: number;
+        Text: string;        
     }[]
 }

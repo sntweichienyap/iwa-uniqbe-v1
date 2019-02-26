@@ -12,7 +12,7 @@ import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
 import { Util } from "./../../utils/util";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { FormControl } from "@angular/forms";
 import { debounceTime } from "rxjs/operators";
 
 @Component({
@@ -26,6 +26,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   searchTerm = "";
   searchControl = new FormControl();
   navigationSubscription;
+  filterSubscription;
 
   constructor(
     private router: Router,
@@ -35,7 +36,6 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private utils: Util,
     private menu: MenuController,
-    private form: ReactiveFormsModule
   ) {}
 
   ngOnInit() {
@@ -53,11 +53,21 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
       }
     );
 
-    this.searchControl.valueChanges
+    this.filterSubscription = this.searchControl.valueChanges
       .pipe(debounceTime(100))
       .subscribe(search => {
         this.setFilteredItem();
       });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
+    }
   }
 
   setFilteredItem() {
@@ -98,13 +108,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
-  }
-
-  go(stockUploadID: Number) {
+  goToDetails(stockUploadID: Number) {
     console.log(stockUploadID);
     this.router.navigateByUrl("/stock-upload-details");
   }
