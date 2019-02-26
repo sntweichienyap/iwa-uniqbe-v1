@@ -10,6 +10,7 @@ import { map, tap, catchError } from "rxjs/operators";
 import { environment } from "./../../environments/environment";
 import * as UserInterface from "../models/user.model";
 import * as StockUploadInterface from "../models/stock-upload.model";
+import * as CenterInterface from "../models/center.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -48,6 +49,21 @@ export class ApiService {
   }
 
   //#endregion
+
+  //#region Center
+
+  centerIndex(
+    request: CenterInterface.ICenterIndexRequest
+  ): Observable<CenterInterface.ICenterIndexResponse> {
+    const url = `${authUrl}/login`;
+    console.log(url);
+
+    return this.httpClient
+      .post<CenterInterface.ICenterIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
 
   //#region "Authentication"
 
