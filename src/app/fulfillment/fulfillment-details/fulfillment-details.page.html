@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fulfillment Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+    <ion-list lines="full">
+        <ion-item>
+          <ion-label>
+            <p>1001</p>
+            <span>U Mobile Warehouse</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Center</p>
+            <span>U Mobile Warehouse</span>
+          </ion-label>
+        </ion-item>
+        <ion-item text-wrap>
+          <ion-label text-wrap>
+            <p>Address</p>
+            <span>No 5, Jalan Tandang 51/205A Section 51 Petaling Jaya 46050</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Order Date</p>
+            <span>19/10/2018</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Status</p>
+            <span>Approved</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Courier No</p>
+            <span></span>
+          </ion-label>
+        </ion-item>
+        <ion-item >
+          <ion-label>
+            <p>Despatcher</p>
+            <span></span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Remark</p>
+            <span></span>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-list-header>
+            <ion-label>Order Items (2)</ion-label>
+        </ion-list-header>
+        <ion-item-sliding>
+            <ion-item>
+              <ion-label><span>Item A</span></ion-label>
+              <span slot="end"><input class="qty-input" />/10</span>
+            </ion-item>
+        </ion-item-sliding>
+        <ion-item-sliding>
+            <ion-item>
+              <ion-label>IPhone X</ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option (click)="unread(item)" color="light">
+                  <ion-icon name="trash"color="danger" ></ion-icon>
+              </ion-item-option>
+            <ion-item-option (click)="viewItem()" color="light">
+                <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+        <ion-item-sliding>
+            <ion-item>
+              <ion-label>IPhone XS</ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option (click)="unread(item)" color="light">
+                    <ion-icon name="trash"color="danger" ></ion-icon>
+                </ion-item-option>
+              <ion-item-option (click)="viewItem()" color="light">
+                  <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+      <ion-fab class="btn-position-right">
+        <ion-fab-button>
+          <ion-icon name="apps"></ion-icon>
+        </ion-fab-button>
+      
+        <ion-fab-list side="top">
+          <ion-fab-button [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-fab-button>
+          <ion-fab-button (click)="edit()"><ion-icon name="create"></ion-icon></ion-fab-button>
+          <ion-fab-button ><ion-icon name="remove-circle-outline"></ion-icon></ion-fab-button>
+        </ion-fab-list>
+      
+      </ion-fab>
+      <div class="footer-space"></div>
+</ion-content>

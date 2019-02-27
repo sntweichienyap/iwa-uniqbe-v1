@@ -33,7 +33,8 @@ const routes: Routes = [
   { path: 'fulfillment-listing', 
     canActivate: [AuthGuard],
     loadChildren: './fulfillment/fulfillment-listing/fulfillment-listing.module#FulfillmentListingPageModule' 
-  },
+  },  { path: 'fulfillment-details', loadChildren: './fulfillment/fulfillment-details/fulfillment-details.module#FulfillmentDetailsPageModule' },
+
 
 
   
