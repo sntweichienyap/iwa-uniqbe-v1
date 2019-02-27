@@ -7,12 +7,20 @@ export interface IStockUploadIndexRequest extends BaseInterface.IBaseRequest {
 
 export interface IStockUploadIndexResponse extends BaseInterface.IBaseResponse {
   StockUploadIndexList: {
+    StockUploadID: number;
     DONo: string;
     Center: string;
   }[];
 }
 
-export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {}
+export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
+  CenterID: number;
+  Subject: string;
+  DONo: string;
+  AWBNumber: string;
+}
 
 export interface IStockUploadCreateResponse
-  extends BaseInterface.IBaseResponse {}
+  extends BaseInterface.IBaseResponse {
+  StockUploadID: Number;
+}

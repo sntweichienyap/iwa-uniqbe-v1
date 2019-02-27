@@ -12,6 +12,8 @@ export interface ILoginResponse extends BaseInterface.IBaseResponse {
   CenterName: string;
   CenterTypeCode: string;
   AccessID: number;
+  TenantID: number;
+  Tenant: string;
 }
 
 export interface ILogoutRequest extends BaseInterface.IBaseRequest {

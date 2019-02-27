@@ -1,32 +1,40 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button ></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>GR/GRPO List</ion-title>
   </ion-toolbar>
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar placeholder="DO No." (ionInput)="setFilteredItem()" (ionClear)="clearFilteredItem()" [(ngModel)]="searchTerm"></ion-searchbar>
 </ion-header>
 
 <ion-content>
   <ion-list lines="full">
-    <ion-item (click)='go()' *ngFor="let item of stockUploadListing.StockUploadIndexList">
+    <ion-item
+      (click)="goToDetails(item.StockUploadID)"
+      *ngFor="let item of stockUploadIndexResponse.StockUploadIndexList"
+    >
+    <!-- | filterString:filteredText:DONo -->
       <ion-label>
         <span>{{ item.Center }}</span>
-        <p>DO NO: {{ item.DONo}}</p>
+        <p>DO NO: {{ item.DONo }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
- 
+
   <ion-fab class="btn-position-right">
     <ion-fab-button>
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
-  
+
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-fab-button>
-      <ion-fab-button (click)="create()"><ion-icon name="add"></ion-icon></ion-fab-button>
-    </ion-fab-list>  
+      <ion-fab-button [routerLink]="['/home']"
+        ><ion-icon name="home"></ion-icon
+      ></ion-fab-button>
+      <ion-fab-button (click)="create()"
+        ><ion-icon name="add"></ion-icon
+      ></ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 
   <div class="footer-space"></div>

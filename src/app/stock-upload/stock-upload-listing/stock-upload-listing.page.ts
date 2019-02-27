@@ -1,42 +1,86 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
+import { MenuController } from "@ionic/angular";
+
 import { DatabaseService } from "./../../services/database.service";
 import {
   IStockUploadIndexRequest,
   IStockUploadIndexResponse
 } from "./../../models/stock-upload.model";
-import { ApiService } from "src/app/services/api.service";
-import { Loader } from "src/app/utils/loader";
-import "./../../utils/environment";
+import { ApiService } from "./../../services/api.service";
+import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
+import { Util } from "./../../utils/util";
+import { FormControl } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: "app-stock-upload-listing",
   templateUrl: "./stock-upload-listing.page.html",
   styleUrls: ["./stock-upload-listing.page.scss"]
 })
-export class StockUploadListingPage implements OnInit {
-  stockUploadListing = {} as IStockUploadIndexResponse;
+export class StockUploadListingPage implements OnInit, OnDestroy {
+  stockUploadIndexResponse = {} as IStockUploadIndexResponse;
+  originalIndexList;
+  searchTerm = "";
+  searchControl = new FormControl();
+  navigationSubscription;
+  filterSubscription;
 
   constructor(
     private router: Router,
     private databaseService: DatabaseService,
     private apiService: ApiService,
     private loaderBox: Loader,
-    private alertBox: Alert
+    private alertBox: Alert,
+    private utils: Util,
+    private menu: MenuController,
   ) {}
 
   ngOnInit() {
     this.getStockUploadListing();
+    this.utils.hideMenu(this.menu);
 
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        if (this.router.url === "/stock-upload-listing") {
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.url == "/stock-upload-listing"
+        ) {
           this.getStockUploadListing();
         }
       }
-    });
+    );
+
+    this.filterSubscription = this.searchControl.valueChanges
+      .pipe(debounceTime(100))
+      .subscribe(search => {
+        this.setFilteredItem();
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
+    }
+  }
+
+  setFilteredItem() {
+    this.clearFilteredItem();
+    this.stockUploadIndexResponse.StockUploadIndexList = this.utils.filterItems(
+      this.originalIndexList,
+      this.searchTerm,
+      "DONo"
+    );
+  }
+
+  clearFilteredItem() {
+    this.stockUploadIndexResponse.StockUploadIndexList = this.originalIndexList;
   }
 
   private getStockUploadListing() {
@@ -45,13 +89,14 @@ export class StockUploadListingPage implements OnInit {
       AccessID: this.databaseService.getUserDetails().AccessID
     };
 
-    this.loaderBox.present().then(() => {    
+    this.loaderBox.present().then(() => {
       this.apiService.stockUploadIndex(request).subscribe(
         data => {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-            this.stockUploadListing = data;
+            this.stockUploadIndexResponse = data;
+            this.originalIndexList = data.StockUploadIndexList;
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
@@ -63,7 +108,8 @@ export class StockUploadListingPage implements OnInit {
     });
   }
 
-  go() {
+  goToDetails(stockUploadID: Number) {
+    console.log(stockUploadID);
     this.router.navigateByUrl("/stock-upload-details");
   }
   create() {

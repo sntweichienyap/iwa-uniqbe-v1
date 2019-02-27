@@ -17,6 +17,8 @@ export class DatabaseService {
     CenterID: 44,
     CenterName: "3PL Warehouse Store",
     CenterTypeCode: "WH",
+    Tenant: "Flutter",
+    TenantID: 3,
     AccessID: 258
   } as IUserDetailsStorage;
 

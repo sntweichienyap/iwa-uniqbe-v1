@@ -10,6 +10,7 @@ import { map, tap, catchError } from "rxjs/operators";
 import { environment } from "./../../environments/environment";
 import * as UserInterface from "../models/user.model";
 import * as StockUploadInterface from "../models/stock-upload.model";
+import * as CenterInterface from "../models/center.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -23,7 +24,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   //#region Private Function
 
@@ -48,6 +49,20 @@ export class ApiService {
   }
 
   //#endregion
+
+  //#region Center
+
+  centerIndex(
+    request: CenterInterface.ICenterIndexRequest
+  ): Observable<CenterInterface.ICenterIndexResponse> {
+    const url = `${apiUrl}/centerIndex`;
+
+    return this.httpClient
+      .post<CenterInterface.ICenterIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
 
   //#region "Authentication"
 
@@ -90,10 +105,23 @@ export class ApiService {
     request: StockUploadInterface.IStockUploadIndexRequest
   ): Observable<StockUploadInterface.IStockUploadIndexResponse> {
     const url = `${apiUrl}/stockUploadIndex`;
-    console.log(url);
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadIndexResponse>(
+        url,
+        request,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  stockUploadCreate(
+    request: StockUploadInterface.IStockUploadCreateRequest
+  ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
+    const url = `${apiUrl}/stockUploadCreate`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadCreateResponse>(
         url,
         request,
         httpOptions

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { StockUploadListingPage } from './stock-upload-listing.page';
+import { PipeModule } from 'src/app/pipes/pipe.module';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    PipeModule,
     RouterModule.forChild(routes)
   ],
   declarations: [StockUploadListingPage]

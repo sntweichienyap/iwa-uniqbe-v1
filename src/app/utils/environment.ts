@@ -19,5 +19,8 @@ export const Environment = {
   ALERT_BUTTON_OK: ["OK"],
 
   // Use for determine status in system
-  STATUS_PENDING: "O"
+  STATUS_PENDING: "O",
+
+  // Use for determine center type in system
+  CENTER_TYPE_WAREHOUSE:"WH"
 };
