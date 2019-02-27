@@ -14,9 +14,30 @@ import { Subscription } from "rxjs";
 export class StockUploadCreatePage implements OnInit, OnDestroy {
   centerList: IDdlResult;
   navigationSubscription: Subscription;
-   createForm: FormGroup;
+  createForm: FormGroup;
+  todayDT = new Date();
 
-  constructor(private router: Router, private ddlService: DdlService) {}
+  constructor(
+    private router: Router,
+    private ddlService: DdlService,
+    private formBuilder: FormBuilder
+  ) {
+    this.createForm = formBuilder.group({
+      centerID: 0,
+      doNo: "",
+      hasPO: false,
+      poNo: { value: "", disabled: true },
+      awbNo: "",
+      subject: "",
+      receiveDT: new Date(
+        this.todayDT.getFullYear(),
+        this.todayDT.getMonth(),
+        this.todayDT.getDate(),
+        this.todayDT.getHours()
+      ).toISOString(),
+      remark: ""
+    });
+  }
 
   ngOnInit() {
     this.getCenterList();
@@ -31,6 +52,8 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.onCreateFormChange();
   }
 
   ngOnDestroy() {
@@ -39,12 +62,43 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     }
   }
 
+  onCreateFormChange() {
+    this.createForm.get("hasPO").valueChanges.subscribe(val => {
+      if (val) {
+        this.createForm.controls["poNo"].enable();
+      } else {
+        this.createForm.controls["poNo"].disable();
+        this.createForm.patchValue({ poNo: "" });
+      }
+    });
+  }
+
   private getCenterList() {
     this.centerList = this.ddlService.getCenter_Wh();
   }
 
-  save() {
-    
+  scanDONo() {
+    console.log("scan DO");
+  }
+
+  scanPONo() {
+    console.log("scan PO");
+  }
+
+  scanAWBNo() {
+    console.log("scan AWB");
+  }
+
+  create() {
+    console.log(this.createForm.controls.centerID.value);
+    console.log(this.createForm.controls.doNo.value);
+    console.log(this.createForm.controls.hasPO.value);
+    console.log(this.createForm.controls.poNo.value);
+    console.log(this.createForm.controls.awbNo.value);
+    console.log(this.createForm.controls.subject.value);
+    console.log(this.createForm.controls.receiveDT.value);
+    console.log(this.createForm.controls.remark.value);
+
     //this.router.navigateByUrl("/stock-upload-details");
   }
 }
