@@ -24,7 +24,7 @@ export interface IStockUploadDetailsResponse
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT?: Date;
+  ReceivedDT: string;
   AWBNumber: string;
   Remark: string;
   Status: string;
@@ -35,7 +35,7 @@ export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT?: Date;
+  ReceivedDT?: String;
   AWBNumber: string;
   Remark: string;
 }
@@ -51,7 +51,7 @@ export interface IStockUploadUpdateRequest extends BaseInterface.IBaseRequest {
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT?: Date;
+  ReceivedDT?: string;
   AWBNumber: string;
   Remark: string;
 }

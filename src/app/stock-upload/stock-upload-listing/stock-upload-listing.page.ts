@@ -110,9 +110,9 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   }
 
   goToDetails(stockUploadID: Number) {
-    console.log(stockUploadID);
-    this.router.navigateByUrl("/stock-upload-details");
+    this.router.navigateByUrl(`/stock-upload-details/${stockUploadID}`);
   }
+  
   create() {
     this.router.navigateByUrl("/stock-upload-create");
   }

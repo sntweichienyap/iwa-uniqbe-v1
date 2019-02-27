@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Create GR</ion-title>
-    <ion-buttons (click)="create()" slot="end" class="header-right-btn">
+    <ion-buttons (click)="create(fab)" slot="end" class="header-right-btn">
       Save
     </ion-buttons>
   </ion-toolbar>
@@ -76,7 +76,7 @@
     </ion-list>
   </form>
 
-  <ion-fab class="btn-position-right">
+  <ion-fab class="btn-position-right" #fab>
     <ion-fab-button>
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
