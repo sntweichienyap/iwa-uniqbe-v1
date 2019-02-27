@@ -1,0 +1,21 @@
+ion-list-header{
+    text-align: center;
+    color: black;
+    background: #f4f5f8;
+    margin: 0 10px 0 10px;
+    width: 95%;
+}
+ion-item-sliding{
+    width: 95%;
+
+    ion-label{
+        padding: 0 10px 0 10px;
+        font-size: smaller;
+    }
+}
+input{
+    width: 3em;
+    margin-right: 0.2em;
+    border-radius: 5px;
+    border: 1px solid #EEEEEE;
+}
