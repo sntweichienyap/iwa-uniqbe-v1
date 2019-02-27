@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 
 import { DatabaseService } from "./../services/database.service";
 import { Router, Event, NavigationEnd } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-home",
@@ -9,7 +10,7 @@ import { Router, Event, NavigationEnd } from "@angular/router";
   styleUrls: ["home.page.scss"]
 })
 export class HomePage implements OnInit, OnDestroy {
-  userDetailsSubscription;
+  navigationSubscription: Subscription;
   name: string;
   centerName: string;
   constructor(
@@ -20,7 +21,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.getUserDetails();
 
-    this.userDetailsSubscription = this.router.events.subscribe(
+    this.navigationSubscription = this.router.events.subscribe(
       (event: Event) => {
         if (event instanceof NavigationEnd && this.router.url === "/home") {
             this.getUserDetails();
@@ -30,8 +31,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userDetailsSubscription) {
-      this.userDetailsSubscription.unsubscribe();;
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();;
     }
   }
   

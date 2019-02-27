@@ -14,6 +14,7 @@ import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
 import { Util } from "./../../utils/util";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-stock-upload-listing",
@@ -25,8 +26,8 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   originalIndexList;
   searchTerm = "";
   searchControl = new FormControl();
-  navigationSubscription;
-  filterSubscription;
+  navigationSubscription: Subscription;
+  filterSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -35,7 +36,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     private loaderBox: Loader,
     private alertBox: Alert,
     private utils: Util,
-    private menu: MenuController,
+    private menu: MenuController
   ) {}
 
   ngOnInit() {

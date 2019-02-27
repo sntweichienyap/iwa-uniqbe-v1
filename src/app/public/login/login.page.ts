@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, Event, NavigationEnd } from "@angular/router";
@@ -13,14 +13,16 @@ import { ApiService } from "./../../services/api.service";
 import { IUserDetailsStorage } from "../../models/local-storage.model";
 import "./../../utils/extension-method";
 import { ILoginRequest } from "src/app/models/user.model";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
   styleUrls: ["./login.page.scss"]
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
   loginForm: FormGroup;
+  navigationSubscription: Subscription;
 
   constructor(
     private authService: AuthenticationService,
@@ -43,20 +45,25 @@ export class LoginPage implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(6)])
       ]
     });
-
-    this.getUserDetails();
   }
 
   ngOnInit() {
     this.utils.hideMenu(this.menu);
+    this.getUserDetails();
 
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        if (this.router.url === "/login") {
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd && this.router.url === "/login") {
           this.getUserDetails();
         }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
   }
 
   private getUserDetails() {

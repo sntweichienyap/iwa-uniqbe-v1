@@ -1,23 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, Event, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router, Event, NavigationEnd } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { DdlService } from './../../services/ddl.service';
+import { DdlService } from "./../../services/ddl.service";
 import { IDdlResult } from "./../../models/ddl.model";
+import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-stock-upload-create',
-  templateUrl: './stock-upload-create.page.html',
-  styleUrls: ['./stock-upload-create.page.scss'],
+  selector: "app-stock-upload-create",
+  templateUrl: "./stock-upload-create.page.html",
+  styleUrls: ["./stock-upload-create.page.scss"]
 })
 export class StockUploadCreatePage implements OnInit, OnDestroy {
   centerList: IDdlResult;
-  navigationSubscription;
+  navigationSubscription: Subscription;
+   createForm: FormGroup;
 
-  constructor(
-    private router: Router,
-    private ddlService: DdlService, ) {
-
-  }
+  constructor(private router: Router, private ddlService: DdlService) {}
 
   ngOnInit() {
     this.getCenterList();
@@ -32,7 +31,6 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
         }
       }
     );
-
   }
 
   ngOnDestroy() {
@@ -43,11 +41,10 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
 
   private getCenterList() {
     this.centerList = this.ddlService.getCenter_Wh();
-
-    console.log(this.centerList);
   }
 
   save() {
-    this.router.navigateByUrl('/stock-upload-details');
+    
+    //this.router.navigateByUrl("/stock-upload-details");
   }
 }
