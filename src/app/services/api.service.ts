@@ -115,6 +115,20 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  stockUploadDetails(
+    request: StockUploadInterface.IStockUploadDetailsRequest
+  ): Observable<StockUploadInterface.IStockUploadDetailsResponse> {
+    const url = `${apiUrl}/stockUploadDetails`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadDetailsResponse>(
+        url,
+        request,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   stockUploadCreate(
     request: StockUploadInterface.IStockUploadCreateRequest
   ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
@@ -122,6 +136,20 @@ export class ApiService {
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadCreateResponse>(
+        url,
+        request,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  stockUploadUpdate(
+    request: StockUploadInterface.IStockUploadUpdateRequest
+  ): Observable<StockUploadInterface.IStockUploadUpdateResponse> {
+    const url = `${apiUrl}/stockUploadUpdate`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadUpdateResponse>(
         url,
         request,
         httpOptions
