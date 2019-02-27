@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
 import { MenuController } from "@ionic/angular";
+import { FormControl } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 
 import { DatabaseService } from "./../../services/database.service";
 import {
@@ -12,8 +14,6 @@ import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
 import { Util } from "./../../utils/util";
-import { FormControl } from "@angular/forms";
-import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: "app-stock-upload-listing",
