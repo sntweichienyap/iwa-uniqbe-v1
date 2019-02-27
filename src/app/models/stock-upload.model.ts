@@ -13,14 +13,51 @@ export interface IStockUploadIndexResponse extends BaseInterface.IBaseResponse {
   }[];
 }
 
+export interface IStockUploadDetailsRequest extends BaseInterface.IBaseRequest {
+  StockUploadID: number;
+}
+
+export interface IStockUploadDetailsResponse
+  extends BaseInterface.IBaseResponse {
+  StockUploadID: number;
+  CenterID: number;
+  Subject: string;
+  DONo: string;
+  PONo?: string;
+  ReceivedDT?: Date;
+  AWBNumber: string;
+  Remark: string;
+  Status: string;
+}
+
 export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
   CenterID: number;
   Subject: string;
   DONo: string;
+  PONo?: string;
+  ReceivedDT?: Date;
   AWBNumber: string;
+  Remark: string;
 }
 
 export interface IStockUploadCreateResponse
   extends BaseInterface.IBaseResponse {
-  StockUploadID: Number;
+  StockUploadID: number;
 }
+
+export interface IStockUploadUpdateRequest extends BaseInterface.IBaseRequest {
+  StockUploadID: number;
+  CenterID: number;
+  Subject: string;
+  DONo: string;
+  PONo?: string;
+  ReceivedDT?: Date;
+  AWBNumber: string;
+  Remark: string;
+}
+
+export interface IStockUploadUpdateResponse
+  extends BaseInterface.IBaseResponse {
+  StockUploadID: number;
+}
+
