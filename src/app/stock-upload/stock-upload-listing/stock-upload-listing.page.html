@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>GR/GRPO List</ion-title>
   </ion-toolbar>
-  <ion-searchbar placeholder="DO No." (ionInput)="setFilteredItem()" (ionClear)="clearFilteredItem()" [(ngModel)]="searchTerm"></ion-searchbar>
+  <ion-searchbar placeholder="DO No." (ionChange)="setFilteredItem(searchTerm)" (ionClear)="resetAndAssignArrayList()" [(ngModel)]="searchTerm"></ion-searchbar>
 </ion-header>
 
 <ion-content>

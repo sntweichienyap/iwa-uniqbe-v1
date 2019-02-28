@@ -23,11 +23,9 @@ import { Subscription } from "rxjs";
 })
 export class StockUploadListingPage implements OnInit, OnDestroy {
   stockUploadIndexResponse = {} as IStockUploadIndexResponse;
-  originalIndexList;
+  copyOfStockUploadIndexResponse = {} as IStockUploadIndexResponse;
   searchTerm = "";
-  searchControl = new FormControl();
   navigationSubscription: Subscription;
-  filterSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -37,7 +35,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private utils: Util,
     private menu: MenuController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getStockUploadListing();
@@ -53,35 +51,28 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
         }
       }
     );
-
-    this.filterSubscription = this.searchControl.valueChanges
-      .pipe(debounceTime(100))
-      .subscribe(search => {
-        this.setFilteredItem();
-      });
   }
 
   ngOnDestroy() {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
-
-    if (this.filterSubscription) {
-      this.filterSubscription.unsubscribe();
-    }
   }
 
   setFilteredItem() {
-    this.clearFilteredItem();
-    this.stockUploadIndexResponse.StockUploadIndexList = this.utils.filterItems(
-      this.originalIndexList,
-      this.searchTerm,
-      "DONo"
-    );
+    this.resetAndAssignArrayList();
+
+    if (this.searchTerm && this.searchTerm != "") {
+      this.stockUploadIndexResponse.StockUploadIndexList = this.utils.filterItems(
+        this.stockUploadIndexResponse.StockUploadIndexList,
+        this.searchTerm,
+        "DONo"
+      );
+    }
   }
 
-  clearFilteredItem() {
-    this.stockUploadIndexResponse.StockUploadIndexList = this.originalIndexList;
+  resetAndAssignArrayList() {
+    this.stockUploadIndexResponse.StockUploadIndexList = this.copyOfStockUploadIndexResponse.StockUploadIndexList;
   }
 
   private getStockUploadListing() {
@@ -96,8 +87,8 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-            this.stockUploadIndexResponse = data;
-            this.originalIndexList = data.StockUploadIndexList;
+            this.copyOfStockUploadIndexResponse = data;
+            this.resetAndAssignArrayList();
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
@@ -112,7 +103,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   goToDetails(stockUploadID: Number) {
     this.router.navigateByUrl(`/stock-upload-details/${stockUploadID}`);
   }
-  
+
   create() {
     this.router.navigateByUrl("/stock-upload-create");
   }
