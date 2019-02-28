@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, Event, NavigationEnd } from "@angular/router";
 @Component({
   selector: 'app-fulfillment-details',
   templateUrl: './fulfillment-details.page.html',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FulfillmentDetailsPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
-
+  edit(){
+    this.router.navigateByUrl('/fulfillment-edit-details');
+  }
+  viewItem(){
+    this.router.navigateByUrl('/fulfillment-item-details');
+  }
 }
