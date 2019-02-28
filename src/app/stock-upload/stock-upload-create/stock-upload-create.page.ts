@@ -74,7 +74,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     }
   }
 
-  onCreateFormChange() {
+  private onCreateFormChange() {
     this.createForm.get("hasPO").valueChanges.subscribe(val => {
       if (val) {
         this.createForm.controls["poNo"].enable();

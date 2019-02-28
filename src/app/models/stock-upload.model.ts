@@ -21,6 +21,7 @@ export interface IStockUploadDetailsResponse
   extends BaseInterface.IBaseResponse {
   StockUploadID: number;
   CenterID: number;
+  CenterName: string;
   Subject: string;
   DONo: string;
   PONo?: string;
