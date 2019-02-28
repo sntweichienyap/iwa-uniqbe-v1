@@ -1,14 +1,20 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Fulfillment Detail</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button ></ion-back-button>
+          </ion-buttons>
+          <ion-title>Fulfillment Detail</ion-title>
+          <ion-buttons slot="end" class="header-right-btn">
+              Done
+            </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content >
     <ion-list lines="full">
         <ion-item>
           <ion-label>
-            <p>1001</p>
+            <p>Order No</p>
             <span>U Mobile Warehouse</span>
           </ion-label>
         </ion-item>
@@ -57,7 +63,7 @@
       </ion-list>
       <ion-list>
         <ion-list-header>
-            <ion-label>Order Items (2)</ion-label>
+            <ion-label>Items (2)</ion-label>
         </ion-list-header>
         <ion-item-sliding>
             <ion-item>
@@ -68,11 +74,9 @@
         <ion-item-sliding>
             <ion-item>
               <ion-label>IPhone X</ion-label>
+              <span slot="end">0/10</span>
             </ion-item>
             <ion-item-options side="end">
-              <ion-item-option (click)="unread(item)" color="light">
-                  <ion-icon name="trash"color="danger" ></ion-icon>
-              </ion-item-option>
             <ion-item-option (click)="viewItem()" color="light">
                 <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
             </ion-item-option>
@@ -81,11 +85,9 @@
         <ion-item-sliding>
             <ion-item>
               <ion-label>IPhone XS</ion-label>
+              <span slot="end">0/20</span>
             </ion-item>
             <ion-item-options side="end">
-                <ion-item-option (click)="unread(item)" color="light">
-                    <ion-icon name="trash"color="danger" ></ion-icon>
-                </ion-item-option>
               <ion-item-option (click)="viewItem()" color="light">
                   <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
               </ion-item-option>
@@ -99,9 +101,9 @@
         </ion-fab-button>
       
         <ion-fab-list side="top">
-          <ion-fab-button [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-fab-button>
-          <ion-fab-button (click)="edit()"><ion-icon name="create"></ion-icon></ion-fab-button>
-          <ion-fab-button ><ion-icon name="remove-circle-outline"></ion-icon></ion-fab-button>
+          <ion-fab-button [routerLink]="['/home']" data-desc="Home"><ion-icon name="home" ></ion-icon></ion-fab-button>
+          <ion-fab-button (click)="edit()" data-desc="Edit"><ion-icon name="create" ></ion-icon></ion-fab-button>
+          <ion-fab-button  data-desc="Reject"><ion-icon name="close"></ion-icon></ion-fab-button>
         </ion-fab-list>
       
       </ion-fab>
