@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   { path: "login", loadChildren: "./public/login/login.module#LoginPageModule" },
   { path: 'forgot-password', loadChildren: './public/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
-  { path: 'stock-upload-details', loadChildren: './stock-upload/stock-upload-details/stock-upload-details.module#StockUploadDetailsPageModule' },
+  { path: 'stock-upload-details/:stockUploadID', loadChildren: './stock-upload/stock-upload-details/stock-upload-details.module#StockUploadDetailsPageModule' },
   { path: 'stock-upload-edit-details', loadChildren: './stock-upload/stock-upload-edit-details/stock-upload-edit-details.module#StockUploadEditDetailsPageModule' },
   { path: 'stock-upload-create-item', loadChildren: './stock-upload/stock-upload-create-item/stock-upload-create-item.module#StockUploadCreateItemPageModule' },
   { path: 'stock-upload-item-details', loadChildren: './stock-upload/stock-upload-item-details/stock-upload-item-details.module#StockUploadItemDetailsPageModule' },
@@ -33,7 +33,8 @@ const routes: Routes = [
   { path: 'fulfillment-listing', 
     canActivate: [AuthGuard],
     loadChildren: './fulfillment/fulfillment-listing/fulfillment-listing.module#FulfillmentListingPageModule' 
-  },  { path: 'fulfillment-details', loadChildren: './fulfillment/fulfillment-details/fulfillment-details.module#FulfillmentDetailsPageModule' },
+  },
+  { path: 'fulfillment-details', loadChildren: './fulfillment/fulfillment-details/fulfillment-details.module#FulfillmentDetailsPageModule' },
   { path: 'fulfillment-edit-details', loadChildren: './fulfillment/fulfillment-edit-details/fulfillment-edit-details.module#FulfillmentEditDetailsPageModule' },
   { path: 'fulfillment-item-details', loadChildren: './fulfillment/fulfillment-item-details/fulfillment-item-details.module#FulfillmentItemDetailsPageModule' },
 

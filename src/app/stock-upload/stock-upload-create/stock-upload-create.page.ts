@@ -1,10 +1,17 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
+import {IonFab} from "@ionic/angular";
 
 import { DdlService } from "./../../services/ddl.service";
 import { IDdlResult } from "./../../models/ddl.model";
-import { Subscription } from "rxjs";
+import { IStockUploadCreateRequest } from "./../../models/stock-upload.model";
+import { DatabaseService } from "./../../services/database.service";
+import { Alert } from "./../../utils/alert";
+import { Loader } from "./../../utils/loader";
+import { ApiService } from "./../../services/api.service";
+import { Util } from "./../../utils/util";
 
 @Component({
   selector: "app-stock-upload-create",
@@ -20,7 +27,12 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private ddlService: DdlService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private databaseService: DatabaseService,
+    private alertBox: Alert,
+    private loaderBox: Loader,
+    private apiService: ApiService,
+    private utils: Util,
   ) {
     this.createForm = formBuilder.group({
       centerID: 0,
@@ -89,16 +101,37 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     console.log("scan AWB");
   }
 
-  create() {
-    console.log(this.createForm.controls.centerID.value);
-    console.log(this.createForm.controls.doNo.value);
-    console.log(this.createForm.controls.hasPO.value);
-    console.log(this.createForm.controls.poNo.value);
-    console.log(this.createForm.controls.awbNo.value);
-    console.log(this.createForm.controls.subject.value);
-    console.log(this.createForm.controls.receiveDT.value);
-    console.log(this.createForm.controls.remark.value);
+  create(fab: IonFab) {
+    let receiveDT: Date = this.createForm.controls.receiveDT.value;
+    let dotNetReceiveDate = receiveDT.toString().convertToDotNetJSONDate();
+    let request: IStockUploadCreateRequest = {
+      AWBNumber: this.createForm.controls.awbNo.value,
+      CenterID: this.createForm.controls.centerID.value,
+      DONo: this.createForm.controls.doNo.value,
+      PONo: this.createForm.controls.poNo.value,
+      Subject: this.createForm.controls.subject.value,
+      ReceivedDT: dotNetReceiveDate,
+      Remark: this.createForm.controls.remark.value,
+      AccessID: this.databaseService.getUserDetails().AccessID,
+    };
 
-    //this.router.navigateByUrl("/stock-upload-details");
+    this.loaderBox.present().then(() => {
+      this.apiService.stockUploadCreate(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
+
+          if (data.ResponseCode.isApiSuccess()) {       
+            fab.close();
+            this.utils.resetForm(this.createForm);
+            this.router.navigateByUrl(`/stock-upload-details/${data.StockUploadID}`);
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
   }
 }
