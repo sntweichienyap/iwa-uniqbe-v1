@@ -6,11 +6,7 @@ import { DatabaseService } from "./../../services/database.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
-import { Util } from "./../../utils/util";
-import {
-  IStockUploadDetailsRequest,
-  IStockUploadDetailsResponse
-} from "src/app/models/stock-upload.model";
+import { IStockUploadDetailsRequest } from "./../../models/stock-upload.model";
 
 @Component({
   selector: "app-stock-upload-details",
@@ -41,7 +37,6 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
-    private utils: Util
   ) {}
 
   ngOnInit() {
@@ -80,7 +75,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
             this.stockUploadDetails.poNo = data.PONo;
             this.stockUploadDetails.awbNo = data.AWBNumber;
             this.stockUploadDetails.subject = data.Subject;
-            this.stockUploadDetails.receiveDT = data.ReceivedDT;
+            this.stockUploadDetails.receiveDT = data.ReceiveDT;
             this.stockUploadDetails.remark = data.Remark;
             this.stockUploadDetails.status = data.Status;
           } else {
@@ -95,7 +90,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   update() {
-    this.router.navigateByUrl("/stock-upload-edit-details");
+    this.router.navigateByUrl(`/stock-upload-edit-details/${this.stockUploadID}`);
   }
 
   createItem() {

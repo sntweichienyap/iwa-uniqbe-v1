@@ -1,80 +1,91 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button ></ion-back-button>
-          </ion-buttons>
-          <ion-title>Edit GR</ion-title>
-          <ion-buttons (click)="save()" slot="end" class="header-right-btn">
-              Save
-          </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit GR</ion-title>
+    <ion-buttons (click)="onUpdate(fab)" slot="end" class="header-right-btn">
+      Save
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full">
+  <form [formGroup]="updateForm">
+    <ion-list lines="full">
       <ion-item>
-          <ion-label><span>Center</span>
-              <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select Center">
-                  <ion-select-option value="brown">U Mobile Warehouse A</ion-select-option>
-                  <ion-select-option value="blonde">U Mobile Warehouse B</ion-select-option>
-                  <ion-select-option value="black">U Mobile Warehouse C</ion-select-option>
-                  <ion-select-option value="red">U Mobile Warehouse D</ion-select-option>
-                </ion-select>
-          </ion-label>
+        <ion-label
+          ><span>Center</span>
+          <ion-select
+            [interfaceOptions]="customPopoverOptions"
+            interface="popover"
+            placeholder="Select Center"
+            formControlName="centerID"
+          >
+            <ion-select-option
+              *ngFor="let item of centerList.Result"
+              [value]="item.Value"
+              >{{ item.Text }}</ion-select-option
+            >
+          </ion-select>
+        </ion-label>
       </ion-item>
       <ion-item>
         <ion-label>
           <p><span>DO No</span></p>
-          <input/>
+          <input formControlName="doNo" />
         </ion-label>
-        <ion-icon slot="end" name="camera"></ion-icon>
+        <ion-icon slot="end" name="camera" (click)="scanDONo()"></ion-icon>
       </ion-item>
       <ion-item>
-          <ion-checkbox slot="start"></ion-checkbox>
-          <ion-label>Has PO</ion-label>
-          
+        <ion-checkbox slot="start" formControlName="hasPO"></ion-checkbox>
+        <ion-label>Has PO</ion-label>
       </ion-item>
       <ion-item>
-          <ion-label>
-            <p><span>PO No</span></p>
-            <input/>
-          </ion-label>
-          <ion-icon slot="end" name="camera"></ion-icon>
+        <ion-label>
+          <p><span>PO No</span></p>
+          <input formControlName="poNo" />
+        </ion-label>
+        <ion-icon slot="end" name="camera" (click)="scanPONo()"></ion-icon>
       </ion-item>
       <ion-item>
-          <ion-label>
-            <p><span>AWB No</span></p>
-            <input/>
-          </ion-label>
-          <ion-icon slot="end" name="camera"></ion-icon>
+        <ion-label>
+          <p><span>AWB No</span></p>
+          <input formControlName="awbNo" />
+        </ion-label>
+        <ion-icon slot="end" name="camera" (click)="scanAWBNo()"></ion-icon>
       </ion-item>
       <ion-item>
-          <ion-label>
-            <p><span>Subject</span></p>
-            <input/>
-          </ion-label>
+        <ion-label>
+          <p><span>Subject</span></p>
+          <input  formControlName="subject" />
+        </ion-label>
       </ion-item>
       <ion-item>
-          <ion-label>
-            <p><span>Received Date</span></p>
-            <ion-datetime display-format="DD MMM YYYY"></ion-datetime>
-          </ion-label>
+        <ion-label>
+          <p><span>Received Date</span></p>
+          <ion-datetime display-format="DD MMM YYYY" formControlName="receiveDT"></ion-datetime>
+        </ion-label>
       </ion-item>
       <ion-item>
-          <ion-label>
-            <p><span>Remark</span></p>
-            <input/>
-          </ion-label>
+        <ion-label>
+          <p><span>Remark</span></p>
+          <input formControlName="remark" />
+        </ion-label>
       </ion-item>
-  </ion-list>
-  <ion-fab class="btn-position-right">
+    </ion-list>
+  </form>
+
+  <ion-fab class="btn-position-right" #fab>
     <ion-fab-button>
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
-  
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-fab-button>
+      <ion-fab-button [routerLink]="['/home']"
+        ><ion-icon name="home"></ion-icon
+      ></ion-fab-button>
     </ion-fab-list>
   </ion-fab>
+
   <div class="footer-space"></div>
 </ion-content>

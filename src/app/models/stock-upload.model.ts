@@ -25,7 +25,7 @@ export interface IStockUploadDetailsResponse
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT: string;
+  ReceiveDT: string;
   AWBNumber: string;
   Remark: string;
   Status: string;
