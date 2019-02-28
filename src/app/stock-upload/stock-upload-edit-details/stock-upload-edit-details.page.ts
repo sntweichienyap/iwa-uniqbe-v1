@@ -8,7 +8,7 @@ import { DatabaseService } from "./../../services/database.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
-import { IStockUploadDetailsRequest } from "./../../models/stock-upload.model";
+import { IStockUploadDetailsRequest, IStockUploadUpdateRequest } from "./../../models/stock-upload.model";
 import { IDdlResult } from "./../../models/ddl.model";
 import { Util } from "./../../utils/util";
 import { DdlService } from "./../../services/ddl.service";
@@ -34,9 +34,11 @@ export class StockUploadEditDetailsPage implements OnInit {
     private loaderBox: Loader,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private ddlService: DdlService
+    private ddlService: DdlService,
+    private utils: Util
   ) {
     this.updateForm = formBuilder.group({
+      stockUploadID: 0,
       centerID: 0,
       doNo: "",
       hasPO: false,
@@ -98,7 +100,6 @@ export class StockUploadEditDetailsPage implements OnInit {
           this.loaderBox.dismiss();
           let hasPO = data.PONo.isEmpty() ? false : true;
 
-          console.log(data.ReceiveDT);
           if (data.ResponseCode.isApiSuccess()) {
             this.updateForm.patchValue({
               stockUploadID: data.StockUploadID,
@@ -107,7 +108,7 @@ export class StockUploadEditDetailsPage implements OnInit {
               poNo: { value: data.PONo, disabled: !hasPO },
               awbNo: data.AWBNumber,
               subject: data.Subject,
-              receiveDT: data.ReceiveDT,
+              receiveDT: data.ReceiveDT.convertToJSDate(),
               remark: data.Remark,
               hasPO: hasPO
             });
@@ -123,16 +124,38 @@ export class StockUploadEditDetailsPage implements OnInit {
   }
 
   onUpdate(fab: IonFab) {
-    console.log(this.updateForm.controls.stockUploadID.value);
-    console.log(this.updateForm.controls.centerID.value);
-    console.log(this.updateForm.controls.doNo.value);
-    console.log(this.updateForm.controls.poNo.value);
-    console.log(this.updateForm.controls.awbNo.value);
-    console.log(this.updateForm.controls.subject.value);
-    console.log(this.updateForm.controls.receiveDT.value);
-    console.log(this.updateForm.controls.remark.value);
+    let receiveDT: Date = this.updateForm.controls.receiveDT.value;
+    let dotNetReceiveDate = receiveDT.toString().convertToDotNetJSONDate();
+    let request: IStockUploadUpdateRequest = {
+      StockUploadID: this.updateForm.controls.stockUploadID.value,
+      AWBNumber: this.updateForm.controls.awbNo.value,
+      CenterID: this.updateForm.controls.centerID.value,
+      DONo: this.updateForm.controls.doNo.value,
+      PONo: this.updateForm.controls.poNo.value,
+      Subject: this.updateForm.controls.subject.value,
+      ReceivedDT: dotNetReceiveDate,
+      Remark: this.updateForm.controls.remark.value,
+      AccessID: this.databaseService.getUserDetails().AccessID
+    };
 
-    //this.router.navigateByUrl(`/stock-upload-details/${this.stockUploadID}`);
+    this.loaderBox.present().then(() => {
+      this.apiService.stockUploadUpdate(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
+
+          if (data.ResponseCode.isApiSuccess()) {
+            fab.close();
+            this.utils.resetForm(this.updateForm);
+            this.router.navigateByUrl(`/stock-upload-details/${this.stockUploadID}`);
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
   }
 
   private onUpdateFormChange() {

@@ -36,7 +36,7 @@ export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT: String;
+  ReceivedDT: string;
   AWBNumber: string;
   Remark: string;
 }
