@@ -36,7 +36,7 @@ String.prototype.isEmpty = function (): Boolean {
 
 String.prototype.convertToDotNetJSONDate = function (): String {
   var newDate = Date.parse(this);
-  return '/Date(' + newDate + ')/';
+  return '/Date(' + newDate + '+0800)/';
 }
 
 Number.prototype.isEmpty = function (): Boolean {
