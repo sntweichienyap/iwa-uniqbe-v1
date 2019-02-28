@@ -35,6 +35,8 @@ const routes: Routes = [
     loadChildren: './fulfillment/fulfillment-listing/fulfillment-listing.module#FulfillmentListingPageModule' 
   },
   { path: 'fulfillment-details', loadChildren: './fulfillment/fulfillment-details/fulfillment-details.module#FulfillmentDetailsPageModule' },
+  { path: 'fulfillment-edit-details', loadChildren: './fulfillment/fulfillment-edit-details/fulfillment-edit-details.module#FulfillmentEditDetailsPageModule' },
+  { path: 'fulfillment-item-details', loadChildren: './fulfillment/fulfillment-item-details/fulfillment-item-details.module#FulfillmentItemDetailsPageModule' },
 
 
 

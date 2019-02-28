@@ -1,0 +1,74 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button ></ion-back-button>
+          </ion-buttons>
+          <ion-title>Fulfillment Edit</ion-title>
+          <ion-buttons slot="end" class="header-right-btn">
+              Save
+            </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list lines="full">
+        <ion-item>
+          <ion-label>
+            <p>Order No</p>
+            <span>U Mobile Warehouse</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Center</p>
+            <span>U Mobile Warehouse</span>
+          </ion-label>
+        </ion-item>
+        <ion-item text-wrap>
+          <ion-label text-wrap>
+            <p>Address</p>
+            <span>No 5, Jalan Tandang 51/205A Section 51 Petaling Jaya 46050</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Order Date</p>
+            <span>19/10/2018</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>Status</p>
+            <span>Approved</span>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">
+            <p>Courier No</p>
+          </ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label position="stacked">
+            <p>Despatcher</p>
+          </ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">
+            <p>Remark</p>
+          </ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-fab class="btn-position-right">
+          <ion-fab-button>
+            <ion-icon name="apps"></ion-icon>
+          </ion-fab-button>
+        
+          <ion-fab-list side="top">
+            <ion-fab-button [routerLink]="['/home']" data-desc="Home"><ion-icon name="home"></ion-icon></ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
+        <div class="footer-space"></div>
+</ion-content>
