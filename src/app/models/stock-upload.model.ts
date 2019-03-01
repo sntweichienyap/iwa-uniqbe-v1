@@ -29,6 +29,11 @@ export interface IStockUploadDetailsResponse
   AWBNumber: string;
   Remark: string;
   Status: string;
+  StockUploadItemSummaryList: {
+    IsSerialized: boolean;
+    Model: string;
+    Quantity: number;
+  }[];
 }
 
 export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {

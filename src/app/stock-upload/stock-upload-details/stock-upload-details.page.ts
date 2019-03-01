@@ -36,7 +36,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private databaseService: DatabaseService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private apiService: ApiService,
+    private apiService: ApiService
   ) {}
 
   ngOnInit() {
@@ -89,15 +89,25 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     });
   }
 
-  update() {
-    this.router.navigateByUrl(`/stock-upload-edit-details/${this.stockUploadID}`);
+  onConfirm() {
+    console.log("Confirm");
   }
 
-  createItem() {
+  onUpdate() {
+    this.router.navigateByUrl(
+      `/stock-upload-edit-details/${this.stockUploadID}`
+    );
+  }
+
+  onScanBarcode(){
+    console.log("barcode scan");
+  }
+
+  onCreateItem() {
     this.router.navigateByUrl("/stock-upload-create-item");
   }
 
-  viewItem() {
+  onViewItem() {
     this.router.navigateByUrl("/stock-upload-item-details");
   }
 
