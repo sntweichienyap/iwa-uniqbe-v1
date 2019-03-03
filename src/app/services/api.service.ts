@@ -11,6 +11,12 @@ import { environment } from "./../../environments/environment";
 import * as UserInterface from "../models/user.model";
 import * as StockUploadInterface from "../models/stock-upload.model";
 import * as CenterInterface from "../models/center.model";
+import * as BrandInterface from "../models/brand.model";
+import * as CategoryInterface from "../models/category.model";
+import * as ModelInterface from "../models/model.model";
+import * as ColourInterface from "../models/colour.model";
+import * as TypeInterface from "../models/type.model";
+import * as UnitOfMeasureInterface from "../models/unit-of-measure.model";
 
 const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
@@ -49,6 +55,90 @@ export class ApiService {
   }
 
   //#endregion
+
+  //#region Category
+
+  categoryIndex(
+    request: CategoryInterface.ICategoryIndexRequest
+  ): Observable<CategoryInterface.ICategoryIndexResponse> {
+    const url = `${apiUrl}/catogeryIndex`;
+
+    return this.httpClient
+      .post<CategoryInterface.ICategoryIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Category
+
+  //#region Brand
+
+  brandIndex(
+    request: BrandInterface.IBrandIndexRequest
+  ): Observable<BrandInterface.IBrandIndexResponse> {
+    const url = `${apiUrl}/brandIndex`;
+
+    return this.httpClient
+      .post<BrandInterface.IBrandIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
+
+  //#region Model
+
+  modelIndex(
+    request: ModelInterface.IModelIndexRequest
+  ): Observable<ModelInterface.IModelIndexResponse> {
+    const url = `${apiUrl}/modelIndex`;
+
+    return this.httpClient
+      .post<ModelInterface.IModelIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
+
+  //#region Colour
+
+  colourIndex(
+    request: ColourInterface.IColourIndexRequest
+  ): Observable<ColourInterface.IColourIndexResponse> {
+    const url = `${apiUrl}/colourIndex`;
+
+    return this.httpClient
+      .post<ColourInterface.IColourIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
+
+  //#region Type
+
+  typeIndex(
+    request: TypeInterface.ITypeIndexRequest
+  ): Observable<TypeInterface.ITypeIndexResponse> {
+    const url = `${apiUrl}/typeIndex`;
+
+    return this.httpClient
+      .post<TypeInterface.ITypeIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
+
+  //#region Unit of Measure
+
+  unitOfMeasureIndex(
+    request: UnitOfMeasureInterface.IUnitOFMeasureIndexRequest
+  ): Observable<UnitOfMeasureInterface.IUnitOfMeasureIndexResponse> {
+    const url = `${apiUrl}/uomDdl`;
+
+    return this.httpClient
+      .post<UnitOfMeasureInterface.IUnitOfMeasureIndexResponse>(url, request, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  //#endregion Center
 
   //#region Center
 

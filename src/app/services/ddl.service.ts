@@ -12,7 +12,7 @@ export class DdlService {
   constructor(
     private apiService: ApiService,
     private databaseService: DatabaseService
-  ) {}
+  ) { }
 
   getCenter_Wh() {
     let ddlResult: IDdlResult = { Result: [] };
@@ -28,7 +28,8 @@ export class DdlService {
           data.CenterItemList.forEach(i => {
             ddlResult.Result.push({
               Value: i.ID,
-              Text: i.CenterName
+              Text: i.CenterName,
+              FKValue: 0
             });
           });
         } else {

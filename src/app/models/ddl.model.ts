@@ -1,6 +1,7 @@
 export interface IDdlResult{
     Result:{
         Value: number;
-        Text: string;        
+        Text: string;     
+        FKValue: number;   
     }[]
 }
