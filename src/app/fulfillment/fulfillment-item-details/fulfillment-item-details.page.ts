@@ -11,5 +11,5 @@ export class FulfillmentItemDetailsPage implements OnInit {
 
   ngOnInit() {
   }
-
+  
 }

@@ -7,7 +7,7 @@ import { Router, Event, NavigationEnd } from "@angular/router";
 })
 export class FulfillmentListingPage implements OnInit {
 
-  constructor(private router: Router,) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }

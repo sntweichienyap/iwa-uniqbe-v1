@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Sales Order Details</ion-title>
+        <!-- <ion-buttons slot="end" class="header-right-btn">
+            Done
+          </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-list lines="full">
+      <ion-item>
+        <ion-label>
+          <p>Ext. Order No</p>
+          <span>1001</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>Order Date</p>
+          <span>20/02/2019</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>Delivery Type</p>
+          <span>Pos Laju</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>Delivery Date</p>
+          <span>20/02/2019</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>Location</p>
+          <span>3PL Warehouse Store</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label text-wrap>
+          <p>Remark</p>
+          <span>Remark is here, you can write anything what you want to remark.</span>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <!-- <ion-list>
+      <ion-list-header>
+          <ion-label>Items (2)</ion-label>
+      </ion-list-header>
+      <ion-item-sliding>
+          <ion-item>
+            <ion-label><span>Item A</span></ion-label>
+            <span slot="end"><input class="qty-input" />/10</span>
+          </ion-item>
+      </ion-item-sliding>
+      <ion-item-sliding>
+          <ion-item>
+            <ion-label>IPhone X</ion-label>
+            <span slot="end">0/10</span>
+          </ion-item>
+          <ion-item-options side="end">
+          <ion-item-option (click)="viewItem()" color="light">
+              <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item-sliding>
+          <ion-item>
+            <ion-label>IPhone XS</ion-label>
+            <span slot="end">0/20</span>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="viewItem()" color="light">
+                <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+      </ion-item-sliding>
+  </ion-list> -->
+
+    <ion-fab class="btn-position-right">
+      <ion-fab-button>
+        <ion-icon name="apps"></ion-icon>
+      </ion-fab-button>
+    
+      <ion-fab-list side="top">
+        <ion-fab-button [routerLink]="['/home']" data-desc="Home"><ion-icon name="home" ></ion-icon></ion-fab-button>
+        <ion-fab-button (click)="edit()" data-desc="Edit"><ion-icon name="create" ></ion-icon></ion-fab-button>
+        <ion-fab-button  data-desc="Contact Person Info"><ion-icon name="person"></ion-icon></ion-fab-button>
+      </ion-fab-list>
+    
+    </ion-fab>
+    <div class="footer-space"></div>
+</ion-content>
