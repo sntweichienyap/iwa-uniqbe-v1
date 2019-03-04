@@ -11,6 +11,10 @@ export const environment = {
   authUrl: "http://localhost:1337/iwauniqbedev.azurewebsites.net/api/user",
   apiUrl: "http://localhost:1337/iwauniqbedevservice.azurewebsites.net/mobileservice.svc",
 
+  // Dev on mobile
+  //authUrl: "http://iwauniqbedev.azurewebsites.net/api/user",
+  // apiUrl: "http://iwauniqbedevservice.azurewebsites.net/mobileservice.svc"
+
   // Staging
   // authUrl: "http://iwastaging.azurewebsites.net/api/user",
   // apiUrl: "http://iwastagingservice.azurewebsites.net/mobileservice.svc",

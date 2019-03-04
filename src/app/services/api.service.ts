@@ -30,7 +30,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   //#region Private Function
 
@@ -41,9 +41,15 @@ export class ApiService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
-        "Backend returned code ${error.status}, " + "body was: ${error.error}"
-      );
+
+      let errorMessage = `Backend returned code ${
+        error.status
+      }, body was: ${JSON.stringify(error.error)}`;
+      
+      console.log(JSON.stringify(error));
+
+      console.error(errorMessage);
+      alert(JSON.stringify(error));
     }
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
@@ -134,7 +140,11 @@ export class ApiService {
     const url = `${apiUrl}/uomDdl`;
 
     return this.httpClient
-      .post<UnitOfMeasureInterface.IUnitOfMeasureIndexResponse>(url, request, httpOptions)
+      .post<UnitOfMeasureInterface.IUnitOfMeasureIndexResponse>(
+        url,
+        request,
+        httpOptions
+      )
       .pipe(catchError(this.handleError));
   }
 
