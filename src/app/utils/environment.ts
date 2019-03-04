@@ -1,4 +1,8 @@
 export const Environment = {
+  // Use for Ionic Storage variable
+  STORAGE_USER_DETAILS: "userDetails",
+  STORAGE_STOCK_UPLOAD_ITEM_LIST: "stockUploadItemList",
+
   // Use for alert box header
   ALERT_HEADER_SUCCESS: "Success",
   ALERT_HEADER_FAIL: "Failed",

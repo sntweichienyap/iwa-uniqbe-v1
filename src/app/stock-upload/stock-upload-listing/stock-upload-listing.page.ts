@@ -39,6 +39,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getStockUploadListing();
+    this.databaseService.removeKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
     this.utils.hideMenu(this.menu);
 
     this.navigationSubscription = this.router.events.subscribe(
@@ -48,6 +49,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
           event.url == "/stock-upload-listing"
         ) {
           this.getStockUploadListing();
+          this.databaseService.removeKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
         }
       }
     );

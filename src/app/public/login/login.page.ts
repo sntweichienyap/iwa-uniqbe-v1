@@ -10,7 +10,7 @@ import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
 import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "./../../services/api.service";
-import { IUserDetailsStorage } from "../../models/local-storage.model";
+import { IStorageUserDetails } from "../../models/local-storage.model";
 import "./../../utils/extension-method";
 import { ILoginRequest } from "src/app/models/user.model";
 import { Subscription } from "rxjs";
@@ -79,7 +79,7 @@ export class LoginPage implements OnInit, OnDestroy {
       Password: this.loginForm.controls.password.value,
       AccessID: this.databaseService.getUserDetails().AccessID
     };
-    let userDetailsStorage = {} as IUserDetailsStorage;
+    let userDetailsStorage = {} as IStorageUserDetails;
 
     this.loaderBox.present().then(() => {
       this.apiService.login(request).subscribe(

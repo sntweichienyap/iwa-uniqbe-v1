@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, Event, NavigationEnd, ActivatedRoute } from "@angular/router";
+import { AlertController } from "@ionic/angular";
+
 import { Subscription } from "rxjs";
 
 import { DatabaseService } from "./../../services/database.service";
@@ -7,6 +9,8 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
 import { IStockUploadDetailsRequest } from "./../../models/stock-upload.model";
+import { Environment } from "./../../utils/environment";
+import { IStorageStockUploadItemList } from "./../../models/local-storage.model";
 
 @Component({
   selector: "app-stock-upload-details",
@@ -18,6 +22,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   navigationSubscription: Subscription;
   paramSubscription: Subscription;
   stockUploadID: number;
+  storageStockUploadItemList = {} as IStorageStockUploadItemList;
   stockUploadDetails = {
     stockUploadID: 0,
     center: "",
@@ -36,15 +41,29 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private databaseService: DatabaseService,
     private alertBox: Alert,
     private loaderBox: Loader,
-    private apiService: ApiService
-  ) {}
+    private apiService: ApiService,
+    private alertCtrl: AlertController,
+  ) { }
 
   ngOnInit() {
     this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
       this.stockUploadID = +params.get("stockUploadID");
-
-      this.getStockUploadDetails();
     });
+
+    this.getStockUploadItemListFromStorage();
+    this.getStockUploadDetails();
+
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.url.includes("/stock-upload-details")
+        ) {
+          this.getStockUploadItemListFromStorage();
+          this.getStockUploadDetails();
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -89,6 +108,14 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     });
   }
 
+  private getStockUploadItemListFromStorage() {
+    let storageResult = this.databaseService.getKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+
+    if (storageResult) {
+      this.storageStockUploadItemList = JSON.parse(storageResult);
+    }
+  }
+
   onConfirm() {
     console.log("Confirm");
   }
@@ -99,7 +126,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     );
   }
 
-  onScanBarcode(){
+  onScanBarcode() {
     console.log("barcode scan");
   }
 
@@ -109,6 +136,35 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
 
   onViewItem() {
     this.router.navigateByUrl("/stock-upload-item-details");
+  }
+
+  onBackToHome() {
+    this.presentAlertConfirm();
+  }
+
+  private async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      header: 'Caution',
+      message: 'Item added will be forfeit without confirm',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (result) => {
+            
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.databaseService.removeKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+            this.router.navigateByUrl("/home");
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   toggleInfoList() {

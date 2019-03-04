@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import { BehaviorSubject } from "rxjs";
-import { IUserDetailsStorage } from "../models/local-storage.model";
 
-const USER_DETAILS = "userDetails";
+import { IStorageUserDetails } from "../models/local-storage.model";
+import { Environment } from "../utils/environment";
+
+const USER_DETAILS = Environment.STORAGE_USER_DETAILS;
 
 @Injectable({
   providedIn: "root"
@@ -20,11 +22,11 @@ export class DatabaseService {
     Tenant: "Flutter",
     TenantID: 3,
     AccessID: 258
-  } as IUserDetailsStorage;
+  } as IStorageUserDetails;
 
-  constructor(private storage: Storage) {}
+  constructor(private storage: Storage) { }
 
-  async saveUserDetailsToStorage(userDetails: IUserDetailsStorage) {
+  async saveUserDetailsToStorage(userDetails: IStorageUserDetails) {
     var jsonUserDetails = JSON.stringify(userDetails);
     this.storage.set(USER_DETAILS, jsonUserDetails);
 
@@ -33,7 +35,7 @@ export class DatabaseService {
 
   private getUserDetailsFromStorage() {
     this.storage.get(USER_DETAILS).then(res => {
-      let result = {} as IUserDetailsStorage;
+      let result = {} as IStorageUserDetails;
 
       if (res) {
         this.userDetails = JSON.parse(res);
@@ -43,7 +45,20 @@ export class DatabaseService {
     });
   }
 
-  getUserDetails(): IUserDetailsStorage {
+  getUserDetails(): IStorageUserDetails {
     return this.userDetails;
+  }
+
+  addNewKeyValue(key: string, value: any) {
+    let jsonValue = JSON.stringify(value);
+    this.storage.set(key, jsonValue);
+  }
+
+  getKeyValue(key: string): any {
+    this.storage.get(key);
+  }
+
+  removeKeyValue(key: string) {
+    this.storage.remove(key);
   }
 }
