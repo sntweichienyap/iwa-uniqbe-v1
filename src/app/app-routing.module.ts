@@ -36,14 +36,12 @@ const routes: Routes = [
   },
   { path: 'fulfillment-details', loadChildren: './fulfillment/fulfillment-details/fulfillment-details.module#FulfillmentDetailsPageModule' },
   { path: 'fulfillment-edit-details', loadChildren: './fulfillment/fulfillment-edit-details/fulfillment-edit-details.module#FulfillmentEditDetailsPageModule' },
-  { path: 'fulfillment-item-details', loadChildren: './fulfillment/fulfillment-item-details/fulfillment-item-details.module#FulfillmentItemDetailsPageModule' },  { path: 'sales-order-listing', loadChildren: './sales-order/sales-order-listing/sales-order-listing.module#SalesOrderListingPageModule' },
+  { path: 'fulfillment-item-details', loadChildren: './fulfillment/fulfillment-item-details/fulfillment-item-details.module#FulfillmentItemDetailsPageModule' },
+  { path: 'sales-order-listing', loadChildren: './sales-order/sales-order-listing/sales-order-listing.module#SalesOrderListingPageModule' },
   { path: 'sales-order-details', loadChildren: './sales-order/sales-order-details/sales-order-details.module#SalesOrderDetailsPageModule' },
   { path: 'modal-page', loadChildren: './modal-page/modal-page.module#ModalPagePageModule' },
 
 
-
-
-  
 
 ];
 

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
-import {IonFab} from "@ionic/angular";
+import { IonFab } from "@ionic/angular";
 
 import { DdlService } from "./../../services/ddl.service";
 import { IDdlResult } from "./../../models/ddl.model";
@@ -32,7 +32,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
-    private utils: Util,
+    private utils: Util
   ) {
     this.createForm = formBuilder.group({
       centerID: 0,
@@ -74,7 +74,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     }
   }
 
-  onCreateFormChange() {
+  private onCreateFormChange() {
     this.createForm.get("hasPO").valueChanges.subscribe(val => {
       if (val) {
         this.createForm.controls["poNo"].enable();
@@ -112,7 +112,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
       Subject: this.createForm.controls.subject.value,
       ReceivedDT: dotNetReceiveDate,
       Remark: this.createForm.controls.remark.value,
-      AccessID: this.databaseService.getUserDetails().AccessID,
+      AccessID: this.databaseService.getUserDetails().AccessID
     };
 
     this.loaderBox.present().then(() => {
@@ -120,10 +120,12 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
         data => {
           this.loaderBox.dismiss();
 
-          if (data.ResponseCode.isApiSuccess()) {       
+          if (data.ResponseCode.isApiSuccess()) {
             fab.close();
             this.utils.resetForm(this.createForm);
-            this.router.navigateByUrl(`/stock-upload-details/${data.StockUploadID}`);
+            this.router.navigateByUrl(
+              `/stock-upload-details/${data.StockUploadID}`
+            );
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }

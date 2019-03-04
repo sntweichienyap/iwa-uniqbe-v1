@@ -1,126 +1,130 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button ></ion-back-button>
-        </ion-buttons>
-        <ion-title>GR/GRPO Receiving</ion-title>
-        <ion-buttons slot="end" class="header-right-btn">
-            Confirm
-          </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>GR/GRPO Receiving</ion-title>
+    <ion-buttons (click)="onConfirm()" slot="end" class="header-right-btn">
+      Confirm
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list lines="full">
-        <ion-item>
-          <ion-label>
-            <p>Center</p>
-            <span>U Mobile Warehouse</span>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <p>DO No</p>
-            <span>P10001</span>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <p>PO No</p>
-            <span>P10001</span>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <p>AWB No</p>
-            <span>P10001</span>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <p>Subject</p>
-            <span>P10001</span>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            <p>Received</p>
-            <span>25/08/2016</span>
-          </ion-label>
-        </ion-item>
-        <ion-item >
-          <ion-label (click)="toggle()">
-            <p>Remark</p>
-            <span>P10001</span>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="isVisible">
-          <ion-label>
-            <p>Status</p>
-            <span>Pending</span>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      <!-- <ion-fab-button class="btn-edit" color="secondary" (click)="edit()">
-        <ion-icon name="create"></ion-icon>
-      </ion-fab-button> -->
-      <br />
-      
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>
+        <p>Center</p>
+        <span>{{ stockUploadDetails.center }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>DO No</p>
+        <span>{{ stockUploadDetails.doNo }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>PO No</p>
+        <span>{{ stockUploadDetails.poNo }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>AWB No</p>
+        <span>{{ stockUploadDetails.awbNo }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Subject</p>
+        <span>{{ stockUploadDetails.subject }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>Received</p>
+        <span>25/08/2016</span>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label (click)="toggleInfoList()">
+        <p>Remark</p>
+        <span>{{ stockUploadDetails.remark }}</span>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="isVisible">
+      <ion-label>
+        <p>Status</p>
+        <span>{{ stockUploadDetails.status }}</span>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-      
+  <br />
 
+  <div class="btn-add" (click)="onCreateItem()">
+    <ion-icon name="add" slot="start"> </ion-icon><span>Add</span>
+  </div>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Items (2)</ion-label>
+    </ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label><span>Item A</span></ion-label>
+        <span slot="end"><input class="qty-input" />/10</span>
+      </ion-item>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>IPhone X</ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="onScanBarcode(item)" color="light">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-item-option>
+        <ion-item-option (click)="onViewItem()" color="light">
+          <ion-icon
+            name="information-circle-outline"
+            color="secondary"
+          ></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>IPhone XS</ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="onScanBarcode(item)" color="light">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-item-option>
+        <ion-item-option (click)="onViewItem()" color="light">
+          <ion-icon
+            name="information-circle-outline"
+            color="secondary"
+          ></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-      <div class="btn-add" (click)="add()">
-        <ion-icon name="add" slot="start"> </ion-icon><span>Add</span>
-      </div>
-      <ion-list>
-          <ion-list-header>
-              <ion-label>Items (2)</ion-label>
-          </ion-list-header>
-          <ion-item-sliding>
-              <ion-item>
-                <ion-label><span>Item A</span></ion-label>
-                <span slot="end"><input class="qty-input" />/10</span>
-              </ion-item>
-          </ion-item-sliding>
-          <ion-item-sliding>
-              <ion-item>
-                <ion-label>IPhone X</ion-label>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option (click)="unread(item)" color="light">
-                    <ion-icon name="trash"color="danger" ></ion-icon>
-                </ion-item-option>
-              <ion-item-option (click)="viewItem()" color="light">
-                  <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-          <ion-item-sliding>
-              <ion-item>
-                <ion-label>IPhone XS</ion-label>
-              </ion-item>
-              <ion-item-options side="end">
-                  <ion-item-option (click)="unread(item)" color="light">
-                      <ion-icon name="trash"color="danger" ></ion-icon>
-                  </ion-item-option>
-                <ion-item-option (click)="viewItem()" color="light">
-                    <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
-                </ion-item-option>
-              </ion-item-options>
-          </ion-item-sliding>
-      </ion-list>
+  <ion-fab class="btn-position-right">
+    <ion-fab-button>
+      <ion-icon name="apps"></ion-icon>
+    </ion-fab-button>
 
-      <ion-fab class="btn-position-right">
-        <ion-fab-button>
-          <ion-icon name="apps"></ion-icon>
-        </ion-fab-button>
-      
-        <ion-fab-list side="top">
-          <ion-fab-button [routerLink]="['/home']" data-desc="Home"><ion-icon name="home"></ion-icon></ion-fab-button>
-          <ion-fab-button (click)="edit()" data-desc="Edit"><ion-icon name="create"></ion-icon></ion-fab-button>
-        </ion-fab-list>
-      
-      </ion-fab>
-      <div class="footer-space"></div>
+    <ion-fab-list side="top">
+      <ion-fab-button [routerLink]="['/home']" data-desc="Home"
+        ><ion-icon name="home"></ion-icon
+      ></ion-fab-button>
+      <ion-fab-button (click)="onUpdate()" data-desc="Edit"
+        ><ion-icon name="create"></ion-icon
+      ></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <div class="footer-space"></div>
 </ion-content>

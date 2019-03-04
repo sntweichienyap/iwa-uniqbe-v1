@@ -21,13 +21,19 @@ export interface IStockUploadDetailsResponse
   extends BaseInterface.IBaseResponse {
   StockUploadID: number;
   CenterID: number;
+  CenterName: string;
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT: string;
+  ReceiveDT: string;
   AWBNumber: string;
   Remark: string;
   Status: string;
+  StockUploadItemSummaryList: {
+    IsSerialized: boolean;
+    Model: string;
+    Quantity: number;
+  }[];
 }
 
 export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
@@ -35,7 +41,7 @@ export interface IStockUploadCreateRequest extends BaseInterface.IBaseRequest {
   Subject: string;
   DONo: string;
   PONo?: string;
-  ReceivedDT: String;
+  ReceivedDT: string;
   AWBNumber: string;
   Remark: string;
 }

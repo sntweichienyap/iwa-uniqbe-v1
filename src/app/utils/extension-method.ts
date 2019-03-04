@@ -2,44 +2,53 @@ import { Environment } from "./environment";
 
 declare global {
   interface Number {
-    isEmpty(): Boolean;
+    isEmpty(): boolean;
   }
 
   interface String {
-    isApiSuccess(): Boolean;
-    isEmpty(): Boolean;
-    convertToDotNetJSONDate(): String;
+    isApiSuccess(): boolean;
+    isEmpty(): boolean;
+    convertToDotNetJSONDate(): string;
+    convertToJSDate(): Date;
   }
 
   interface Boolean {
-    convertToStringFlag(): String;
+    convertToStringFlag(): string;
   }
 
   interface Date {
-    
+
   }
 
   interface Array<T> { }
 }
 
-Boolean.prototype.convertToStringFlag = function (): String {
+Boolean.prototype.convertToStringFlag = function (): string {
   return this ? "Yes" : "No";
 };
 
-String.prototype.isApiSuccess = function (): Boolean {
+String.prototype.isApiSuccess = function (): boolean {
   return this === Environment.API_FLAG_SUCCESS;
 };
 
-String.prototype.isEmpty = function (): Boolean {
+String.prototype.isEmpty = function (): boolean {
   return this === "";
 };
 
-String.prototype.convertToDotNetJSONDate = function (): String {
+String.prototype.convertToDotNetJSONDate = function (): string {
   var newDate = Date.parse(this);
-  return '/Date(' + newDate + ')/';
+  return '/Date(' + newDate + '+0800)/';
 }
 
-Number.prototype.isEmpty = function (): Boolean {
+String.prototype.convertToJSDate = function (): Date {
+    var pattern = /Date\(([^)]+)\)/;
+    var results = pattern.exec(this);
+    var dt = new Date(parseFloat(results[1]));
+
+    return dt;
+}
+
+Number.prototype.isEmpty = function (): boolean {
   return 0 >= this;
 };
 
