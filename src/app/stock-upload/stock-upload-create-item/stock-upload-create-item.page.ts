@@ -13,6 +13,7 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
 import { Util } from "./../../utils/util";
+import { IModelIndexResponse, IModelIndexRequest } from 'src/app/models/model.model';
 
 @Component({
   selector: 'app-stock-upload-create-item',
@@ -29,6 +30,7 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
   paramSubscription: Subscription;
   createItemForm: FormGroup;
   stockUploadID: number;
+  modelIndexResponse: IModelIndexResponse;
 
   constructor(
     private router: Router,
@@ -37,7 +39,10 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
     private databaseService: DatabaseService,
     private ddlService: DdlService,
     private formBuilder: FormBuilder,
-    private utils: Util
+    private utils: Util,
+    private alertBox: Alert,
+    private loaderBox: Loader,
+    private apiService: ApiService,
   ) {
     this.createItemForm = formBuilder.group({
       categoryID: 0,
@@ -51,7 +56,8 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllDropdownlist();
-
+    this.getModelDetails();
+    
     this.navigationSubscription = this.router.events.subscribe(
       (event: Event) => {
         if (
@@ -128,5 +134,29 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
     this.modelList = this.ddlService.getModel();
     this.colourList = this.ddlService.getColour();
     this.typeList = this.ddlService.getType();
+  }
+
+  private getModelDetails() {
+    let request: IModelIndexRequest = {
+      Active: true,
+      AccessID: this.databaseService.getUserDetails().AccessID
+    };
+
+    this.loaderBox.present().then(() => {
+      this.apiService.modelIndex(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
+
+          if (data.ResponseCode.isApiSuccess()) {
+            this.modelIndexResponse = data;
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
   }
 }

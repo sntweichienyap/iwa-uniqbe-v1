@@ -131,7 +131,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   onCreateItem() {
-    this.router.navigateByUrl("/stock-upload-create-item");
+    this.router.navigateByUrl(`/stock-upload-create-item/${this.stockUploadID}`);
   }
 
   onViewItem() {
@@ -152,7 +152,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (result) => {
-            
+
           }
         }, {
           text: 'Okay',

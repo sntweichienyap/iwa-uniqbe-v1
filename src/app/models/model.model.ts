@@ -9,5 +9,6 @@ export interface IModelIndexResponse extends BaseInterface.IBaseResponse {
         ID: number;
         Name: string;
         BrandID: number;
+        IsSerialized: boolean;
     }[];
 }
