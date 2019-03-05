@@ -1,23 +1,96 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, Event, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AlertController } from "@ionic/angular";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
+
+import { DdlService } from "./../../services/ddl.service";
+import { IDdlResult } from "./../../models/ddl.model";
 import { DatabaseService } from './../../services/database.service';
 import { Environment } from './../../utils/environment';
+import { IStockUploadCreateRequest } from "./../../models/stock-upload.model";
+import { Alert } from "./../../utils/alert";
+import { Loader } from "./../../utils/loader";
+import { ApiService } from "./../../services/api.service";
+import { Util } from "./../../utils/util";
 
 @Component({
   selector: 'app-stock-upload-create-item',
   templateUrl: './stock-upload-create-item.page.html',
   styleUrls: ['./stock-upload-create-item.page.scss'],
 })
-export class StockUploadCreateItemPage implements OnInit {
+export class StockUploadCreateItemPage implements OnInit, OnDestroy {
+  brandList: IDdlResult;
+  modelList: IDdlResult;
+  colourList: IDdlResult;
+  typeList: IDdlResult;
+  categoryList: IDdlResult;
+  navigationSubscription: Subscription;
+  paramSubscription: Subscription;
+  createItemForm: FormGroup;
+  stockUploadID: number;
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private alertCtrl: AlertController,
     private databaseService: DatabaseService,
-  ) { }
+    private ddlService: DdlService,
+    private formBuilder: FormBuilder,
+    private utils: Util
+  ) {
+    this.createItemForm = formBuilder.group({
+      categoryID: 0,
+      brandID: 0,
+      modelID: 0,
+      colourID: 0,
+      typeID: 0,
+      quantity: 0,
+    });
+  }
 
   ngOnInit() {
+    this.getAllDropdownlist();
+
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.url == "/stock-upload-create-item"
+        ) {
+          this.getAllDropdownlist();
+        }
+      }
+    );
+
+    this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
+      this.stockUploadID = +params.get("stockUploadID");
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+
+    if (this.paramSubscription) {
+      this.paramSubscription.unsubscribe();
+    }
+  }
+
+  onCreate() {
+    console.log(this.createItemForm.controls.categoryID.value);
+    console.log(this.createItemForm.controls.brandID.value);
+    console.log(this.createItemForm.controls.modelID.value);
+    console.log(this.createItemForm.controls.colourID.value);
+    console.log(this.createItemForm.controls.typeID.value);
+    console.log(this.createItemForm.controls.quantity.value);
+
+    this.utils.resetForm(this.createItemForm);
+
+    // After save to database, pop alert say item created and clear the form
+
+    // this.router.navigateByUrl(`/stock-upload-details/${this.stockUploadID}`);
   }
 
   onBackToHome() {
@@ -49,7 +122,11 @@ export class StockUploadCreateItemPage implements OnInit {
     await alert.present();
   }
 
-  add() {
-    this.router.navigateByUrl('/stock-upload-details');
+  private getAllDropdownlist() {
+    this.categoryList = this.ddlService.getCategory();
+    this.brandList = this.ddlService.getBrand();
+    this.modelList = this.ddlService.getModel();
+    this.colourList = this.ddlService.getColour();
+    this.typeList = this.ddlService.getType();
   }
 }
