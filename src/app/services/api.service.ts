@@ -30,7 +30,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   //#region Private Function
 
@@ -44,8 +44,8 @@ export class ApiService {
 
       let errorMessage = `Backend returned code ${
         error.status
-      }, body was: ${JSON.stringify(error.error)}`;
-      
+        }, body was: ${JSON.stringify(error.error)}`;
+
       console.log(JSON.stringify(error));
 
       console.error(errorMessage);
@@ -189,13 +189,27 @@ export class ApiService {
 
   forgotPassword(
     request: UserInterface.IForgotPasswordRequest
-  ): Observable<UserInterface.IForgotPasswordResponse> {
-    const url = `${authUrl}/forgotPassword`;
+  ): Observable<any> {
+    const url = `https://reqres.in/api/login`;
 
+    let newRequest = {
+      "email": "peter@klaven",
+      "password": "cityslicka"
+    };
     return this.httpClient
-      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
+      .post(url, newRequest, httpOptions)
       .pipe(catchError(this.handleError));
   }
+
+  // forgotPassword(
+  //   request: UserInterface.IForgotPasswordRequest
+  // ): Observable<UserInterface.IForgotPasswordResponse> {
+  //   const url = `${authUrl}/forgotPassword`;
+
+  //   return this.httpClient
+  //     .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
+  //     .pipe(catchError(this.handleError));
+  // }
 
   //#endregion "Authentication"
 
