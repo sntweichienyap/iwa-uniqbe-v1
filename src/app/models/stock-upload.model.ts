@@ -29,10 +29,10 @@ export interface IStockUploadDetailsResponse
   AWBNumber: string;
   Remark: string;
   Status: string;
-  StockUploadItemSummaryList: {
-    IsSerialized: boolean;
+  POItemList: {
     Model: string;
-    Quantity: number;
+    OrderQuantity: number;
+    IsSerial: boolean;
   }[];
 }
 

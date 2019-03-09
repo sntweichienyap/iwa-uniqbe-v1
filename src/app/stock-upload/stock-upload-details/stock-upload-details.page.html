@@ -4,8 +4,10 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>GR/GRPO Receiving</ion-title>
-    <ion-buttons (click)="onConfirm()" slot="end" class="header-right-btn">
-      Confirm
+    <ion-buttons slot="end" class="header-right-btn">
+      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled] = "false">
+        Confirm
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -64,12 +66,12 @@
 
   <br />
 
-  <div class="btn-add" (click)="onCreateItem()">
+  <div class="btn-add" (click)="onCreateItem()" *ngIf="stockUploadDetails.canAddItem">
     <ion-icon name="add" slot="start"> </ion-icon><span>Add</span>
   </div>
   <ion-list>
     <ion-list-header>
-      <ion-label>Items (2)</ion-label>
+      <ion-label>Items ({{ stockUploadDetails.poItemList.length }})</ion-label>
     </ion-list-header>
     <ion-item-sliding>
       <ion-item>
@@ -86,26 +88,20 @@
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-item-option>
         <ion-item-option (click)="onViewItem()" color="light">
-          <ion-icon
-            name="information-circle-outline"
-            color="secondary"
-          ></ion-icon>
+          <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
     <ion-item-sliding>
       <ion-item>
-        <ion-label>IPhone XS</ion-label>
+        <ion-label (click)="onScanBarcode()">IPhone XS</ion-label>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="onScanBarcode(item)" color="light">
+        <ion-item-option (click)="onRemoveItem()" color="light">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-item-option>
         <ion-item-option (click)="onViewItem()" color="light">
-          <ion-icon
-            name="information-circle-outline"
-            color="secondary"
-          ></ion-icon>
+          <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
@@ -117,12 +113,12 @@
     </ion-fab-button>
 
     <ion-fab-list side="top">
-      <ion-fab-button (click)="onBackToHome()" 
-        ><ion-icon name="home"></ion-icon
-      ></ion-fab-button>
-      <ion-fab-button (click)="onUpdate()" 
-        ><ion-icon name="create"></ion-icon
-      ></ion-fab-button>
+      <ion-fab-button (click)="onBackToHome()">
+        <ion-icon name="home"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="onUpdate()">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 

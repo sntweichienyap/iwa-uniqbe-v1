@@ -12,6 +12,7 @@ export interface IStorageUserDetails {
 
 export interface IStorageStockUploadItemList {
   ItemList: {
+    ItemID: number;
     CategoryID: number;
     Category: string;
     BrandID: number;
@@ -23,7 +24,8 @@ export interface IStorageStockUploadItemList {
     TypeID: number;
     Type: string;
     IsSerial: boolean;
+    OrderQuantity: number;
+    FulfillQuantity: number;
     SerialImei: string[];
-    Quantity: number
   }[],
 }

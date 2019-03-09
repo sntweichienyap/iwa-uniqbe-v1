@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { AlertController } from "@ionic/angular";
-
 import { Subscription } from "rxjs";
 
 import { DatabaseService } from "./../../services/database.service";
@@ -22,17 +21,19 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   navigationSubscription: Subscription;
   paramSubscription: Subscription;
   stockUploadID: number;
-  storageStockUploadItemList = {} as IStorageStockUploadItemList;
+  storageStockUploadItemList = { ItemList: [] } as IStorageStockUploadItemList;
   stockUploadDetails = {
     stockUploadID: 0,
     center: "",
+    canAddItem: false,
     doNo: "",
     poNo: "",
     awbNo: "",
     subject: "",
     receiveDT: "",
     remark: "",
-    status: ""
+    status: "",
+    poItemList: []
   };
 
   constructor(
@@ -76,46 +77,6 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  private getStockUploadDetails() {
-    let request: IStockUploadDetailsRequest = {
-      StockUploadID: this.stockUploadID,
-      AccessID: this.databaseService.getUserDetails().AccessID
-    };
-
-    this.loaderBox.present().then(() => {
-      this.apiService.stockUploadDetails(request).subscribe(
-        data => {
-          this.loaderBox.dismiss();
-
-          if (data.ResponseCode.isApiSuccess()) {
-            this.stockUploadDetails.stockUploadID = data.StockUploadID;
-            this.stockUploadDetails.center = data.CenterName;
-            this.stockUploadDetails.doNo = data.DONo;
-            this.stockUploadDetails.poNo = data.PONo;
-            this.stockUploadDetails.awbNo = data.AWBNumber;
-            this.stockUploadDetails.subject = data.Subject;
-            this.stockUploadDetails.receiveDT = data.ReceiveDT;
-            this.stockUploadDetails.remark = data.Remark;
-            this.stockUploadDetails.status = data.Status;
-          } else {
-            this.alertBox.apiFailShow(data.ResponseMessage);
-          }
-        },
-        error => {
-          this.loaderBox.dismiss();
-        }
-      );
-    });
-  }
-
-  private getStockUploadItemListFromStorage() {
-    let storageResult = this.databaseService.getKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
-
-    if (storageResult) {
-      this.storageStockUploadItemList = JSON.parse(storageResult);
-    }
-  }
-
   onConfirm() {
     console.log("Confirm");
   }
@@ -134,12 +95,20 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/stock-upload-create-item/${this.stockUploadID}`);
   }
 
+  onRemoveItem() {
+    console.log("item removed");
+  }
+
   onViewItem() {
     this.router.navigateByUrl("/stock-upload-item-details");
   }
 
   onBackToHome() {
     this.presentAlertConfirm();
+  }
+
+  toggleInfoList() {
+    this.isVisible = !this.isVisible;
   }
 
   private async presentAlertConfirm() {
@@ -167,7 +136,97 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  toggleInfoList() {
-    this.isVisible = !this.isVisible;
+  private getStockUploadDetails() {
+    let request: IStockUploadDetailsRequest = {
+      StockUploadID: this.stockUploadID,
+      AccessID: this.databaseService.getUserDetails().AccessID
+    };
+
+    this.loaderBox.present().then(() => {
+      this.apiService.stockUploadDetails(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
+
+          if (data.ResponseCode.isApiSuccess()) {
+            this.stockUploadDetails.stockUploadID = data.StockUploadID;
+            this.stockUploadDetails.center = data.CenterName;
+            this.stockUploadDetails.doNo = data.DONo;
+            this.stockUploadDetails.poNo = data.PONo;
+            this.stockUploadDetails.awbNo = data.AWBNumber;
+            this.stockUploadDetails.subject = data.Subject;
+            this.stockUploadDetails.receiveDT = data.ReceiveDT;
+            this.stockUploadDetails.remark = data.Remark;
+            this.stockUploadDetails.status = data.Status;
+            this.stockUploadDetails.canAddItem = data.PONo.isEmpty();
+
+            console.log(this.storageStockUploadItemList);
+
+            // No PO, user can add their own SKU
+            if (this.stockUploadDetails.canAddItem) {
+              if (!this.storageStockUploadItemList.ItemList) {
+                return;
+              }
+
+              this.storageStockUploadItemList.ItemList.forEach(element => {
+                this.stockUploadDetails.poItemList.push({
+                  ItemID: element.ItemID,
+                  Model: element.Model,
+                  IsSerial: element.IsSerial,
+                  OrderQuantity: element.OrderQuantity,
+                  FulfillQuantity: element.FulfillQuantity,
+                });
+              });
+            }
+            else { // Has PO, SKU will be loaded from system
+              if (!data.POItemList) {
+                return;
+              }
+
+              let itemCount = 1;
+              data.POItemList.forEach(element => {
+                this.stockUploadDetails.poItemList.push({
+                  ItemID: itemCount++,
+                  Model: element.Model,
+                  IsSerial: element.IsSerial,
+                  OrderQuantity: element.OrderQuantity,
+                  FulfillQuantity: 0,
+                });
+              });
+            }
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
+  }
+
+  private getStockUploadItemListFromStorage() {
+    let storageResult = this.databaseService.getKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+
+    if (storageResult) {
+      this.storageStockUploadItemList = JSON.parse(storageResult);
+    }
+
+    this.storageStockUploadItemList.ItemList.push({
+      ItemID: 1,
+      CategoryID: 1,
+      Category: "Phone",
+      BrandID: 1,
+      Brand: "Apple",
+      ModelID: 1,
+      Model: "iPhone Xs Max",
+      ColourID: 1,
+      Colour: "Black",
+      TypeID: 1,
+      Type: "Sales",
+      IsSerial: true,
+      OrderQuantity: 10,
+      FulfillQuantity: 0,
+      SerialImei: []
+    });
   }
 }
