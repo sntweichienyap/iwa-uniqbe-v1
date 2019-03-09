@@ -189,27 +189,13 @@ export class ApiService {
 
   forgotPassword(
     request: UserInterface.IForgotPasswordRequest
-  ): Observable<any> {
-    const url = `https://reqres.in/api/login`;
+  ): Observable<UserInterface.IForgotPasswordResponse> {
+    const url = `${authUrl}/forgotPassword`;
 
-    let newRequest = {
-      "email": "peter@klaven",
-      "password": "cityslicka"
-    };
     return this.httpClient
-      .post(url, newRequest, httpOptions)
+      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
-
-  // forgotPassword(
-  //   request: UserInterface.IForgotPasswordRequest
-  // ): Observable<UserInterface.IForgotPasswordResponse> {
-  //   const url = `${authUrl}/forgotPassword`;
-
-  //   return this.httpClient
-  //     .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
-  //     .pipe(catchError(this.handleError));
-  // }
 
   //#endregion "Authentication"
 
