@@ -30,9 +30,20 @@ export interface IStockUploadDetailsResponse
   Remark: string;
   Status: string;
   POItemList: {
+    ItemID: number;
+    CategoryID: number;
+    Category: string;
+    BrandID: number;
+    Brand: string;
+    ModelID: number;
     Model: string;
-    OrderQuantity: number;
+    ColourID: number;
+    Colour: string;
+    TypeID: number;
+    Type: string;
     IsSerial: boolean;
+    OrderQuantity: number;
+    FulfillQuantity: number;
   }[];
 }
 
