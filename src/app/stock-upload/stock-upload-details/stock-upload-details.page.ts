@@ -111,6 +111,12 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     this.isVisible = !this.isVisible;
   }
 
+  hasFulfillItem(): boolean {
+    return this.stockUploadDetails.poItemList.some(function (element) {
+      return element.FulfillQuantity > 0;
+    })
+  }
+
   private async presentAlertConfirm() {
     const alert = await this.alertCtrl.create({
       header: 'Caution',

@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>GR/GRPO Receiving</ion-title>
     <ion-buttons slot="end" class="header-right-btn">
-      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled] = "false">
+      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled] = "!hasFulfillItem()">
         Confirm
       </ion-button>
     </ion-buttons>
