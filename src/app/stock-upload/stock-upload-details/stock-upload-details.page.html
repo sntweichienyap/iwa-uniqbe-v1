@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>GR/GRPO Receiving</ion-title>
     <ion-buttons slot="end" class="header-right-btn">
-      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled]="!hasFulfillItem()">
+      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled]="!canConfirm">
         Confirm
       </ion-button>
     </ion-buttons>
@@ -74,41 +74,43 @@
       <ion-label>Items ({{ stockUploadDetails.poItemList.length }})</ion-label>
     </ion-list-header>
 
-    <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList" #slidingItem>
-      <div *ngIf="poItem.IsSerial">
-        <ion-item>
-          <ion-label (click)="onScanBarcode(poItem.ItemID)">{{ poItem.Model }}</ion-label>
-          <span slot="end">{{ poItem.FulfillQuantity}}/{{ poItem.OrderQuantity }}</span>
-        </ion-item>
-        <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
-          <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
-            <ion-icon name="trash" color="danger"></ion-icon>
-          </ion-item-option>
-          <ion-item-option (click)="onViewItem(slidingItem, poItem.ItemID)" color="light">
-            <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </div>
+    <form #nonSerialItemForm = "ngForm">
+      <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList; let i = index;" #slidingItem>
+        <div *ngIf="poItem.IsSerial">
+          <ion-item>
+            <ion-label (click)="onScanBarcode(poItem.ItemID)">{{ poItem.Model }}</ion-label>
+            <span slot="end">{{ poItem.FulfillQuantity}}/{{ poItem.OrderQuantity }}</span>
+          </ion-item>
+          <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
+            <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
+              <ion-icon name="trash" color="danger"></ion-icon>
+            </ion-item-option>
+            <ion-item-option (click)="onViewItem(slidingItem, poItem.ItemID)" color="light">
+              <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </div>
 
-      <div *ngIf="!poItem.IsSerial">
-        <ion-item>
-          <ion-label><span>{{ poItem.Model }}</span></ion-label>
-          <span slot="end"><input min=0 type="number" class="qty-input" />/{{ poItem.OrderQuantity }}</span>
-        </ion-item>
-        <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
-          <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
-            <ion-icon name="trash" color="danger"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </div>
-    </ion-item-sliding>
+        <div *ngIf="!poItem.IsSerial">
+          <ion-item>
+            <ion-label><span>{{ poItem.Model }}</span></ion-label>
+            <span slot="end"><input min="0" max="9999" type="number" name="nonSerialFulfillQty-{{i}}" [(ngModel)]="poItem.FulfillQuantity"
+                class="qty-input" />/{{ poItem.OrderQuantity }}</span>
+          </ion-item>
+          <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
+            <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
+              <ion-icon name="trash" color="danger"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </div>
+      </ion-item-sliding>
+    </form>
   </ion-list>
 
   <ion-fab class="btn-position-right">
     <ion-fab-button>
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
-
     <ion-fab-list side="top">
       <ion-fab-button (click)="onBackToHome()">
         <ion-icon name="home"></ion-icon>

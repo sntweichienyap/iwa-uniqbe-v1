@@ -17,6 +17,7 @@ import { IStorageStockUploadItemList } from "./../../models/local-storage.model"
   styleUrls: ["./stock-upload-details.page.scss"]
 })
 export class StockUploadDetailsPage implements OnInit, OnDestroy {
+  canConfirm = false;
   isVisible = true;
   navigationSubscription: Subscription;
   paramSubscription: Subscription;
@@ -46,7 +47,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
       this.stockUploadID = +params.get("stockUploadID");
     });
@@ -245,7 +246,10 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
                 });
               });
             }
-          } else {
+
+            this.canConfirm = this.hasFulfillItem();
+          } 
+          else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
         },
@@ -297,7 +301,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       Type: "Sales",
       IsSerial: false,
       OrderQuantity: 30,
-      FulfillQuantity: 0,
+      FulfillQuantity: 30,
       SerialImei: []
     });
   }
