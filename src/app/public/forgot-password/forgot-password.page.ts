@@ -45,6 +45,10 @@ export class ForgotPasswordPage implements OnInit {
         data => {
           this.loaderBox.dismiss();
           
+          console.log(JSON.stringify(data));
+          console.log(JSON.stringify(data.CenterName));
+          console.log(JSON.stringify(data.POItemList));
+          
           if (data.ResponseCode.isApiSuccess()) {
             this.utils.resetForm(this.forgotPasswordForm);
 

@@ -186,16 +186,31 @@ export class ApiService {
       .post<UserInterface.ILogoutResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
-
+  
   forgotPassword(
     request: UserInterface.IForgotPasswordRequest
-  ): Observable<UserInterface.IForgotPasswordResponse> {
-    const url = `${authUrl}/forgotPassword`;
+  ): Observable<StockUploadInterface.IStockUploadDetailsResponse> {
+    
+    const stockUploadDetailsRequest: StockUploadInterface.IStockUploadDetailsRequest = {
+      StockUploadID: 71,
+      AccessID: 258
+    };
+    const url = `${apiUrl}/stockUploadDetails`;
 
     return this.httpClient
-      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
+      .post<StockUploadInterface.IStockUploadDetailsResponse>(url, stockUploadDetailsRequest, httpOptions)
       .pipe(catchError(this.handleError));
   }
+
+  // forgotPassword(
+  //   request: UserInterface.IForgotPasswordRequest
+  // ): Observable<UserInterface.IForgotPasswordResponse> {
+  //   const url = `${authUrl}/forgotPassword`;
+
+  //   return this.httpClient
+  //     .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
+  //     .pipe(catchError(this.handleError));
+  // }
 
   //#endregion "Authentication"
 
