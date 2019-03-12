@@ -18,7 +18,6 @@ import * as ColourInterface from "../models/colour.model";
 import * as TypeInterface from "../models/type.model";
 import * as UnitOfMeasureInterface from "../models/unit-of-measure.model";
 
-const authUrl = environment.authUrl;
 const apiUrl = environment.apiUrl;
 const httpOptions = {
   headers: new HttpHeaders({
@@ -67,7 +66,7 @@ export class ApiService {
   categoryIndex(
     request: CategoryInterface.ICategoryIndexRequest
   ): Observable<CategoryInterface.ICategoryIndexResponse> {
-    const url = `${apiUrl}/catogeryIndex`;
+    const url = `${apiUrl}/CatogeryIndex`;
 
     return this.httpClient
       .post<CategoryInterface.ICategoryIndexResponse>(url, request, httpOptions)
@@ -81,56 +80,56 @@ export class ApiService {
   brandIndex(
     request: BrandInterface.IBrandIndexRequest
   ): Observable<BrandInterface.IBrandIndexResponse> {
-    const url = `${apiUrl}/brandIndex`;
+    const url = `${apiUrl}/BrandIndex`;
 
     return this.httpClient
       .post<BrandInterface.IBrandIndexResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion Center
+  //#endregion Brand
 
   //#region Model
 
   modelIndex(
     request: ModelInterface.IModelIndexRequest
   ): Observable<ModelInterface.IModelIndexResponse> {
-    const url = `${apiUrl}/modelIndex`;
+    const url = `${apiUrl}/ModelIndex`;
 
     return this.httpClient
       .post<ModelInterface.IModelIndexResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion Center
+  //#endregion Model
 
   //#region Colour
 
   colourIndex(
     request: ColourInterface.IColourIndexRequest
   ): Observable<ColourInterface.IColourIndexResponse> {
-    const url = `${apiUrl}/colourIndex`;
+    const url = `${apiUrl}/ColourIndex`;
 
     return this.httpClient
       .post<ColourInterface.IColourIndexResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion Center
+  //#endregion Colour
 
   //#region Type
 
   typeIndex(
     request: TypeInterface.ITypeIndexRequest
   ): Observable<TypeInterface.ITypeIndexResponse> {
-    const url = `${apiUrl}/typeIndex`;
+    const url = `${apiUrl}/TypeIndex`;
 
     return this.httpClient
       .post<TypeInterface.ITypeIndexResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion Center
+  //#endregion Type
 
   //#region Unit of Measure
 
@@ -148,7 +147,7 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion Center
+  //#endregion Unit of Measure
 
   //#region Center
 
@@ -164,12 +163,12 @@ export class ApiService {
 
   //#endregion Center
 
-  //#region "Authentication"
+  //#region Authentication
 
   login(
     request: UserInterface.ILoginRequest
   ): Observable<UserInterface.ILoginResponse> {
-    const url = `${authUrl}/login`;
+    const url = `${apiUrl}/Auth/Login`;
     console.log(url);
 
     return this.httpClient
@@ -180,7 +179,7 @@ export class ApiService {
   logout(
     request: UserInterface.ILogoutRequest
   ): Observable<UserInterface.ILogoutResponse> {
-    const url = `${authUrl}/logout`;
+    const url = `${apiUrl}/Auth/Logout`;
 
     return this.httpClient
       .post<UserInterface.ILogoutResponse>(url, request, httpOptions)
@@ -189,37 +188,22 @@ export class ApiService {
   
   forgotPassword(
     request: UserInterface.IForgotPasswordRequest
-  ): Observable<StockUploadInterface.IStockUploadDetailsResponse> {
-    
-    const stockUploadDetailsRequest: StockUploadInterface.IStockUploadDetailsRequest = {
-      StockUploadID: 71,
-      AccessID: 258
-    };
-    const url = `${apiUrl}/stockUploadDetails`;
+  ): Observable<UserInterface.IForgotPasswordResponse> {
+    const url = `${apiUrl}/Auth/ForgotPassword`;
 
     return this.httpClient
-      .post<StockUploadInterface.IStockUploadDetailsResponse>(url, stockUploadDetailsRequest, httpOptions)
+      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
-  // forgotPassword(
-  //   request: UserInterface.IForgotPasswordRequest
-  // ): Observable<UserInterface.IForgotPasswordResponse> {
-  //   const url = `${authUrl}/forgotPassword`;
+  //#endregion Authentication
 
-  //   return this.httpClient
-  //     .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
-  //     .pipe(catchError(this.handleError));
-  // }
-
-  //#endregion "Authentication"
-
-  //#region "Stock Upload"
+  //#region Stock Upload
 
   stockUploadIndex(
     request: StockUploadInterface.IStockUploadIndexRequest
   ): Observable<StockUploadInterface.IStockUploadIndexResponse> {
-    const url = `${apiUrl}/stockUploadIndex`;
+    const url = `${apiUrl}/StockUploadIndex`;
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadIndexResponse>(
@@ -233,7 +217,7 @@ export class ApiService {
   stockUploadDetails(
     request: StockUploadInterface.IStockUploadDetailsRequest
   ): Observable<StockUploadInterface.IStockUploadDetailsResponse> {
-    const url = `${apiUrl}/stockUploadDetails`;
+    const url = `${apiUrl}/StockUploadDetails`;
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadDetailsResponse>(
@@ -247,7 +231,7 @@ export class ApiService {
   stockUploadCreate(
     request: StockUploadInterface.IStockUploadCreateRequest
   ): Observable<StockUploadInterface.IStockUploadCreateResponse> {
-    const url = `${apiUrl}/stockUploadCreate`;
+    const url = `${apiUrl}/StockUploadCreate`;
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadCreateResponse>(
@@ -261,7 +245,7 @@ export class ApiService {
   stockUploadUpdate(
     request: StockUploadInterface.IStockUploadUpdateRequest
   ): Observable<StockUploadInterface.IStockUploadUpdateResponse> {
-    const url = `${apiUrl}/stockUploadUpdate`;
+    const url = `${apiUrl}/StockUploadUpdate`;
 
     return this.httpClient
       .post<StockUploadInterface.IStockUploadUpdateResponse>(
@@ -272,8 +256,8 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  //#endregion "Stock Upload"
+  //#endregion Stock Upload
 
-  //#region "Order Fulfillment"
-  //#endregion "Order Fulfillment"
+  //#region Order Fulfillment
+  //#endregion Order Fulfillment
 }
