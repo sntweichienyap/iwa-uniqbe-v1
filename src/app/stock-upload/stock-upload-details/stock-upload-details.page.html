@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>GR/GRPO Receiving</ion-title>
     <ion-buttons slot="end" class="header-right-btn">
-      <ion-button (click)="onConfirm()" class="header-right-btn" [disabled]="!canConfirm">
+      <ion-button (click)="onConfirm(stockUploadItemForm.form)" class="header-right-btn" [disabled]="!canConfirm && !stockUploadItemForm.valid">
         Confirm
       </ion-button>
     </ion-buttons>
@@ -74,8 +74,8 @@
       <ion-label>Items ({{ stockUploadDetails.poItemList.length }})</ion-label>
     </ion-list-header>
 
-    <form #nonSerialItemForm = "ngForm">
-      <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList; let i = index;" #slidingItem>
+    <form #stockUploadItemForm = "ngForm">
+      <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList" #slidingItem>
         <div *ngIf="poItem.IsSerial">
           <ion-item>
             <ion-label (click)="onScanBarcode(poItem.ItemID)">{{ poItem.Model }}</ion-label>
@@ -89,12 +89,13 @@
               <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
             </ion-item-option>
           </ion-item-options>
+          <input hidden name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"/>
         </div>
 
         <div *ngIf="!poItem.IsSerial">
           <ion-item>
             <ion-label><span>{{ poItem.Model }}</span></ion-label>
-            <span slot="end"><input min="0" max="9999" type="number" name="nonSerialFulfillQty-{{i}}" [(ngModel)]="poItem.FulfillQuantity"
+            <span slot="end"><input required min="0" max="9999" type="number" name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"
                 class="qty-input" />/{{ poItem.OrderQuantity }}</span>
           </ion-item>
           <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">

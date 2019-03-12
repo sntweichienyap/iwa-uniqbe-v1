@@ -10,6 +10,7 @@ import { ApiService } from "./../../services/api.service";
 import { IStockUploadDetailsRequest } from "./../../models/stock-upload.model";
 import { Environment } from "./../../utils/environment";
 import { IStorageStockUploadItemList } from "./../../models/local-storage.model";
+import { Form, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-stock-upload-details",
@@ -47,7 +48,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
   ) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
       this.stockUploadID = +params.get("stockUploadID");
     });
@@ -78,7 +79,13 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  onConfirm() {
+  onConfirm(form: FormGroup) {
+    console.log(JSON.stringify(form.value));
+
+    this.stockUploadDetails.poItemList.forEach(item =>{
+      console.log(form.get(`fulfillQty-${item.ItemID}`).value);
+    });
+
     console.log("Confirm");
   }
 
@@ -248,7 +255,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
             }
 
             this.canConfirm = this.hasFulfillItem();
-          } 
+          }
           else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
@@ -302,6 +309,24 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       IsSerial: false,
       OrderQuantity: 30,
       FulfillQuantity: 30,
+      SerialImei: []
+    });
+
+    this.storageStockUploadItemList.ItemList.push({
+      ItemID: 3,
+      CategoryID: 2,
+      Category: "Cable",
+      BrandID: 2,
+      Brand: "Samsung",
+      ModelID: 2,
+      Model: "Samsung Cable",
+      ColourID: 2,
+      Colour: "Other",
+      TypeID: 2,
+      Type: "Sales",
+      IsSerial: false,
+      OrderQuantity: 50,
+      FulfillQuantity: 50,
       SerialImei: []
     });
   }
