@@ -14,19 +14,11 @@
   <form [formGroup]="updateForm">
     <ion-list lines="full">
       <ion-item>
-        <ion-label
-          ><span>Center</span>
-          <ion-select
-            [interfaceOptions]="customPopoverOptions"
-            interface="popover"
-            placeholder="Select Center"
-            formControlName="centerID"
-          >
-            <ion-select-option
-              *ngFor="let item of centerList.Result"
-              [value]="item.Value"
-              >{{ item.Text }}</ion-select-option
-            >
+        <ion-label><span>Center</span>
+          <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select Center"
+            formControlName="centerID">
+            <ion-select-option *ngFor="let item of centerList.Result" [value]="item.Value">{{ item.Text }}
+            </ion-select-option>
           </ion-select>
         </ion-label>
       </ion-item>
@@ -58,13 +50,13 @@
       <ion-item>
         <ion-label>
           <p><span>Subject</span></p>
-          <input  formControlName="subject" />
+          <input formControlName="subject" />
         </ion-label>
       </ion-item>
       <ion-item>
         <ion-label>
           <p><span>Received Date</span></p>
-          <ion-datetime display-format="DD MMM YYYY" formControlName="receiveDT"></ion-datetime>
+          <ion-datetime displayFormat={{dateFormat}} formControlName="receiveDT"></ion-datetime>
         </ion-label>
       </ion-item>
       <ion-item>
@@ -81,9 +73,9 @@
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"
-        ><ion-icon name="home"></ion-icon
-      ></ion-fab-button>
+      <ion-fab-button [routerLink]="['/home']">
+        <ion-icon name="home"></ion-icon>
+      </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 

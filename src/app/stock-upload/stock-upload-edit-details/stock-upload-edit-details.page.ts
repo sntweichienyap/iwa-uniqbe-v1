@@ -12,6 +12,7 @@ import { IStockUploadDetailsRequest, IStockUploadUpdateRequest } from "./../../m
 import { IDdlResult } from "./../../models/ddl.model";
 import { Util } from "./../../utils/util";
 import { DdlService } from "./../../services/ddl.service";
+import { Environment } from "./../../utils/environment";
 
 @Component({
   selector: "app-stock-upload-edit-details",
@@ -25,7 +26,8 @@ export class StockUploadEditDetailsPage implements OnInit {
   paramSubscription: Subscription;
   stockUploadID: number;
   todayDT = new Date();
-
+  dateFormat = Environment.DATE_FORMAT;
+  
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -98,7 +100,7 @@ export class StockUploadEditDetailsPage implements OnInit {
       this.apiService.stockUploadDetails(request).subscribe(
         data => {
           this.loaderBox.dismiss();
-          let hasPO = data.PONo.isEmpty() ? false : true;
+          let hasPO = data.PONo ? true : false;
 
           if (data.ResponseCode.isApiSuccess()) {
             this.updateForm.patchValue({
@@ -108,7 +110,7 @@ export class StockUploadEditDetailsPage implements OnInit {
               poNo: { value: data.PONo, disabled: !hasPO },
               awbNo: data.AWBNumber,
               subject: data.Subject,
-              receiveDT: data.ReceiveDT.convertToJSDate(),
+              receiveDT: new Date(data.ReceiveDT).toISOString(),
               remark: data.Remark,
               hasPO: hasPO
             });

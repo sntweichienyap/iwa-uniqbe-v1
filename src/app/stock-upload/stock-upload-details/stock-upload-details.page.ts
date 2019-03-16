@@ -32,7 +32,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     poNo: "",
     awbNo: "",
     subject: "",
-    receiveDT: "",
+    receiveDate: "",
     remark: "",
     status: "",
     poItemList: []
@@ -82,7 +82,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   onConfirm(form: FormGroup) {
     console.log(JSON.stringify(form.value));
 
-    this.stockUploadDetails.poItemList.forEach(item =>{
+    this.stockUploadDetails.poItemList.forEach(item => {
       console.log(form.get(`fulfillQty-${item.ItemID}`).value);
     });
 
@@ -196,10 +196,10 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
             this.stockUploadDetails.poNo = data.PONo;
             this.stockUploadDetails.awbNo = data.AWBNumber;
             this.stockUploadDetails.subject = data.Subject;
-            this.stockUploadDetails.receiveDT = data.ReceiveDT;
+            this.stockUploadDetails.receiveDate = new Date(data.ReceiveDT).formatDate();
             this.stockUploadDetails.remark = data.Remark;
             this.stockUploadDetails.status = data.Status;
-            this.stockUploadDetails.canAddItem = data.PONo.isEmpty();
+            this.stockUploadDetails.canAddItem = !data.PONo;
 
             // No PO, user can add their own SKU
             if (this.stockUploadDetails.canAddItem) {

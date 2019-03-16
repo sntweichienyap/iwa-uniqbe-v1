@@ -12,6 +12,7 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
 import { Util } from "./../../utils/util";
+import { Environment } from "./../../utils/environment";
 
 @Component({
   selector: "app-stock-upload-create",
@@ -23,6 +24,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
   navigationSubscription: Subscription;
   createForm: FormGroup;
   todayDT = new Date();
+  dateFormat = Environment.DATE_FORMAT;
 
   constructor(
     private router: Router,

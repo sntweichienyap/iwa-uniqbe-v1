@@ -26,5 +26,8 @@ export const Environment = {
   STATUS_PENDING: "O",
 
   // Use for determine center type in system
-  CENTER_TYPE_WAREHOUSE:"WH"
+  CENTER_TYPE_WAREHOUSE:"WH",
+
+  // Use for set datepicker's date format in HTML
+  DATE_FORMAT: "DD MMM YYYY",
 };

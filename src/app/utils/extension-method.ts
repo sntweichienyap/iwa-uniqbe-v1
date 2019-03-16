@@ -17,14 +17,13 @@ declare global {
   }
 
   interface Date {
-
+    formatDate(): string;
   }
 
   interface Array<T> { }
 }
-
-Boolean.prototype.convertToStringFlag = function (): string {
-  return this ? "Yes" : "No";
+Number.prototype.isEmpty = function (): boolean {
+  return 0 >= this;
 };
 
 String.prototype.isApiSuccess = function (): boolean {
@@ -32,7 +31,7 @@ String.prototype.isApiSuccess = function (): boolean {
 };
 
 String.prototype.isEmpty = function (): boolean {
-  return this === "";
+  return typeof (Object).toString() === "object" || !this;
 };
 
 String.prototype.convertToDotNetJSONDate = function (): string {
@@ -41,15 +40,28 @@ String.prototype.convertToDotNetJSONDate = function (): string {
 }
 
 String.prototype.convertToJSDate = function (): Date {
-    var pattern = /Date\(([^)]+)\)/;
-    var results = pattern.exec(this);
-    var dt = new Date(parseFloat(results[1]));
+  var pattern = /Date\(([^)]+)\)/;
+  var results = pattern.exec(this);
+  var dt = new Date(parseFloat(results[1]));
 
-    return dt;
+  return dt;
 }
 
-Number.prototype.isEmpty = function (): boolean {
-  return 0 >= this;
+Boolean.prototype.convertToStringFlag = function (): string {
+  return this ? "Yes" : "No";
 };
+
+Date.prototype.formatDate = function (): string {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dev"];
+  
+  var dd = this.getDate();
+  if(dd < 10){
+    dd = '0' + dd;
+  }
+  
+  return `${dd} ${months[this.getMonth()]} ${this.getFullYear()}`;
+}
+
+
 
 export { };
