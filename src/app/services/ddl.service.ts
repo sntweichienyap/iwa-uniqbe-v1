@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ApiService } from "./api.service";
 import { ICenterIndexRequest } from "./../models/center.model";
 import { IDdlResult } from "./../models/ddl.model";
-import { DatabaseService } from "./database.service";
+import { GlobalVariableService } from "./global.service";
 import { Environment } from "../utils/environment";
 import { ICategoryIndexRequest } from "../models/category.model";
 import { IBrandIndexRequest } from "../models/brand.model";
@@ -15,11 +15,11 @@ import { ITypeIndexRequest } from "../models/type.model";
   providedIn: "root"
 })
 export class DdlService {
-  accessID = this.databaseService.getUserDetails().AccessID;
+  accessID = this.globalService.getAccessID();
 
   constructor(
     private apiService: ApiService,
-    private databaseService: DatabaseService
+    private globalService: GlobalVariableService
   ) { }
 
   getCategory(isSerial?: boolean) {

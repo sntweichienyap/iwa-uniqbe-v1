@@ -7,7 +7,7 @@ import { IonFab } from "@ionic/angular";
 import { DdlService } from "./../../services/ddl.service";
 import { IDdlResult } from "./../../models/ddl.model";
 import { IStockUploadCreateRequest } from "./../../models/stock-upload.model";
-import { DatabaseService } from "./../../services/database.service";
+import { GlobalVariableService } from "./../../services/global.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
@@ -30,7 +30,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
     private router: Router,
     private ddlService: DdlService,
     private formBuilder: FormBuilder,
-    private databaseService: DatabaseService,
+    private globalService: GlobalVariableService,
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
@@ -114,7 +114,7 @@ export class StockUploadCreatePage implements OnInit, OnDestroy {
       Subject: this.createForm.controls.subject.value,
       ReceivedDT: dotNetReceiveDate,
       Remark: this.createForm.controls.remark.value,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID:  this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {

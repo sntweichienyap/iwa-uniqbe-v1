@@ -4,11 +4,14 @@ import { Subscription } from "rxjs";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { IonFab } from "@ionic/angular";
 
-import { DatabaseService } from "./../../services/database.service";
+import { GlobalVariableService } from "./../../services/global.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
-import { IStockUploadDetailsRequest, IStockUploadUpdateRequest } from "./../../models/stock-upload.model";
+import {
+  IStockUploadDetailsRequest,
+  IStockUploadUpdateRequest
+} from "./../../models/stock-upload.model";
 import { IDdlResult } from "./../../models/ddl.model";
 import { Util } from "./../../utils/util";
 import { DdlService } from "./../../services/ddl.service";
@@ -27,11 +30,11 @@ export class StockUploadEditDetailsPage implements OnInit {
   stockUploadID: number;
   todayDT = new Date();
   dateFormat = Environment.DATE_FORMAT;
-  
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private databaseService: DatabaseService,
+    private globalService: GlobalVariableService,
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
@@ -93,7 +96,7 @@ export class StockUploadEditDetailsPage implements OnInit {
   private getStockUploadDetails() {
     let request: IStockUploadDetailsRequest = {
       StockUploadID: this.stockUploadID,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID: this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {
@@ -137,7 +140,7 @@ export class StockUploadEditDetailsPage implements OnInit {
       Subject: this.updateForm.controls.subject.value,
       ReceivedDT: dotNetReceiveDate,
       Remark: this.updateForm.controls.remark.value,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID: this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {
@@ -148,7 +151,9 @@ export class StockUploadEditDetailsPage implements OnInit {
           if (data.ResponseCode.isApiSuccess()) {
             fab.close();
             this.utils.resetForm(this.updateForm);
-            this.router.navigateByUrl(`/stock-upload-details/${this.stockUploadID}`);
+            this.router.navigateByUrl(
+              `/stock-upload-details/${this.stockUploadID}`
+            );
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }

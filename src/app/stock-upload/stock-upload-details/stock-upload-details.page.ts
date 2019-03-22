@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { AlertController, IonItemSliding } from "@ionic/angular";
 import { Subscription } from "rxjs";
+import { Form, FormGroup } from "@angular/forms";
 
 import { DatabaseService } from "./../../services/database.service";
 import { Alert } from "./../../utils/alert";
@@ -10,7 +11,7 @@ import { ApiService } from "./../../services/api.service";
 import { IStockUploadDetailsRequest } from "./../../models/stock-upload.model";
 import { Environment } from "./../../utils/environment";
 import { IStorageStockUploadItemList } from "./../../models/local-storage.model";
-import { Form, FormGroup } from "@angular/forms";
+import { GlobalVariableService } from "./../../services/global.service";
 
 @Component({
   selector: "app-stock-upload-details",
@@ -46,7 +47,8 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private loaderBox: Loader,
     private apiService: ApiService,
     private alertCtrl: AlertController,
-  ) { }
+    private globalService: GlobalVariableService,
+  ) {}
 
   ngOnInit() {
     this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
@@ -100,7 +102,9 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   onCreateItem() {
-    this.router.navigateByUrl(`/stock-upload-create-item/${this.stockUploadID}`);
+    this.router.navigateByUrl(
+      `/stock-upload-create-item/${this.stockUploadID}`
+    );
   }
 
   onRemoveItem(itemID: number) {
@@ -124,25 +128,24 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   hasFulfillItem(): boolean {
-    return this.stockUploadDetails.poItemList.some(function (element) {
+    return this.stockUploadDetails.poItemList.some(function(element) {
       return element.FulfillQuantity > 0;
-    })
+    });
   }
 
   private async presentRemoveItemAlertConfirm(itemID: number) {
     const alert = await this.alertCtrl.create({
-      header: 'Caution',
-      message: 'This item will be removed',
+      header: "Caution",
+      message: "This item will be removed",
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (result) => {
-
-          }
-        }, {
-          text: 'Okay',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: result => {}
+        },
+        {
+          text: "Okay",
           handler: () => {
             console.log(`Item alert okay removed => ${itemID}`);
           }
@@ -155,20 +158,21 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
 
   private async presentBackToHomeAlertConfirm() {
     const alert = await this.alertCtrl.create({
-      header: 'Caution',
-      message: 'Item added will be forfeit without confirm',
+      header: "Caution",
+      message: "Item added will be forfeit without confirm",
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (result) => {
-
-          }
-        }, {
-          text: 'Okay',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: result => {}
+        },
+        {
+          text: "Okay",
           handler: () => {
-            this.databaseService.removeKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+            this.databaseService.removeKeyValue(
+              Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
+            );
             this.router.navigateByUrl("/home");
           }
         }
@@ -181,7 +185,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   private getStockUploadDetails() {
     let request: IStockUploadDetailsRequest = {
       StockUploadID: this.stockUploadID,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID:  this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {
@@ -196,7 +200,9 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
             this.stockUploadDetails.poNo = data.PONo;
             this.stockUploadDetails.awbNo = data.AWBNumber;
             this.stockUploadDetails.subject = data.Subject;
-            this.stockUploadDetails.receiveDate = new Date(data.ReceiveDT).formatDate();
+            this.stockUploadDetails.receiveDate = new Date(
+              data.ReceiveDT
+            ).formatDate();
             this.stockUploadDetails.remark = data.Remark;
             this.stockUploadDetails.status = data.Status;
             this.stockUploadDetails.canAddItem = !data.PONo;
@@ -207,7 +213,10 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
                 return;
               }
 
-              this.stockUploadDetails.poItemList.splice(0, this.stockUploadDetails.poItemList.length);
+              this.stockUploadDetails.poItemList.splice(
+                0,
+                this.stockUploadDetails.poItemList.length
+              );
 
               this.storageStockUploadItemList.ItemList.forEach(element => {
                 this.stockUploadDetails.poItemList.push({
@@ -224,11 +233,11 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
                   Type: element.Type,
                   IsSerial: element.IsSerial,
                   OrderQuantity: element.OrderQuantity,
-                  FulfillQuantity: element.FulfillQuantity,
+                  FulfillQuantity: element.FulfillQuantity
                 });
               });
-            }
-            else { // Has PO, SKU will be loaded from system
+            } else {
+              // Has PO, SKU will be loaded from system
               if (!data.POItemList) {
                 return;
               }
@@ -249,14 +258,13 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
                   Type: element.Type,
                   IsSerial: element.IsSerial,
                   OrderQuantity: element.OrderQuantity,
-                  FulfillQuantity: 0,
+                  FulfillQuantity: 0
                 });
               });
             }
 
             this.canConfirm = this.hasFulfillItem();
-          }
-          else {
+          } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
         },
@@ -268,13 +276,18 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   private getStockUploadItemListFromStorage() {
-    let storageResult = this.databaseService.getKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+    let storageResult = this.databaseService.getKeyValue(
+      Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
+    );
 
     if (storageResult) {
       this.storageStockUploadItemList = JSON.parse(storageResult);
     }
 
-    this.storageStockUploadItemList.ItemList.splice(0, this.storageStockUploadItemList.ItemList.length);
+    this.storageStockUploadItemList.ItemList.splice(
+      0,
+      this.storageStockUploadItemList.ItemList.length
+    );
 
     this.storageStockUploadItemList.ItemList.push({
       ItemID: 1,

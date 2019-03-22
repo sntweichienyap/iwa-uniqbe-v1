@@ -1,24 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, Event, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router, Event, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 
+import { GlobalVariableService } from "./../../services/global.service";
 import { DdlService } from "./../../services/ddl.service";
 import { IDdlResult } from "./../../models/ddl.model";
-import { DatabaseService } from './../../services/database.service';
-import { Environment } from './../../utils/environment';
-import { IStockUploadCreateRequest } from "./../../models/stock-upload.model";
+import { DatabaseService } from "./../../services/database.service";
+import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../../services/api.service";
 import { Util } from "./../../utils/util";
-import { IModelIndexResponse, IModelIndexRequest } from 'src/app/models/model.model';
+import {
+  IModelIndexResponse,
+  IModelIndexRequest
+} from "./../../models/model.model";
 
 @Component({
-  selector: 'app-stock-upload-create-item',
-  templateUrl: './stock-upload-create-item.page.html',
-  styleUrls: ['./stock-upload-create-item.page.scss'],
+  selector: "app-stock-upload-create-item",
+  templateUrl: "./stock-upload-create-item.page.html",
+  styleUrls: ["./stock-upload-create-item.page.scss"]
 })
 export class StockUploadCreateItemPage implements OnInit, OnDestroy {
   brandList: IDdlResult;
@@ -43,6 +46,7 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
+    private globalService: GlobalVariableService
   ) {
     this.createItemForm = formBuilder.group({
       categoryID: 0,
@@ -50,14 +54,14 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
       modelID: 0,
       colourID: 0,
       typeID: 0,
-      quantity: 0,
+      quantity: 0
     });
   }
 
   ngOnInit() {
     this.getAllDropdownlist();
     this.getModelDetails();
-    
+
     this.navigationSubscription = this.router.events.subscribe(
       (event: Event) => {
         if (
@@ -105,20 +109,21 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
 
   private async presentAlertConfirm() {
     const alert = await this.alertCtrl.create({
-      header: 'Caution',
-      message: 'Item added will be forfeit without confirm',
+      header: "Caution",
+      message: "Item added will be forfeit without confirm",
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (result) => {
-
-          }
-        }, {
-          text: 'Okay',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: result => {}
+        },
+        {
+          text: "Okay",
           handler: () => {
-            this.databaseService.removeKeyValue(Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST);
+            this.databaseService.removeKeyValue(
+              Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
+            );
             this.router.navigateByUrl("/home");
           }
         }
@@ -139,7 +144,7 @@ export class StockUploadCreateItemPage implements OnInit, OnDestroy {
   private getModelDetails() {
     let request: IModelIndexRequest = {
       Active: true,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID: this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {
