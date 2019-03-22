@@ -303,8 +303,8 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       Type: "Sales",
       IsSerial: true,
       OrderQuantity: 10,
-      FulfillQuantity: 0,
-      SerialImei: []
+      FulfillQuantity: 3,
+      SerialImei: ["1111","2222", "3333"]
     });
 
     this.storageStockUploadItemList.ItemList.push({

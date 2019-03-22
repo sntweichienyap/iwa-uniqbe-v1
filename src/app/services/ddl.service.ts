@@ -172,7 +172,7 @@ export class DdlService {
     let request = {
       CenterTypeCodes: [Environment.CENTER_TYPE_WAREHOUSE],
       Active: true,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID: this.globalService.getAccessID()
     } as ICenterIndexRequest;
 
     this.apiService.centerIndex(request).subscribe(
