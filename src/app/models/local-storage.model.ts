@@ -8,6 +8,7 @@ export interface IStorageUserDetails {
   TenantID: number;
   Tenant: string;
   AccessID: number;
+  AuthToken: string;
 }
 
 export interface IStorageStockUploadItemList {

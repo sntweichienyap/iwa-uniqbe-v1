@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MenuController, IonFab } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, Event, NavigationEnd } from "@angular/router";
+import { Subscription } from "rxjs";
 
 import { DatabaseService } from "./../../services/database.service";
 import { AuthenticationService } from "./../../services/authentication.service";
@@ -10,10 +11,10 @@ import { Loader } from "./../../utils/loader";
 import { Util } from "./../../utils/util";
 import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "./../../services/api.service";
-import { IStorageUserDetails } from "../../models/local-storage.model";
+import { IStorageUserDetails } from "./../../models/local-storage.model";
 import "./../../utils/extension-method";
-import { ILoginRequest } from "src/app/models/user.model";
-import { Subscription } from "rxjs";
+import { ILoginRequest } from "./../../models/user.model";
+import { GlobalVariableService } from "./../../services/global.service";
 
 @Component({
   selector: "app-login",
@@ -33,7 +34,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private utils: Util,
     private menu: MenuController,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private globalService: GlobalVariableService
   ) {
     this.loginForm = formBuilder.group({
       email: [
@@ -76,8 +78,7 @@ export class LoginPage implements OnInit, OnDestroy {
   loginUser(fab: IonFab) {
     let request: ILoginRequest = {
       Username: this.loginForm.controls.email.value,
-      Password: this.loginForm.controls.password.value,
-      AccessID: this.databaseService.getUserDetails().AccessID
+      Password: this.loginForm.controls.password.value
     };
     let userDetailsStorage = {} as IStorageUserDetails;
 
@@ -96,12 +97,15 @@ export class LoginPage implements OnInit, OnDestroy {
             userDetailsStorage.TenantID = data.TenantID;
             userDetailsStorage.Tenant = data.Tenant;
             userDetailsStorage.AccessID = data.AccessID;
+            userDetailsStorage.AuthToken = data.AuthToken;
 
             this.databaseService.saveUserDetailsToStorage(userDetailsStorage);
+            this.globalService.setAccessID(data.AccessID);
+            this.globalService.setAuthToken(data.AuthToken);
 
             fab.close();
             this.utils.resetForm(this.loginForm);
-            this.authService.login();
+            this.authService.login(data.AuthToken);
             this.utils.showMenu(this.menu);
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);

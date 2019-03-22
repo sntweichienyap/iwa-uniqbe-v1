@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
-import { BehaviorSubject } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { Injectable } from "@angular/core";
+import { Storage } from "@ionic/storage";
+import { BehaviorSubject } from "rxjs";
+import { Platform } from "@ionic/angular";
 
-const TOKEN_KEY = 'auth-token';
+import { GlobalVariableService } from "./global.service";
+
+const TOKEN_KEY = "auth-token";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthenticationService {
-
   authenticationState = new BehaviorSubject(false);
 
-  constructor(private storage: Storage, private plt: Platform) {
+  constructor(
+    private storage: Storage,
+    private plt: Platform,
+    private globalService: GlobalVariableService
+  ) {
     this.plt.ready().then(() => {
       this.checkToken();
     });
@@ -23,11 +28,11 @@ export class AuthenticationService {
       if (res) {
         this.authenticationState.next(true);
       }
-    })
+    });
   }
 
-  login() {
-    return this.storage.set(TOKEN_KEY, 'Bearer 1234567').then(() => {
+  login(authToken: string) {
+    return this.storage.set(TOKEN_KEY, authToken).then(() => {
       this.authenticationState.next(true);
     });
   }
@@ -39,6 +44,6 @@ export class AuthenticationService {
   }
 
   isAuthenticated() {
-    return this.authenticationState.value;
+    return (this.globalService.getAccessID() > 0 && this.authenticationState.value);
   }
 }

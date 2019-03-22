@@ -6,7 +6,7 @@ import { StatusBar } from "@ionic-native/status-bar/ngx";
 
 import { AuthenticationService } from "./services/authentication.service";
 import { ApiService } from "./services/api.service";
-import { DatabaseService } from "./services/database.service";
+import { GlobalVariableService } from "./services/global.service";
 import { Loader } from "./utils/loader";
 import { Alert } from "./utils/alert";
 import "./utils/extension-method";
@@ -28,7 +28,7 @@ export class AppComponent {
   selectedPath = "";
 
   constructor(
-    private databaseService: DatabaseService,
+    private globalService: GlobalVariableService,
     private apiService: ApiService,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -68,7 +68,7 @@ export class AppComponent {
   logoutUser() {
     this.loaderBox.present().then(() => {
       let request: ILogoutRequest = {
-        AccessID: this.databaseService.getUserDetails().AccessID || 258
+        AccessID: this.globalService.getAccessID()
       };
       
       this.apiService.logout(request).subscribe(

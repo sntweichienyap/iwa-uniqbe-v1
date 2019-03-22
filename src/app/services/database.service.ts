@@ -11,20 +11,20 @@ const USER_DETAILS = Environment.STORAGE_USER_DETAILS;
   providedIn: "root"
 })
 export class DatabaseService {
-  authenticationState = new BehaviorSubject(false);
   userDetails = {
-    Email: "weichienyap@seednet.com.my",
-    Password: "abc123",
-    Name: "Wei Chien",
-    CenterID: 44,
-    CenterName: "3PL Warehouse Store",
-    CenterTypeCode: "WH",
-    Tenant: "Flutter",
-    TenantID: 3,
-    AccessID: 258
+    Email: "",
+    Password: "",
+    Name: "",
+    CenterID: 0,
+    CenterName: "",
+    CenterTypeCode: "",
+    Tenant: "",
+    TenantID: 0,
+    AccessID: 0,
+    AuthToken: ""
   } as IStorageUserDetails;
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage) {}
 
   async saveUserDetailsToStorage(userDetails: IStorageUserDetails) {
     var jsonUserDetails = JSON.stringify(userDetails);
@@ -46,6 +46,7 @@ export class DatabaseService {
   }
 
   getUserDetails(): IStorageUserDetails {
+    this.getUserDetailsFromStorage();
     return this.userDetails;
   }
 

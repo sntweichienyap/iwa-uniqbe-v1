@@ -14,6 +14,7 @@ import { Loader } from "./../../utils/loader";
 import { Environment } from "./../../utils/environment";
 import { Alert } from "./../../utils/alert";
 import { Util } from "./../../utils/util";
+import { GlobalVariableService } from "./../../services/global.service";
 
 @Component({
   selector: "app-stock-upload-listing",
@@ -29,6 +30,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private databaseService: DatabaseService,
+    private globalService: GlobalVariableService,
     private apiService: ApiService,
     private loaderBox: Loader,
     private alertBox: Alert,
@@ -79,7 +81,7 @@ export class StockUploadListingPage implements OnInit, OnDestroy {
   private getStockUploadListing() {
     let request: IStockUploadIndexRequest = {
       StatusCode: [Environment.STATUS_PENDING],
-      AccessID: this.databaseService.getUserDetails().AccessID
+      AccessID: this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {

@@ -6,8 +6,8 @@ import { Loader } from "./../../utils/loader";
 import { EmailValidator } from "./../../validators/emailValidator";
 import { ApiService } from "./../../services/api.service";
 import { Util } from "./../../utils/util";
-import { IForgotPasswordRequest } from "src/app/models/user.model";
-import { DatabaseService } from "src/app/services/database.service";
+import { IForgotPasswordRequest } from "./../../models/user.model";
+import { GlobalVariableService } from "./../../services/global.service";
 
 @Component({
   selector: "app-forgot-password",
@@ -19,7 +19,7 @@ export class ForgotPasswordPage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private databaseService: DatabaseService,
+    private globalService: GlobalVariableService,
     private apiService: ApiService,
     private alertBox: Alert,
     private loaderBox: Loader,
@@ -39,7 +39,7 @@ export class ForgotPasswordPage implements OnInit {
     this.loaderBox.present().then(() => {
       let request: IForgotPasswordRequest = {
         Username: this.forgotPasswordForm.controls.email.value,
-        AccessID: this.databaseService.getUserDetails().AccessID
+        AccessID: this.globalService.getAccessID()
       };
       this.apiService.forgotPassword(request).subscribe(
         data => {

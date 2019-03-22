@@ -1,6 +1,6 @@
 import * as BaseInterface from "./base.model";
 
-export interface ILoginRequest extends BaseInterface.IBaseRequest{
+export interface ILoginRequest{
   Username: string;
   Password: string;
 }
@@ -14,6 +14,7 @@ export interface ILoginResponse extends BaseInterface.IBaseResponse {
   AccessID: number;
   TenantID: number;
   Tenant: string;
+  AuthToken: string;
 }
 
 export interface ILogoutRequest extends BaseInterface.IBaseRequest {

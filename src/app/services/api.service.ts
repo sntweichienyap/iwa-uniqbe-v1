@@ -7,6 +7,7 @@ import {
 import { Observable, of, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 
+import { GlobalVariableService } from "./global.service";
 import { environment } from "./../../environments/environment";
 import * as UserInterface from "../models/user.model";
 import * as StockUploadInterface from "../models/stock-upload.model";
@@ -19,17 +20,15 @@ import * as TypeInterface from "../models/type.model";
 import * as UnitOfMeasureInterface from "../models/unit-of-measure.model";
 
 const apiUrl = environment.apiUrl;
-const httpOptions = {
-  headers: new HttpHeaders({
-    "Content-Type": "application/json"
-  })
-};
 
 @Injectable({
   providedIn: "root"
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private globalService: GlobalVariableService,
+  ) {}
 
   //#region Private Function
 
@@ -41,14 +40,17 @@ export class ApiService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
 
-      let errorMessage = `Backend returned code ${
-        error.status
+      if (error.status == 401) {
+        alert("Please logout and then login again");
+      } else {
+        let errorMessage = `Backend returned code ${
+          error.status
         }, body was: ${JSON.stringify(error.error)}`;
 
-      console.log(JSON.stringify(error));
+        console.log(JSON.stringify(error));
 
-      console.error(errorMessage);
-      alert(JSON.stringify(error));
+        alert(JSON.stringify(error));
+      }
     }
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
@@ -56,7 +58,16 @@ export class ApiService {
 
   private extractData(res: Response) {
     let body = res;
-    return body; //|| {};
+    return body;
+  }
+
+  private createHeaders() {
+    return {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Auth-Token": this.globalService.getAuthToken() || ""
+      })
+    };
   }
 
   //#endregion
@@ -69,7 +80,7 @@ export class ApiService {
     const url = `${apiUrl}/CatogeryIndex`;
 
     return this.httpClient
-      .post<CategoryInterface.ICategoryIndexResponse>(url, request, httpOptions)
+      .post<CategoryInterface.ICategoryIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -83,7 +94,7 @@ export class ApiService {
     const url = `${apiUrl}/BrandIndex`;
 
     return this.httpClient
-      .post<BrandInterface.IBrandIndexResponse>(url, request, httpOptions)
+      .post<BrandInterface.IBrandIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -97,7 +108,7 @@ export class ApiService {
     const url = `${apiUrl}/ModelIndex`;
 
     return this.httpClient
-      .post<ModelInterface.IModelIndexResponse>(url, request, httpOptions)
+      .post<ModelInterface.IModelIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -111,7 +122,7 @@ export class ApiService {
     const url = `${apiUrl}/ColourIndex`;
 
     return this.httpClient
-      .post<ColourInterface.IColourIndexResponse>(url, request, httpOptions)
+      .post<ColourInterface.IColourIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -125,7 +136,7 @@ export class ApiService {
     const url = `${apiUrl}/TypeIndex`;
 
     return this.httpClient
-      .post<TypeInterface.ITypeIndexResponse>(url, request, httpOptions)
+      .post<TypeInterface.ITypeIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -142,7 +153,7 @@ export class ApiService {
       .post<UnitOfMeasureInterface.IUnitOfMeasureIndexResponse>(
         url,
         request,
-        httpOptions
+        this.createHeaders()
       )
       .pipe(catchError(this.handleError));
   }
@@ -157,7 +168,7 @@ export class ApiService {
     const url = `${apiUrl}/centerIndex`;
 
     return this.httpClient
-      .post<CenterInterface.ICenterIndexResponse>(url, request, httpOptions)
+      .post<CenterInterface.ICenterIndexResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -169,10 +180,11 @@ export class ApiService {
     request: UserInterface.ILoginRequest
   ): Observable<UserInterface.ILoginResponse> {
     const url = `${apiUrl}/Auth/Login`;
+
     console.log(url);
 
     return this.httpClient
-      .post<UserInterface.ILoginResponse>(url, request, httpOptions)
+      .post<UserInterface.ILoginResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -182,17 +194,17 @@ export class ApiService {
     const url = `${apiUrl}/Auth/Logout`;
 
     return this.httpClient
-      .post<UserInterface.ILogoutResponse>(url, request, httpOptions)
+      .post<UserInterface.ILogoutResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
-  
+
   forgotPassword(
     request: UserInterface.IForgotPasswordRequest
   ): Observable<UserInterface.IForgotPasswordResponse> {
     const url = `${apiUrl}/Auth/ForgotPassword`;
 
     return this.httpClient
-      .post<UserInterface.IForgotPasswordResponse>(url, request, httpOptions)
+      .post<UserInterface.IForgotPasswordResponse>(url, request, this.createHeaders())
       .pipe(catchError(this.handleError));
   }
 
@@ -209,7 +221,7 @@ export class ApiService {
       .post<StockUploadInterface.IStockUploadIndexResponse>(
         url,
         request,
-        httpOptions
+        this.createHeaders()
       )
       .pipe(catchError(this.handleError));
   }
@@ -223,7 +235,7 @@ export class ApiService {
       .post<StockUploadInterface.IStockUploadDetailsResponse>(
         url,
         request,
-        httpOptions
+        this.createHeaders()
       )
       .pipe(catchError(this.handleError));
   }
@@ -237,7 +249,7 @@ export class ApiService {
       .post<StockUploadInterface.IStockUploadCreateResponse>(
         url,
         request,
-        httpOptions
+        this.createHeaders()
       )
       .pipe(catchError(this.handleError));
   }
@@ -251,7 +263,7 @@ export class ApiService {
       .post<StockUploadInterface.IStockUploadUpdateResponse>(
         url,
         request,
-        httpOptions
+        this.createHeaders()
       )
       .pipe(catchError(this.handleError));
   }
