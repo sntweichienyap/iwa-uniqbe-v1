@@ -108,8 +108,6 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   onRemoveItem(itemID: number) {
-    console.log(`item removed => ${itemID}`);
-
     this.presentRemoveItemAlertConfirm(itemID);
   }
 
@@ -120,7 +118,11 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   }
 
   onBackToHome() {
-    this.presentBackToHomeAlertConfirm();
+    this.presentGoOtherPageAlertConfirm("/home");
+  }
+
+  onBackToIndex() {
+    this.presentGoOtherPageAlertConfirm("/stock-upload-listing");
   }
 
   toggleInfoList() {
@@ -156,7 +158,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  private async presentBackToHomeAlertConfirm() {
+  private async presentGoOtherPageAlertConfirm(url: string) {
     const alert = await this.alertCtrl.create({
       header: "Caution",
       message: "Item added will be forfeit without confirm",
@@ -173,7 +175,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
             this.databaseService.removeKeyValue(
               Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
             );
-            this.router.navigateByUrl("/home");
+            this.router.navigateByUrl(url);
           }
         }
       ]

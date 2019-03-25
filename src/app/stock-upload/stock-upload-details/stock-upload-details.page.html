@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['/stock-upload-listing']"><ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
+      <ion-button type="button" (click)="onBackToIndex()" ><ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>GR/GRPO Receiving</ion-title>
     <ion-buttons slot="end" class="header-right-btn">
@@ -76,7 +76,8 @@
 
     <form #stockUploadItemForm = "ngForm">
       <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList" #slidingItem>
-        <div *ngIf="poItem.IsSerial">
+
+        <div *ngIf="poItem.IsSerial; else notSerial">
           <ion-item>
             <ion-label (click)="onScanBarcode(poItem.ItemID)">{{ poItem.Model }}</ion-label>
             <span slot="end">{{ poItem.FulfillQuantity}}/{{ poItem.OrderQuantity }}</span>
@@ -92,7 +93,7 @@
           <input hidden name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"/>
         </div>
 
-        <div *ngIf="!poItem.IsSerial">
+        <ng-template #notSerial>        
           <ion-item>
             <ion-label><span>{{ poItem.Model }}</span></ion-label>
             <span slot="end"><input required min="0" max="9999" type="number" name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"
@@ -103,7 +104,8 @@
               <ion-icon name="trash" color="danger"></ion-icon>
             </ion-item-option>
           </ion-item-options>
-        </div>
+        </ng-template>
+      
       </ion-item-sliding>
     </form>
   </ion-list>
