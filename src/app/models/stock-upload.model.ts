@@ -78,3 +78,32 @@ export interface IStockUploadUpdateResponse
   StockUploadID: number;
 }
 
+export interface IStockUploadConfirmRequest extends BaseInterface.IBaseRequest {
+  StockUploadID: number;
+}
+
+export interface IStockUploadConfirmResponse
+  extends BaseInterface.IBaseResponse {
+  StockUploadID: number;
+}
+
+export interface IStockUploadTempItemCreateRequest extends BaseInterface.IBaseRequest {
+  StockUploadID: number;
+}
+
+export interface IStockUploadTempItemCreateResponse
+  extends BaseInterface.IBaseResponse {
+  StockUploadID: number;
+  FileName: string;
+  TempItemList: {
+    Brand: string;
+    Model:string;
+    Colour: string;
+    Type: string;
+    SerialNo: string;
+    BizUnit: string;
+    Quantity: number;
+  }[]
+}
+
+

@@ -268,6 +268,34 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  stockUploadConfirm(
+    request: StockUploadInterface.IStockUploadConfirmRequest
+  ): Observable<StockUploadInterface.IStockUploadConfirmResponse> {
+    const url = `${apiUrl}/StockUploadConfirm`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadConfirmResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  stockUploadTempItemCreate(
+    request: StockUploadInterface.IStockUploadTempItemCreateRequest
+  ): Observable<StockUploadInterface.IStockUploadTempItemCreateResponse> {
+    const url = `${apiUrl}/StockUploadTempItemCreate`;
+
+    return this.httpClient
+      .post<StockUploadInterface.IStockUploadTempItemCreateResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion Stock Upload
 
   //#region Order Fulfillment
