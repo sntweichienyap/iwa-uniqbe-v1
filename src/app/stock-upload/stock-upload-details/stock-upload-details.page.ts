@@ -155,10 +155,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
               a => a.ItemID == itemID
             );
 
-            console.log(removeIndex);
-            if (removeIndex) {
-              this.stockUploadDetails.poItemList.splice(removeIndex, 1);
-            }
+            this.stockUploadDetails.poItemList.splice(removeIndex, 1);
           }
         }
       ]
@@ -299,6 +296,24 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       0,
       this.storageStockUploadItemList.ItemList.length
     );
+    
+    this.storageStockUploadItemList.ItemList.push({
+      ItemID: 1,
+      CategoryID: 1,
+      Category: "Phone",
+      BrandID: 1,
+      Brand: "Apple",
+      ModelID: 1,
+      Model: "iPhone Xs Max",
+      ColourID: 1,
+      Colour: "Black",
+      TypeID: 1,
+      Type: "Sales",
+      IsSerial: true,
+      OrderQuantity: 10,
+      FulfillQuantity: 3,
+      SerialImei: ["1111", "2222", "3333"]
+    });
 
     this.storageStockUploadItemList.ItemList.push({
       ItemID: 2,
@@ -335,41 +350,5 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       FulfillQuantity: 50,
       SerialImei: []
     });
-
-    this.storageStockUploadItemList.ItemList.push({
-      ItemID: 4,
-      CategoryID: 2,
-      Category: "Cable",
-      BrandID: 2,
-      Brand: "Samsung",
-      ModelID: 2,
-      Model: "Samsung Cable",
-      ColourID: 2,
-      Colour: "Other",
-      TypeID: 2,
-      Type: "Sales",
-      IsSerial: false,
-      OrderQuantity: 50,
-      FulfillQuantity: 50,
-      SerialImei: []
-    });
-
-    // this.storageStockUploadItemList.ItemList.push({
-    //   ItemID: 1,
-    //   CategoryID: 1,
-    //   Category: "Phone",
-    //   BrandID: 1,
-    //   Brand: "Apple",
-    //   ModelID: 1,
-    //   Model: "iPhone Xs Max",
-    //   ColourID: 1,
-    //   Colour: "Black",
-    //   TypeID: 1,
-    //   Type: "Sales",
-    //   IsSerial: true,
-    //   OrderQuantity: 10,
-    //   FulfillQuantity: 3,
-    //   SerialImei: ["1111", "2222", "3333"]
-    // });
   }
 }
