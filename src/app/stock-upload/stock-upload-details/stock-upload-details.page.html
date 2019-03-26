@@ -77,34 +77,35 @@
     <form #stockUploadItemForm = "ngForm">
       <ion-item-sliding *ngFor="let poItem of stockUploadDetails.poItemList" #slidingItem>
 
-        <div *ngIf="poItem.IsSerial; else notSerial">
-          <ion-item>
+        <!-- <div *ngIf="poItem.IsSerial; else notSerial"> -->
+          <!-- <ion-item>
             <ion-label (click)="onScanBarcode(poItem.ItemID)">{{ poItem.Model }}</ion-label>
-            <span slot="end">{{ poItem.FulfillQuantity}}/{{ poItem.OrderQuantity }}</span>
+            <span slot="end"><input readonly name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"
+              class="qty-input" />/{{ poItem.OrderQuantity }}</span>
           </ion-item>
           <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
-            <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
+            <ion-item-option (click)="onRemoveItem(slidingItem, poItem.ItemID)" color="light">
               <ion-icon name="trash" color="danger"></ion-icon>
             </ion-item-option>
             <ion-item-option (click)="onViewItem(slidingItem, poItem.ItemID)" color="light">
               <ion-icon name="information-circle-outline" color="secondary"></ion-icon>
             </ion-item-option>
-          </ion-item-options>
-          <input hidden name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"/>
-        </div>
+          </ion-item-options> -->
+          <!-- <input hidden name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"/> -->
+        <!-- </div> -->
 
-        <ng-template #notSerial>        
+        <!-- <ng-template #notSerial>         -->
           <ion-item>
             <ion-label><span>{{ poItem.Model }}</span></ion-label>
             <span slot="end"><input required min="0" max="9999" type="number" name="fulfillQty-{{poItem.ItemID}}" [(ngModel)]="poItem.FulfillQuantity"
                 class="qty-input" />/{{ poItem.OrderQuantity }}</span>
           </ion-item>
           <ion-item-options side="end" *ngIf="stockUploadDetails.canAddItem">
-            <ion-item-option (click)="onRemoveItem(poItem.ItemID)" color="light">
+            <ion-item-option (click)="onRemoveItem(slidingItem, poItem.ItemID)" color="light">
               <ion-icon name="trash" color="danger"></ion-icon>
             </ion-item-option>
           </ion-item-options>
-        </ng-template>
+        <!-- </ng-template> -->
       
       </ion-item-sliding>
     </form>

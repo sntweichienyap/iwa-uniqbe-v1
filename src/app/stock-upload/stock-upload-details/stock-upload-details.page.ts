@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { Router, Event, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { AlertController, IonItemSliding } from "@ionic/angular";
 import { Subscription } from "rxjs";
@@ -47,7 +47,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     private loaderBox: Loader,
     private apiService: ApiService,
     private alertCtrl: AlertController,
-    private globalService: GlobalVariableService,
+    private globalService: GlobalVariableService
   ) {}
 
   ngOnInit() {
@@ -107,8 +107,8 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     );
   }
 
-  onRemoveItem(itemID: number) {
-    this.presentRemoveItemAlertConfirm(itemID);
+  onRemoveItem(slidingItem: IonItemSliding, itemID: number) {
+    this.presentRemoveItemAlertConfirm(slidingItem, itemID);
   }
 
   onViewItem(slidingItem: IonItemSliding, itemID: number) {
@@ -135,7 +135,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     });
   }
 
-  private async presentRemoveItemAlertConfirm(itemID: number) {
+  private async presentRemoveItemAlertConfirm(slidingItem: IonItemSliding, itemID: number) {
     const alert = await this.alertCtrl.create({
       header: "Caution",
       message: "This item will be removed",
@@ -149,7 +149,16 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
         {
           text: "Okay",
           handler: () => {
-            console.log(`Item alert okay removed => ${itemID}`);
+            slidingItem.closeOpened();
+
+            let removeIndex = this.stockUploadDetails.poItemList.findIndex(
+              a => a.ItemID == itemID
+            );
+
+            console.log(removeIndex);
+            if (removeIndex) {
+              this.stockUploadDetails.poItemList.splice(removeIndex, 1);
+            }
           }
         }
       ]
@@ -187,7 +196,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   private getStockUploadDetails() {
     let request: IStockUploadDetailsRequest = {
       StockUploadID: this.stockUploadID,
-      AccessID:  this.globalService.getAccessID()
+      AccessID: this.globalService.getAccessID()
     };
 
     this.loaderBox.present().then(() => {
@@ -292,24 +301,6 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     );
 
     this.storageStockUploadItemList.ItemList.push({
-      ItemID: 1,
-      CategoryID: 1,
-      Category: "Phone",
-      BrandID: 1,
-      Brand: "Apple",
-      ModelID: 1,
-      Model: "iPhone Xs Max",
-      ColourID: 1,
-      Colour: "Black",
-      TypeID: 1,
-      Type: "Sales",
-      IsSerial: true,
-      OrderQuantity: 10,
-      FulfillQuantity: 3,
-      SerialImei: ["1111","2222", "3333"]
-    });
-
-    this.storageStockUploadItemList.ItemList.push({
       ItemID: 2,
       CategoryID: 2,
       Category: "Cable",
@@ -344,5 +335,41 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       FulfillQuantity: 50,
       SerialImei: []
     });
+
+    this.storageStockUploadItemList.ItemList.push({
+      ItemID: 4,
+      CategoryID: 2,
+      Category: "Cable",
+      BrandID: 2,
+      Brand: "Samsung",
+      ModelID: 2,
+      Model: "Samsung Cable",
+      ColourID: 2,
+      Colour: "Other",
+      TypeID: 2,
+      Type: "Sales",
+      IsSerial: false,
+      OrderQuantity: 50,
+      FulfillQuantity: 50,
+      SerialImei: []
+    });
+
+    // this.storageStockUploadItemList.ItemList.push({
+    //   ItemID: 1,
+    //   CategoryID: 1,
+    //   Category: "Phone",
+    //   BrandID: 1,
+    //   Brand: "Apple",
+    //   ModelID: 1,
+    //   Model: "iPhone Xs Max",
+    //   ColourID: 1,
+    //   Colour: "Black",
+    //   TypeID: 1,
+    //   Type: "Sales",
+    //   IsSerial: true,
+    //   OrderQuantity: 10,
+    //   FulfillQuantity: 3,
+    //   SerialImei: ["1111", "2222", "3333"]
+    // });
   }
 }
