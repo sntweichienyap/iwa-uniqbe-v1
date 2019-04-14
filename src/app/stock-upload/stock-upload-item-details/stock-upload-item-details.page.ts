@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from "@ionic/angular";
+import { Router } from "@angular/router";
+
+import { Environment } from "./../../utils/environment";
+import { DatabaseService } from "./../../services/database.service";
 
 @Component({
   selector: 'app-stock-upload-item-details',
@@ -7,9 +12,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockUploadItemDetailsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private databaseService: DatabaseService,
+    private alertCtrl: AlertController,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
   }
 
+  onDeleteItem() {
+
+  }
+
+  private async presentGoOtherPageAlertConfirm(url: string) {
+    const alert = await this.alertCtrl.create({
+      header: "Caution",
+      message: "Item added will be forfeit without confirm",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
+          handler: result => { }
+        },
+        {
+          text: "Okay",
+          handler: () => {
+            this.databaseService.removeKeyValue(
+              Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
+            );
+            this.router.navigateByUrl(url);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 }
