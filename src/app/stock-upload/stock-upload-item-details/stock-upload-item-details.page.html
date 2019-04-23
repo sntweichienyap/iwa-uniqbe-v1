@@ -4,7 +4,7 @@
             <ion-back-button ></ion-back-button>
           </ion-buttons>
           <ion-title>GR Item Details</ion-title>
-          <ion-buttons (click)="onDeleteItem()" slot="end" class="header-right-btn">
+          <ion-buttons (click)="onRemoveImei()" slot="end" class="header-right-btn">
               <ion-icon name="trash" class="icon-delete"></ion-icon>
           </ion-buttons>
     </ion-toolbar>
@@ -39,7 +39,7 @@
     </ion-fab-button>
   
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"><ion-icon name="home"></ion-icon></ion-fab-button>
+      <ion-fab-button (click)="onBackToHome()"><ion-icon name="home"></ion-icon></ion-fab-button>
     </ion-fab-list>
   </ion-fab>
   <div class="footer-space"></div>
