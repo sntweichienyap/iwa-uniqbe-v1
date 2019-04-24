@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'stock-upload-details/:stockUploadID', loadChildren: './stock-upload/stock-upload-details/stock-upload-details.module#StockUploadDetailsPageModule' },
   { path: 'stock-upload-edit-details/:stockUploadID', loadChildren: './stock-upload/stock-upload-edit-details/stock-upload-edit-details.module#StockUploadEditDetailsPageModule' },
   { path: 'stock-upload-create-item/:stockUploadID', loadChildren: './stock-upload/stock-upload-create-item/stock-upload-create-item.module#StockUploadCreateItemPageModule' },
-  { path: 'stock-upload-item-details', loadChildren: './stock-upload/stock-upload-item-details/stock-upload-item-details.module#StockUploadItemDetailsPageModule' },
+  { path: 'stock-upload-item-details/:stockUploadID/:storageStockUploadItemID', loadChildren: './stock-upload/stock-upload-item-details/stock-upload-item-details.module#StockUploadItemDetailsPageModule' },
   
   { path: 'fulfillment-listing', 
     canActivate: [AuthGuard],

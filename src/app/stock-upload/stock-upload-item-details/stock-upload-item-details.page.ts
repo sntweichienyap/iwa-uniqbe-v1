@@ -1,23 +1,64 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AlertController } from "@ionic/angular";
-import { Router } from "@angular/router";
+import { Router, Event, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { Subscription } from "rxjs";
 
 import { Environment } from "./../../utils/environment";
 import { DatabaseService } from "./../../services/database.service";
+import { IStorageStockUploadItemList } from "./../../models/local-storage.model";
 
 @Component({
   selector: "app-stock-upload-item-details",
   templateUrl: "./stock-upload-item-details.page.html",
   styleUrls: ["./stock-upload-item-details.page.scss"]
 })
-export class StockUploadItemDetailsPage implements OnInit {
+export class StockUploadItemDetailsPage implements OnInit, OnDestroy {
+  storageStockUploadItemList = { ItemList: [] } as IStorageStockUploadItemList;
+  navigationSubscription: Subscription;
+  paramSubscription: Subscription;
+  storageStockUploadItemID: number;
+  stockUploadID: number;
+
   constructor(
+    private activatedRoute: ActivatedRoute,
     private databaseService: DatabaseService,
     private alertCtrl: AlertController,
     private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
+      this.stockUploadID = +params.get("stockUploadID");
+      this.storageStockUploadItemID = +params.get("storageStockUploadItemID");
+
+      console.log(
+        this.stockUploadID + " ==== " + this.storageStockUploadItemID
+      );
+    });
+
+    this.getStockUploadItemListFromStorage();
+
+    this.navigationSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.url.includes("/stock-upload-item-details")
+        ) {
+          this.getStockUploadItemListFromStorage();
+        }
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.paramSubscription) {
+      this.paramSubscription.unsubscribe();
+    }
+
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
 
   onRemoveImei() {
     this.presentRemoveImeiAlertConfirm();
@@ -25,6 +66,10 @@ export class StockUploadItemDetailsPage implements OnInit {
 
   onBackToHome() {
     this.presentGoOtherPageAlertConfirm("/home");
+  }
+
+  onBackToDetails() {
+    this.router.navigateByUrl(`/stock-upload-details/${this.stockUploadID}`);
   }
 
   private async presentGoOtherPageAlertConfirm(url: string) {
@@ -74,5 +119,17 @@ export class StockUploadItemDetailsPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  private getStockUploadItemListFromStorage() {
+    let storageResult = this.databaseService.getKeyValue(
+      Environment.STORAGE_STOCK_UPLOAD_ITEM_LIST
+    );
+
+    if (storageResult) {
+      this.storageStockUploadItemList = JSON.parse(storageResult);
+    }
+
+    console.log(storageResult);
   }
 }

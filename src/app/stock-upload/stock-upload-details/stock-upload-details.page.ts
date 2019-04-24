@@ -114,7 +114,9 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
   onViewItem(slidingItem: IonItemSliding, itemID: number) {
     console.log(`item view => ${itemID}`);
     slidingItem.closeOpened();
-    this.router.navigateByUrl("/stock-upload-item-details");
+    this.router.navigateByUrl(
+      `/stock-upload-item-details/${this.stockUploadID}/${itemID}`
+    );
   }
 
   onBackToHome() {
@@ -135,7 +137,10 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
     });
   }
 
-  private async presentRemoveItemAlertConfirm(slidingItem: IonItemSliding, itemID: number) {
+  private async presentRemoveItemAlertConfirm(
+    slidingItem: IonItemSliding,
+    itemID: number
+  ) {
     const alert = await this.alertCtrl.create({
       header: "Caution",
       message: "This item will be removed",
@@ -296,7 +301,7 @@ export class StockUploadDetailsPage implements OnInit, OnDestroy {
       0,
       this.storageStockUploadItemList.ItemList.length
     );
-    
+
     this.storageStockUploadItemList.ItemList.push({
       ItemID: 1,
       CategoryID: 1,
