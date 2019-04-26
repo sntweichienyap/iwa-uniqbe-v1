@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd } from "@angular/router";
 import { MenuController } from "@ionic/angular";
-import { FormControl } from "@angular/forms";
+// import { FormControl } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 import { DatabaseService } from "./../../services/database.service";
