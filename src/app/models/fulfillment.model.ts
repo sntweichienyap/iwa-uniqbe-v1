@@ -29,8 +29,10 @@ export interface IFulfillmentDetailsResponse
   OrderRemark: string;
   OrderFulfillmentItemList: {
     OrderItemID: number;
+    IsSerialized: boolean;
     Model: string;
     OrderQty: number;
-
+    BalanceQty: number;
+    FulfilledQty: number;
   }[];
 }

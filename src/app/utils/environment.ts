@@ -24,7 +24,9 @@ export const Environment = {
 
   // Use for determine status in system
   STATUS_PENDING: "O",
-
+  STATUS_APPROVED: "AP",
+  STATUS_PROCESSING: "G",
+  
   // Use for determine center type in system
   CENTER_TYPE_WAREHOUSE:"WH",
 

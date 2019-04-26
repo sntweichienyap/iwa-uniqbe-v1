@@ -5,7 +5,12 @@
     </ion-buttons>
     <ion-title>GR/GRPO List</ion-title>
   </ion-toolbar>
-  <ion-searchbar placeholder="DO No." (ionChange)="setFilteredItem(searchTerm)" (ionClear)="resetAndAssignArrayList()" [(ngModel)]="searchTerm"></ion-searchbar>
+  <ion-searchbar
+    placeholder="DO No."
+    (ionChange)="setFilteredItem(searchTerm)"
+    (ionClear)="resetAndAssignArrayList()"
+    [(ngModel)]="searchTerm"
+  ></ion-searchbar>
 </ion-header>
 
 <ion-content>
@@ -14,7 +19,6 @@
       (click)="goToDetails(item.StockUploadID)"
       *ngFor="let item of stockUploadIndexResponse.StockUploadIndexList"
     >
-    <!-- | filterString:filteredText:DONo -->
       <ion-label>
         <span>{{ item.Center }}</span>
         <p>DO NO: {{ item.DONo }}</p>
@@ -28,10 +32,10 @@
     </ion-fab-button>
 
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']" 
+      <ion-fab-button [routerLink]="['/home']"
         ><ion-icon name="home"></ion-icon
       ></ion-fab-button>
-      <ion-fab-button (click)="create()" 
+      <ion-fab-button (click)="create()"
         ><ion-icon name="add"></ion-icon
       ></ion-fab-button>
     </ion-fab-list>

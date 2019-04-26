@@ -20,7 +20,7 @@ export class Util {
 
   filterItems(value: any, searchTerm: string, propName: string) {
     return value.filter((item) => {
-      return item[propName].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+      return item[propName].toString().toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
     });
   }
 }

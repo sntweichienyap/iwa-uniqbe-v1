@@ -11,6 +11,7 @@ import { GlobalVariableService } from "./global.service";
 import { environment } from "./../../environments/environment";
 import * as UserInterface from "../models/user.model";
 import * as StockUploadInterface from "../models/stock-upload.model";
+import * as FulfillmentInterface from "../models/fulfillment.model";
 import * as CenterInterface from "../models/center.model";
 import * as BrandInterface from "../models/brand.model";
 import * as CategoryInterface from "../models/category.model";
@@ -299,5 +300,34 @@ export class ApiService {
   //#endregion Stock Upload
 
   //#region Order Fulfillment
+
+  fulfillmentIndex(
+    request: FulfillmentInterface.IFulfillmentIndexRequest
+  ): Observable<FulfillmentInterface.IFulfillmentIndexResponse> {
+    const url = `${apiUrl}/OrderFulfillmentIndex`;
+
+    return this.httpClient
+      .post<FulfillmentInterface.IFulfillmentIndexResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  fulfillmentDetails(
+    request: FulfillmentInterface.IFulfillmentDetailsRequest
+  ): Observable<FulfillmentInterface.IFulfillmentDetailsResponse> {
+    const url = `${apiUrl}/OrderFulfillmentDetails`;
+
+    return this.httpClient
+      .post<FulfillmentInterface.IFulfillmentDetailsResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion Order Fulfillment
 }
