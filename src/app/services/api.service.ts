@@ -329,5 +329,19 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  fulfillmentUpdate(
+    request: FulfillmentInterface.IFulfillmentUpdateRequest
+  ): Observable<FulfillmentInterface.IFulfillmentUpdateResponse> {
+    const url = `${apiUrl}/OrderFulfillmentUpdate`;
+
+    return this.httpClient
+      .post<FulfillmentInterface.IFulfillmentUpdateResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion Order Fulfillment
 }

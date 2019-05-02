@@ -7,14 +7,14 @@ export interface IFulfillmentIndexRequest extends BaseInterface.IBaseRequest {
 export interface IFulfillmentIndexResponse extends BaseInterface.IBaseResponse {
   FulfillmentIndexList: {
     OrderID: number;
-    FulfillmentID: string;
+    FulfillmentID: number;
     Center: string;
   }[];
 }
 
 export interface IFulfillmentDetailsRequest extends BaseInterface.IBaseRequest {
   OrderID: number;
-  FulfillmentID: string;
+  FulfillmentID: number;
 }
 
 export interface IFulfillmentDetailsResponse
@@ -35,4 +35,16 @@ export interface IFulfillmentDetailsResponse
     BalanceQty: number;
     FulfilledQty: number;
   }[];
+}
+
+export interface IFulfillmentUpdateRequest extends BaseInterface.IBaseRequest {
+  FulfillmentID: number;
+  CourierNum: string;
+  Despatcher: string;
+  Remark: string;
+}
+
+export interface IFulfillmentUpdateResponse
+  extends BaseInterface.IBaseResponse {
+  FulfillmentID: number;
 }
