@@ -91,9 +91,6 @@ export class FulfillmentListingPage implements OnInit, OnDestroy {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-
-            console.log(typeof(data.FulfillmentIndexList[0].OrderID));
-
             this.copyOfFulfillmentIndexResponse = data;
             this.resetAndAssignArrayList();
           } else {

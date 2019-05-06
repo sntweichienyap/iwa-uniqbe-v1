@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
 
 import { FulfillmentDetailsPage } from './fulfillment-details.page';
-import { ModalPagePage } from 'src/app/modal-page/modal-page.page';
+import { FulfillmentRejectRemarkPage } from './../fulfillment-reject-remark/fulfillment-reject-remark.page';
 
 const routes: Routes = [
   {
@@ -22,7 +21,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [FulfillmentDetailsPage, ModalPagePage],
-  entryComponents:[ModalPagePage]
+  declarations: [FulfillmentDetailsPage, FulfillmentRejectRemarkPage],
+  entryComponents:[FulfillmentRejectRemarkPage]
 })
 export class FulfillmentDetailsPageModule {}
