@@ -9,10 +9,7 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../..//services/api.service";
 import { GlobalVariableService } from "./../../services/global.service";
-import {
-  IFulfillmentDetailsRequest,
-  IFulfillmentDetailsResponse
-} from "src/app/models/fulfillment.model";
+import { IFulfillmentDetailsRequest } from "src/app/models/fulfillment.model";
 
 @Component({
   selector: "app-fulfillment-details",
@@ -25,12 +22,11 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
   paramSubscription: Subscription;
   orderID: number;
   fulfillmentID: number;
-  //fulfillmentDetailsResponse = {} as IFulfillmentDetailsResponse;
   fulfillmentDetailsResponse = {
     OrderID: 0,
     CenterName: "",
     CenterAddrees: "",
-    OrderDT: "",
+    OrderDate: "",
     OrderStatus: "",
     CourierNum: "",
     Despatcher: "",
@@ -107,9 +103,31 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-            console.log("assign the value here");
-            
-            console.log(JSON.stringify(this.fulfillmentDetailsResponse));
+            //console.log(JSON.stringify(data));
+
+            this.fulfillmentDetailsResponse.OrderID = data.OrderID;
+            this.fulfillmentDetailsResponse.CenterName = data.CenterName;
+            this.fulfillmentDetailsResponse.CenterAddrees = data.CenterAddrees;
+            this.fulfillmentDetailsResponse.OrderDate = new Date(
+              data.OrderDT
+            ).formatDate();
+            this.fulfillmentDetailsResponse.OrderStatus = data.OrderStatus;
+            this.fulfillmentDetailsResponse.CourierNum = data.CourierNum;
+            this.fulfillmentDetailsResponse.Despatcher = data.Despatcher;
+            this.fulfillmentDetailsResponse.OrderRemark = data.OrderRemark;
+
+            if (data.OrderFulfillmentItemList) {
+              data.OrderFulfillmentItemList.forEach(element => {
+                this.fulfillmentDetailsResponse.OrderFulfillmentItemList.push({
+                  OrderItemID: element.OrderItemID,
+                  IsSerialized: element.IsSerialized,
+                  Model: element.Model,
+                  OrderQty: element.OrderQty,
+                  BalanceQty: element.BalanceQty,
+                  FulfilledQty: element.FulfilledQty
+                });
+              });
+            }
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
