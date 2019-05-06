@@ -9,7 +9,10 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../..//services/api.service";
 import { GlobalVariableService } from "./../../services/global.service";
-import { IFulfillmentDetailsRequest, IFulfillmentDetailsResponse } from "src/app/models/fulfillment.model";
+import {
+  IFulfillmentDetailsRequest,
+  IFulfillmentDetailsResponse
+} from "src/app/models/fulfillment.model";
 
 @Component({
   selector: "app-fulfillment-details",
@@ -22,7 +25,18 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
   paramSubscription: Subscription;
   orderID: number;
   fulfillmentID: number;
-  fulfillmentDetailsResponse: IFulfillmentDetailsResponse;
+  //fulfillmentDetailsResponse = {} as IFulfillmentDetailsResponse;
+  fulfillmentDetailsResponse = {
+    OrderID: 0,
+    CenterName: "",
+    CenterAddrees: "",
+    OrderDT: "",
+    OrderStatus: "",
+    CourierNum: "",
+    Despatcher: "",
+    OrderRemark: "",
+    OrderFulfillmentItemList: []
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,7 +68,7 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   ngOnDestroy() {
     if (this.paramSubscription) {
       this.paramSubscription.unsubscribe();
@@ -83,7 +97,7 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
   private getFulfillmentDetails() {
     let request: IFulfillmentDetailsRequest = {
       OrderID: this.orderID,
-      FulfillmentID: this.fulfillmentID,      
+      FulfillmentID: this.fulfillmentID,
       AccessID: this.globalService.getAccessID()
     };
 
@@ -93,10 +107,8 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-
-            this.fulfillmentDetailsResponse =  {} as IFulfillmentDetailsResponse;
-            this.fulfillmentDetailsResponse = data;
-
+            console.log("assign the value here");
+            
             console.log(JSON.stringify(this.fulfillmentDetailsResponse));
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
