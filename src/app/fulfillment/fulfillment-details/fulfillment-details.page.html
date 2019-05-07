@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button type="button" (click)="onBackToIndex()" ><ion-icon slot="icon-only" name="arrow-back"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>Fulfillment Detail</ion-title>
     <ion-buttons slot="end" class="header-right-btn">
@@ -95,7 +95,7 @@
         <span slot="end">0/20</span>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="viewItem()" color="light">
+        <ion-item-option (click)="onViewItem()" color="light">
           <ion-icon
             name="information-circle-outline"
             color="secondary"
@@ -111,13 +111,13 @@
     </ion-fab-button>
 
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"
+      <ion-fab-button (click)="onBackToHome()"
         ><ion-icon name="home"></ion-icon
       ></ion-fab-button>
-      <ion-fab-button (click)="edit()"
+      <ion-fab-button (click)="onEdit()"
         ><ion-icon name="create"></ion-icon
       ></ion-fab-button>
-      <ion-fab-button (click)="presentModal()"
+      <ion-fab-button (click)="onReject()"
         ><ion-icon name="close"></ion-icon
       ></ion-fab-button>
     </ion-fab-list>

@@ -31,7 +31,7 @@
       <ion-icon name="apps"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/home']"
+      <ion-fab-button (click)="onBackToHome()"
         ><ion-icon name="home"></ion-icon
       ></ion-fab-button>
     </ion-fab-list>

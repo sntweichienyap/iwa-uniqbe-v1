@@ -9,7 +9,7 @@ import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../..//services/api.service";
 import { GlobalVariableService } from "./../../services/global.service";
-import { IFulfillmentDetailsRequest } from "src/app/models/fulfillment.model";
+import { IFulfillmentDetailsRequest } from "./../../models/fulfillment.model";
 
 @Component({
   selector: "app-fulfillment-details",
@@ -75,21 +75,29 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
     }
   }
 
-  async presentModal() {
+  async onReject() {
     const modal = await this.modalController.create({
       component: FulfillmentRejectRemarkPage
     });
     return await modal.present();
   }
 
-  edit() {
-    this.router.navigateByUrl("/fulfillment-edit-details");
+  onEdit() {
+    this.router.navigateByUrl(`/fulfillment-edit-details/${this.orderID}/${this.fulfillmentID}`);
   }
 
-  viewItem() {
+  onViewItem() {
     this.router.navigateByUrl("/fulfillment-item-details");
   }
 
+  onBackToHome(){
+    this.router.navigateByUrl("/home");
+  }
+
+  onBackToIndex(){
+    this.router.navigateByUrl("/fulfillment-listing");
+  }
+  
   private getFulfillmentDetails() {
     let request: IFulfillmentDetailsRequest = {
       OrderID: this.orderID,
@@ -103,8 +111,6 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
           this.loaderBox.dismiss();
 
           if (data.ResponseCode.isApiSuccess()) {
-            //console.log(JSON.stringify(data));
-
             this.fulfillmentDetailsResponse.OrderID = data.OrderID;
             this.fulfillmentDetailsResponse.CenterName = data.CenterName;
             this.fulfillmentDetailsResponse.CenterAddrees = data.CenterAddrees;

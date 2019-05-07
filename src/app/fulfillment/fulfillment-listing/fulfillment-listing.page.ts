@@ -63,6 +63,10 @@ export class FulfillmentListingPage implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/fulfillment-details/${orderID}/${fulfillmentID}`);
   }
   
+  onBackToHome(){
+    this.router.navigateByUrl("/home");
+  }
+  
   setFilteredItem() {
     this.resetAndAssignArrayList();
 
