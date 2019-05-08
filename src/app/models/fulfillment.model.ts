@@ -20,6 +20,7 @@ export interface IFulfillmentDetailsRequest extends BaseInterface.IBaseRequest {
 export interface IFulfillmentDetailsResponse
   extends BaseInterface.IBaseResponse {
   OrderID: number;
+  FulfillmentID: number;
   CenterName: string;
   CenterAddrees: string;
   OrderDT: string;

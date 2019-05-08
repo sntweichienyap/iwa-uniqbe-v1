@@ -1,22 +1,29 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, Event, NavigationEnd, ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
+import { IonFab } from "@ionic/angular";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 import { DatabaseService } from "./../../services/database.service";
 import { Alert } from "./../../utils/alert";
 import { Loader } from "./../../utils/loader";
 import { ApiService } from "./../..//services/api.service";
 import { GlobalVariableService } from "./../../services/global.service";
-import { IFulfillmentDetailsRequest } from "src/app/models/fulfillment.model";
+import {
+  IFulfillmentDetailsRequest,
+  IFulfillmentUpdateRequest
+} from "./../../models/fulfillment.model";
+import { Util } from "./../../utils/util";
 
 @Component({
   selector: "app-fulfillment-edit-details",
   templateUrl: "./fulfillment-edit-details.page.html",
   styleUrls: ["./fulfillment-edit-details.page.scss"]
 })
-export class FulfillmentEditDetailsPage implements OnInit {
+export class FulfillmentEditDetailsPage implements OnInit, OnDestroy {
   navigationSubscription: Subscription;
   paramSubscription: Subscription;
+  updateForm: FormGroup;
   orderID: number;
   fulfillmentID: number;
   fulfillmentDetailsResponse = {
@@ -24,11 +31,7 @@ export class FulfillmentEditDetailsPage implements OnInit {
     CenterName: "",
     CenterAddrees: "",
     OrderDate: "",
-    OrderStatus: "",
-    CourierNum: "",
-    Despatcher: "",
-    OrderRemark: "",
-    OrderFulfillmentItemList: []
+    OrderStatus: ""
   };
 
   constructor(
@@ -38,8 +41,16 @@ export class FulfillmentEditDetailsPage implements OnInit {
     private alertBox: Alert,
     private loaderBox: Loader,
     private apiService: ApiService,
-    private globalService: GlobalVariableService
-  ) {}
+    private globalService: GlobalVariableService,
+    private formBuilder: FormBuilder,
+    private utils: Util
+  ) {
+    this.updateForm = formBuilder.group({
+      despatcher: "",
+      courierNum: "",
+      orderRemark: ""
+    });
+  }
 
   ngOnInit() {
     this.paramSubscription = this.activatedRoute.paramMap.subscribe(params => {
@@ -71,16 +82,45 @@ export class FulfillmentEditDetailsPage implements OnInit {
     }
   }
 
-  onBackToHome(){
+  onBackToHome() {
     this.router.navigateByUrl("/home");
   }
 
-  onBackToDetails(){
-    this.router.navigateByUrl(`/fulfillment-details/${this.orderID}/${this.fulfillmentID}`);
+  onBackToDetails() {
+    this.router.navigateByUrl(
+      `/fulfillment-details/${this.orderID}/${this.fulfillmentID}`
+    );
   }
 
-  onUpdate(){
+  onUpdate(fab: IonFab) {
+    let request: IFulfillmentUpdateRequest = {
+      FulfillmentID: this.fulfillmentID,
+      Despatcher: this.updateForm.controls.despatcher.value,
+      CourierNum: this.updateForm.controls.courierNum.value,
+      Remark: this.updateForm.controls.remark.value,
+      AccessID: this.globalService.getAccessID()
+    };
 
+    this.loaderBox.present().then(() => {
+      this.apiService.fulfillmentUpdate(request).subscribe(
+        data => {
+          this.loaderBox.dismiss();
+
+          if (data.ResponseCode.isApiSuccess()) {
+            fab.close();
+            this.utils.resetForm(this.updateForm);
+            this.router.navigateByUrl(
+              `/fulfillment-details/${this.orderID}/${this.fulfillmentID}`
+            );
+          } else {
+            this.alertBox.apiFailShow(data.ResponseMessage);
+          }
+        },
+        error => {
+          this.loaderBox.dismiss();
+        }
+      );
+    });
   }
 
   private getFulfillmentDetails() {
@@ -103,22 +143,12 @@ export class FulfillmentEditDetailsPage implements OnInit {
               data.OrderDT
             ).formatDate();
             this.fulfillmentDetailsResponse.OrderStatus = data.OrderStatus;
-            this.fulfillmentDetailsResponse.CourierNum = data.CourierNum;
-            this.fulfillmentDetailsResponse.Despatcher = data.Despatcher;
-            this.fulfillmentDetailsResponse.OrderRemark = data.OrderRemark;
 
-            if (data.OrderFulfillmentItemList) {
-              data.OrderFulfillmentItemList.forEach(element => {
-                this.fulfillmentDetailsResponse.OrderFulfillmentItemList.push({
-                  OrderItemID: element.OrderItemID,
-                  IsSerialized: element.IsSerialized,
-                  Model: element.Model,
-                  OrderQty: element.OrderQty,
-                  BalanceQty: element.BalanceQty,
-                  FulfilledQty: element.FulfilledQty
-                });
-              });
-            }
+            this.updateForm.patchValue({
+              despatcher: data.Despatcher,
+              courierNum: data.CourierNum,
+              orderRemark: data.OrderRemark
+            });
           } else {
             this.alertBox.apiFailShow(data.ResponseMessage);
           }
@@ -128,5 +158,5 @@ export class FulfillmentEditDetailsPage implements OnInit {
         }
       );
     });
-  }  
+  }
 }

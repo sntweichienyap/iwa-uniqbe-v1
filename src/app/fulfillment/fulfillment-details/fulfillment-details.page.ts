@@ -24,6 +24,7 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
   fulfillmentID: number;
   fulfillmentDetailsResponse = {
     OrderID: 0,
+    FulfillmentID: 0,
     CenterName: "",
     CenterAddrees: "",
     OrderDate: "",
@@ -112,6 +113,7 @@ export class FulfillmentDetailsPage implements OnInit, OnDestroy {
 
           if (data.ResponseCode.isApiSuccess()) {
             this.fulfillmentDetailsResponse.OrderID = data.OrderID;
+            this.fulfillmentDetailsResponse.FulfillmentID = data.FulfillmentID;
             this.fulfillmentDetailsResponse.CenterName = data.CenterName;
             this.fulfillmentDetailsResponse.CenterAddrees = data.CenterAddrees;
             this.fulfillmentDetailsResponse.OrderDate = new Date(

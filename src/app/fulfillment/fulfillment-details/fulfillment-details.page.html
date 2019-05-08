@@ -114,7 +114,7 @@
       <ion-fab-button (click)="onBackToHome()"
         ><ion-icon name="home"></ion-icon
       ></ion-fab-button>
-      <ion-fab-button (click)="onEdit()"
+      <ion-fab-button (click)="onEdit()" [hidden]="fulfillmentDetailsResponse.FulfillmentID == 0"
         ><ion-icon name="create"></ion-icon
       ></ion-fab-button>
       <ion-fab-button (click)="onReject()"
