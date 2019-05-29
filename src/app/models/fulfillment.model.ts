@@ -49,3 +49,25 @@ export interface IFulfillmentUpdateResponse
   extends BaseInterface.IBaseResponse {
   FulfillmentID: number;
 }
+
+export interface IFulfillmentOrderRejectRequest extends BaseInterface.IBaseRequest {
+  OrderID: number;
+  CancelRemark: string;
+}
+
+export interface IFulfillmentOrderRejectResponse
+  extends BaseInterface.IBaseResponse {
+  OrderID: number;
+}
+
+export interface IFulfillmentPendingPrintDORequest extends BaseInterface.IBaseRequest {
+  OrderID: number;
+  FulfillmentID: number;
+}
+
+export interface IFulfillmentPendingPrintDOResponse
+  extends BaseInterface.IBaseResponse {
+  OrderID: number;
+  FulfillmentID: number;
+}
+
