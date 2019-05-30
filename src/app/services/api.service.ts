@@ -343,5 +343,33 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  fulfillmentOrderReject(
+    request: FulfillmentInterface.IFulfillmentOrderRejectRequest
+  ): Observable<FulfillmentInterface.IFulfillmentOrderRejectResponse> {
+    const url = `${apiUrl}/OrderFulfillmentOrderReject`;
+
+    return this.httpClient
+      .post<FulfillmentInterface.IFulfillmentOrderRejectResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  fulfillmentPendingPrintDO(
+    request: FulfillmentInterface.IFulfillmentPendingPrintDORequest
+  ): Observable<FulfillmentInterface.IFulfillmentPendingPrintDOResponse> {
+    const url = `${apiUrl}/OrderFulfillmentPendingPrintDO`;
+
+    return this.httpClient
+      .post<FulfillmentInterface.IFulfillmentPendingPrintDOResponse>(
+        url,
+        request,
+        this.createHeaders()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   //#endregion Order Fulfillment
 }
